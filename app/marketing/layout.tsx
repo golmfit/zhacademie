@@ -1,52 +1,28 @@
 import type React from "react"
 import Link from "next/link"
-import Image from "next/image"
 import { Button } from "@/components/ui/button"
 
 function MarketingNavbar() {
   return (
     <nav className="bg-white border-b border-gray-200 sticky top-0 z-50">
       <div className="container mx-auto px-4">
-        <div className="flex justify-between items-center h-20">
-          <Link href="/marketing" className="flex items-center">
-            <Image
-              src="/zhacademie-logo.png"
-              alt="ZHAcademie - Your Gateway to Study Abroad"
-              width={240}
-              height={53}
-              className="h-14 w-auto"
-              priority
-            />
+        <div className="flex justify-between items-center h-16">
+          <Link href="/marketing" className="text-2xl font-bold text-primary">
+            ZHAcademie
           </Link>
 
-          <div className="hidden md:flex space-x-6">
-            <Link href="/marketing" className="relative px-3 py-2 text-gray-700 font-medium group">
-              <span className="absolute inset-0 w-full h-full transition duration-300 ease-out transform translate-y-6 bg-primary/10 group-hover:translate-y-0 group-hover:opacity-100 opacity-0 rounded-md"></span>
-              <span className="relative group-hover:text-primary transition-colors duration-300 flex items-center">
-                Home
-                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
-              </span>
+          <div className="hidden md:flex space-x-8">
+            <Link href="/marketing" className="text-gray-700 hover:text-primary transition-colors">
+              Home
             </Link>
-            <Link href="/marketing/about" className="relative px-3 py-2 text-gray-700 font-medium group">
-              <span className="absolute inset-0 w-full h-full transition duration-300 ease-out transform translate-y-6 bg-primary/10 group-hover:translate-y-0 group-hover:opacity-100 opacity-0 rounded-md"></span>
-              <span className="relative group-hover:text-primary transition-colors duration-300 flex items-center">
-                About
-                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
-              </span>
+            <Link href="/marketing/about" className="text-gray-700 hover:text-primary transition-colors">
+              About
             </Link>
-            <Link href="/marketing/blog" className="relative px-3 py-2 text-gray-700 font-medium group">
-              <span className="absolute inset-0 w-full h-full transition duration-300 ease-out transform translate-y-6 bg-primary/10 group-hover:translate-y-0 group-hover:opacity-100 opacity-0 rounded-md"></span>
-              <span className="relative group-hover:text-primary transition-colors duration-300 flex items-center">
-                Blog
-                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
-              </span>
+            <Link href="/marketing/blog" className="text-gray-700 hover:text-primary transition-colors">
+              Blog
             </Link>
-            <Link href="/marketing/contact" className="relative px-3 py-2 text-gray-700 font-medium group">
-              <span className="absolute inset-0 w-full h-full transition duration-300 ease-out transform translate-y-6 bg-primary/10 group-hover:translate-y-0 group-hover:opacity-100 opacity-0 rounded-md"></span>
-              <span className="relative group-hover:text-primary transition-colors duration-300 flex items-center">
-                Contact
-                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
-              </span>
+            <Link href="/marketing/contact" className="text-gray-700 hover:text-primary transition-colors">
+              Contact
             </Link>
           </div>
 
@@ -70,15 +46,7 @@ function MarketingFooter() {
       <div className="container mx-auto px-4">
         <div className="grid md:grid-cols-4 gap-8">
           <div>
-            <div className="mb-4">
-              <Image
-                src="/zhacademie-logo.png"
-                alt="ZHAcademie"
-                width={200}
-                height={44}
-                className="h-10 w-auto brightness-0 invert"
-              />
-            </div>
+            <h3 className="text-lg font-bold mb-4">ZHAcademie</h3>
             <p className="text-sm text-gray-300">Your trusted partner for international education and visa services.</p>
           </div>
           <div>
@@ -129,12 +97,7 @@ function MarketingFooter() {
           <div>
             <h4 className="font-bold mb-4">Connect</h4>
             <div className="flex space-x-4">
-              <a
-                href="https://www.facebook.com/kantou.zakaria.7/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-gray-300"
-              >
+              <a href="#" className="hover:text-gray-300">
                 <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                   <path
                     fillRule="evenodd"
@@ -143,22 +106,12 @@ function MarketingFooter() {
                   />
                 </svg>
               </a>
-              <a
-                href="https://www.youtube.com/channel/UCzNFOFnZzAvzvLK5eNd01Tw"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-gray-300"
-              >
+              <a href="#" className="hover:text-gray-300">
                 <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+                  <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84" />
                 </svg>
               </a>
-              <a
-                href="https://www.instagram.com/kantou_zakaria/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-gray-300"
-              >
+              <a href="#" className="hover:text-gray-300">
                 <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                   <path
                     fillRule="evenodd"

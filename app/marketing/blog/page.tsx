@@ -31,7 +31,7 @@ export default function BlogPage() {
       title: "Scholarship Opportunities for International Students",
       excerpt:
         "A comprehensive list of scholarships available for international students, including application tips and deadlines.",
-      image: "/scholarship-opportunities-students.png",
+      image: "/placeholder.svg?height=300&width=400&query=scholarship opportunities students",
       author: "Dr. Priya Patel",
       date: "March 10, 2024",
       category: "Scholarships",
@@ -41,7 +41,7 @@ export default function BlogPage() {
       title: "Cultural Adaptation: Your First Year Abroad",
       excerpt:
         "Tips and strategies for adapting to a new culture, making friends, and succeeding academically in your first year of international study.",
-      image: "/cultural-adaptation-students.png",
+      image: "/placeholder.svg?height=300&width=400&query=cultural adaptation international students",
       author: "Emma Rodriguez",
       date: "March 8, 2024",
       category: "Student Life",
@@ -51,7 +51,7 @@ export default function BlogPage() {
       title: "IELTS vs TOEFL: Which Test Should You Take?",
       excerpt:
         "Compare the two most popular English proficiency tests and find out which one is right for your university applications.",
-      image: "/ielts-toefl-comparison.png",
+      image: "/placeholder.svg?height=300&width=400&query=IELTS TOEFL comparison test",
       author: "James Wilson",
       date: "March 5, 2024",
       category: "Test Prep",
@@ -61,7 +61,7 @@ export default function BlogPage() {
       title: "Budgeting for Your International Education",
       excerpt:
         "A detailed breakdown of costs associated with studying abroad and practical tips for managing your finances as an international student.",
-      image: "/international-education-budget.png",
+      image: "/placeholder.svg?height=300&width=400&query=budgeting international education costs",
       author: "Dr. Sarah Johnson",
       date: "March 3, 2024",
       category: "Finance",
@@ -71,7 +71,7 @@ export default function BlogPage() {
       title: "Statement of Purpose: Writing Tips That Work",
       excerpt:
         "Learn how to craft a compelling statement of purpose that stands out to admissions committees and showcases your unique story.",
-      image: "/statement-of-purpose-tips.png",
+      image: "/placeholder.svg?height=300&width=400&query=statement of purpose writing tips",
       author: "Dr. Priya Patel",
       date: "March 1, 2024",
       category: "Application Tips",
@@ -265,9 +265,9 @@ export default function BlogPage() {
                 Get Started
               </Button>
             </Link>
-            <Link href="/book-consultation">
+            <Link href="/marketing/contact">
               <Button variant="outline" size="lg" className="border-white text-white hover:bg-white/10">
-                Book Consultation
+                Contact Us
               </Button>
             </Link>
           </div>

@@ -368,10 +368,33 @@ export default function RegisterPage() {
       <div className="hidden lg:block lg:w-1/2 relative">
         <img
           className="absolute inset-0 h-full w-full object-cover"
-          src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/20250528_2349_Vibrant%20Academic%20Gateway_remix_01jwd2ejnjedp94cpqj0vptr14-YpnkURERQaQiW1An9fe6WqzLTidYF7.png"
+          src="/placeholder.svg?height=1080&width=1920&query=university campus"
           alt="University campus"
         />
         <div className="absolute inset-0 bg-primary/20 mix-blend-multiply" />
+        <div className="absolute inset-0 flex items-center justify-center p-12">
+          <div className="max-w-lg text-white text-center">
+            <h2 className="text-4xl font-bold mb-4">Your Future Awaits</h2>
+            <p className="text-lg mb-6">
+              Take the first step towards your international education journey. Our expert advisors will guide you
+              through every step of the process.
+            </p>
+            <div className="grid grid-cols-3 gap-4 text-center">
+              <div>
+                <div className="text-3xl font-bold">98%</div>
+                <div className="text-sm">Success Rate</div>
+              </div>
+              <div>
+                <div className="text-3xl font-bold">500+</div>
+                <div className="text-sm">Universities</div>
+              </div>
+              <div>
+                <div className="text-3xl font-bold">24/7</div>
+                <div className="text-sm">Support</div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   )

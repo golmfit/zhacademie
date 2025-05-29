@@ -1,266 +1,165 @@
-"use client"
-
-import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import { GraduationCap, Globe, FileText, Users, Award, MapPin, Star, ChevronDown } from "lucide-react"
-import { useState } from "react"
+import Link from "next/link"
 
 export default function MarketingPage() {
-  const [activeStep, setActiveStep] = useState(1)
-  const [openFaq, setOpenFaq] = useState<number | null>(null)
-
-  const steps = [
-    {
-      id: 1,
-      image:
-        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/20250529_0031_Student%20Application%20Submission_simple_compose_01jwd4xepce6hstvzqze5svnes-Vk8KWzyR45IjCpZAkqMEi3ZIjspoZP.png",
-      title: "Submit Your Application",
-      description: "Complete your profile and submit required documents through our secure platform.",
-    },
-    {
-      id: 2,
-      image:
-        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/20250529_0036_Expert%20University%20Guidance_simple_compose_01jwd56reke358y5wd4b9rt6v8-KzLmsUZ3Jdk8MDMpn7CvzXTSu18ElW.png",
-      title: "Get Expert Consultation",
-      description: "Our experienced counselors will guide you through the university selection process.",
-    },
-    {
-      id: 3,
-      image:
-        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/20250529_0033_Student%20Choosing%20University_simple_compose_01jwd50wwef1rs49srf6wcbgv6-gEdHaq4DnwYVFh1AH4L8Io3FYvINY1.png",
-      title: "University Matching",
-      description: "We match you with the best universities based on your profile and preferences.",
-    },
-    {
-      id: 4,
-      image:
-        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/20250529_0022_Visa%20Application_simple_compose_01jwd4bcztfaes6gdy91x4zcg3-rYraqNLr56E3dw2dw48upTce4Fqacv.png",
-      title: "Visa Processing",
-      description: "Complete visa guidance and support throughout the application process.",
-    },
-    {
-      id: 5,
-      image:
-        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/20250529_0029_Student%20Airport%20Farewell_simple_compose_01jwd4ssvdf8mamv2vqedt17w5-GYgP7Hoi62yPGQ64TtBqEGgsxqHNJr.png",
-      title: "Pre-Departure Support",
-      description: "Get ready for your journey with accommodation and travel assistance.",
-    },
-    {
-      id: 6,
-      image:
-        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/20250529_0033_Campus%20Arrival%20Celebration_simple_compose_01jwd4zpnzfg0a6rn2925n2j5z-MIgIFOhb7MYqPIvuJAHIodWSR6b9di.png",
-      title: "Arrival & Settlement",
-      description: "Ongoing support to help you settle into your new academic environment.",
-    },
-  ]
-
-  const testimonials = [
-    {
-      name: "Sarah Ahmed",
-      quote: "ZHAcademie made my dream of studying at Oxford a reality! Their personalized guidance was exceptional.",
-      initials: "SA",
-      university: "Oxford University",
-      country: "Egypt → UK",
-    },
-    {
-      name: "Michael Chen",
-      quote: "The visa process was smooth and stress-free with their expert guidance. Highly professional team!",
-      initials: "MC",
-      university: "MIT",
-      country: "China → USA",
-    },
-    {
-      name: "Priya Patel",
-      quote: "Excellent support from application to arrival. They truly care about student success and well-being.",
-      initials: "PP",
-      university: "University of Toronto",
-      country: "India → Canada",
-    },
-    {
-      name: "Ahmed Hassan",
-      quote: "Professional team that goes above and beyond. My scholarship application was successful thanks to them!",
-      initials: "AH",
-      university: "Stanford University",
-      country: "Morocco → USA",
-    },
-    {
-      name: "Maria Rodriguez",
-      quote: "They helped me secure admission to my top choice university with a full scholarship. Amazing results!",
-      initials: "MR",
-      university: "Cambridge University",
-      country: "Spain → UK",
-    },
-    {
-      name: "David Kim",
-      quote: "Outstanding service and support throughout my journey. The best investment I've ever made!",
-      initials: "DK",
-      university: "University of Melbourne",
-      country: "South Korea → Australia",
-    },
-  ]
-
-  const faqs = [
-    {
-      question: "How long does the university application process take?",
-      answer:
-        "The university application process typically takes 3-6 months, depending on the destination country and program. We recommend starting at least 12 months before your intended start date to ensure adequate time for preparation, applications, and visa processing.",
-    },
-    {
-      question: "What are the costs involved in studying abroad?",
-      answer:
-        "Costs vary significantly by country and institution. This includes tuition fees, living expenses, visa fees, and travel costs. We provide detailed cost breakdowns for each destination and help you explore scholarship opportunities to reduce expenses.",
-    },
-    {
-      question: "Do you guarantee university admission?",
-      answer:
-        "While we cannot guarantee admission as the final decision rests with universities, our expert guidance significantly improves your chances. We have a 95% success rate for university applications and work closely with you to strengthen your profile.",
-    },
-    {
-      question: "What documents do I need for my application?",
-      answer:
-        "Required documents typically include academic transcripts, standardized test scores (IELTS/TOEFL, SAT/GRE), letters of recommendation, personal statement, passport, and financial documents. Specific requirements vary by country and program.",
-    },
-    {
-      question: "How do you help with visa applications?",
-      answer:
-        "We provide comprehensive visa support including document preparation, application form completion, interview preparation, and guidance throughout the process. Our visa specialists stay updated with the latest requirements and have extensive experience with various country visa processes.",
-    },
-    {
-      question: "Can I work while studying abroad?",
-      answer:
-        "Work permissions vary by country and visa type. Many countries allow international students to work part-time during studies and full-time during breaks. We provide detailed information about work rights and help you understand the regulations for your destination.",
-    },
-    {
-      question: "What support do you provide after I arrive in the destination country?",
-      answer:
-        "Our Ultimate package includes post-arrival support such as airport pickup, accommodation assistance, university orientation, opening bank accounts, mobile phone setup, and ongoing support during your first semester to help you settle in successfully.",
-    },
-    {
-      question: "How do I choose the right university and program?",
-      answer:
-        "We conduct detailed consultations to understand your academic background, career goals, budget, and preferences. Based on this, we recommend suitable universities and programs, considering factors like rankings, location, cost, and post-graduation opportunities.",
-    },
-  ]
-
-  const toggleFaq = (index: number) => {
-    setOpenFaq(openFaq === index ? null : index)
-  }
-
   return (
-    <div className="flex flex-col min-h-screen">
-      <style jsx>{`
-        @keyframes slideInUp {
-          from {
-            opacity: 0;
-            transform: translateY(60px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-        
-        @keyframes float {
-          0%, 100% {
-            transform: translateY(0px);
-          }
-          50% {
-            transform: translateY(-20px);
-          }
-        }
-        
-        @keyframes pulse {
-          0%, 100% {
-            transform: scale(1);
-            opacity: 1;
-          }
-          50% {
-            transform: scale(1.05);
-            opacity: 0.9;
-          }
-        }
-      `}</style>
+    <main>
       {/* Hero Section */}
-      <section
-        className="relative py-32 bg-cover bg-center bg-no-repeat"
-        style={{
-          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://hebbkx1anhila5yf.public.blob.vercel-storage.com/20250528_2315_Iconic%20University%20Campus_simple_compose_01jwd0hbj5eqmtt5j2jez0ed5t-WC5l684BOvXJtqslLtuG1bTXdSoXp4.png')`,
-        }}
-      >
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="max-w-4xl mx-auto text-center text-white">
-            <h1 className="text-5xl md:text-6xl font-bold mb-6">Your Gateway to Global Education Excellence</h1>
-            <p className="text-xl md:text-2xl mb-8">
-              Transform your academic dreams into reality with expert guidance, personalized support, and proven success
-              in international education.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/register">
-                <Button size="lg" className="bg-primary hover:bg-primary/90 text-white px-8 py-4 text-lg">
-                  Apply Now
-                </Button>
-              </Link>
-              <Link href="/book-consultation">
-                <Button
-                  size="lg"
-                  className="bg-white/20 backdrop-blur-sm border-2 border-white text-white hover:bg-white/30 px-8 py-4 text-lg font-medium shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-105"
-                >
-                  Book Appointment
-                </Button>
-              </Link>
+      <section className="py-24 bg-gray-100">
+        <div className="container mx-auto px-4">
+          <div className="grid md:grid-cols-2 gap-8 items-center">
+            <div>
+              <h1 className="text-4xl md:text-5xl font-bold mb-6">Unlock Your Global Education Dreams</h1>
+              <p className="text-lg mb-8">
+                Get expert guidance and support for your university applications, visa processing, and more.
+              </p>
+              <div className="flex gap-4">
+                <Link href="/register">
+                  <Button size="lg">Get Started</Button>
+                </Link>
+                <Link href="/marketing/contact">
+                  <Button variant="outline" size="lg">
+                    Contact Us
+                  </Button>
+                </Link>
+              </div>
+            </div>
+            <div>
+              <img
+                src="https://images.unsplash.com/photo-1505682634904-9c9d606f1913?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+                alt="Students Studying"
+                className="rounded-lg shadow-md"
+              />
             </div>
           </div>
         </div>
       </section>
 
-      {/* Our Services Section */}
+      {/* Services Section */}
       <section className="py-20">
         <div className="container mx-auto px-4">
-          <h2 className="text-4xl font-bold text-center mb-16">Our Services</h2>
+          <h2 className="text-section-heading font-bold text-center mb-12">Our Services</h2>
           <div className="grid md:grid-cols-3 gap-8">
+            <Card className="shadow-lg">
+              <CardContent className="p-6">
+                <h3 className="text-xl font-semibold mb-2">University Applications</h3>
+                <p className="text-gray-600">
+                  We help you choose the right universities, prepare your application materials, and navigate the
+                  admission process.
+                </p>
+              </CardContent>
+            </Card>
+            <Card className="shadow-lg">
+              <CardContent className="p-6">
+                <h3 className="text-xl font-semibold mb-2">Visa Processing</h3>
+                <p className="text-gray-600">
+                  Our experts guide you through the visa application process, ensuring you have all the necessary
+                  documents and information.
+                </p>
+              </CardContent>
+            </Card>
+            <Card className="shadow-lg">
+              <CardContent className="p-6">
+                <h3 className="text-xl font-semibold mb-2">Accommodation & Support</h3>
+                <p className="text-gray-600">
+                  We assist with finding suitable accommodation and provide ongoing support to help you settle into your
+                  new environment.
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* Packages Section */}
+      <section className="py-20 bg-gray-50">
+        <div className="container mx-auto px-4">
+          <h2 className="text-section-heading font-bold text-center mb-12">Our Packages</h2>
+          <div className="grid md:grid-cols-3 gap-8">
+            <Card className="shadow-lg">
+              <CardContent className="p-6">
+                <h3 className="text-xl font-semibold mb-2">Basic</h3>
+                <p className="text-gray-600 mb-4">University selection and application review.</p>
+                <ul className="list-disc pl-5 text-gray-600">
+                  <li>Up to 3 University Applications</li>
+                  <li>Application Review</li>
+                </ul>
+                <Button className="mt-4 w-full">Select</Button>
+              </CardContent>
+            </Card>
+            <Card className="shadow-lg">
+              <CardContent className="p-6">
+                <h3 className="text-xl font-semibold mb-2">Standard</h3>
+                <p className="text-gray-600 mb-4">Everything in Basic, plus visa guidance.</p>
+                <ul className="list-disc pl-5 text-gray-600">
+                  <li>Up to 5 University Applications</li>
+                  <li>Application Review</li>
+                  <li>Visa Application Guidance</li>
+                </ul>
+                <Button className="mt-4 w-full">Select</Button>
+              </CardContent>
+            </Card>
+            <Card className="shadow-lg">
+              <CardContent className="p-6">
+                <h3 className="text-xl font-semibold mb-2">Ultimate</h3>
+                <p className="text-gray-600 mb-4">
+                  Everything in Standard, plus accommodation assistance and post-arrival support.
+                </p>
+                <ul className="list-disc pl-5 text-gray-600">
+                  <li>Unlimited University Applications</li>
+                  <li>Application Review</li>
+                  <li>Visa Application Guidance</li>
+                  <li>Accommodation Assistance</li>
+                  <li>Post-Arrival Support</li>
+                </ul>
+                <Button className="mt-4 w-full">Select</Button>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* Team Section */}
+      <section className="py-20">
+        <div className="container mx-auto px-4">
+          <h2 className="text-section-heading font-bold text-center mb-12">Meet Our Team</h2>
+          <div className="grid md:grid-cols-4 gap-8">
             {[
               {
-                icon: <GraduationCap className="h-12 w-12 text-primary" />,
-                title: "University Applications",
-                description: "Expert guidance for top university admissions worldwide",
+                name: "John Doe",
+                title: "CEO",
+                image:
+                  "https://images.unsplash.com/photo-1570295999680-0b97926c2e19?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8cGVyc29ufGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60",
               },
               {
-                icon: <FileText className="h-12 w-12 text-primary" />,
-                title: "Visa Processing",
-                description: "Complete visa support with 98% success rate",
+                name: "Jane Smith",
+                title: "Admissions Counselor",
+                image:
+                  "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8cGVyc29ufGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60",
               },
               {
-                icon: <Users className="h-12 w-12 text-primary" />,
-                title: "Academic Counseling",
-                description: "Personalized counseling for program selection",
+                name: "David Lee",
+                title: "Visa Specialist",
+                image:
+                  "https://images.unsplash.com/photo-1507003211169-0a1dd8a72fbc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fHBlcnNvbnxlbnwwfHx8fHww&auto=format&fit=crop&w=500&q=60",
               },
               {
-                icon: <Globe className="h-12 w-12 text-primary" />,
-                title: "Study Abroad Planning",
-                description: "Comprehensive planning for international education",
+                name: "Emily White",
+                title: "Support Coordinator",
+                image:
+                  "https://images.unsplash.com/photo-1494790108377-be9c29b8d21c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fHBlcnNvbnxlbnwwfHx8fHww&auto=format&fit=crop&w=500&q=60",
               },
-              {
-                icon: <Award className="h-12 w-12 text-primary" />,
-                title: "Scholarship Assistance",
-                description: "Help securing scholarships and financial aid",
-              },
-              {
-                icon: <MapPin className="h-12 w-12 text-primary" />,
-                title: "Settlement Support",
-                description: "Accommodation and arrival assistance services",
-              },
-            ].map((service, index) => (
-              <Card
-                key={index}
-                className="group hover:scale-105 hover:shadow-xl transition-all duration-300 border-none bg-gray-50"
-              >
-                <CardContent className="pt-8 pb-6 text-center">
-                  <div className="flex justify-center items-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
-                    {service.icon}
-                  </div>
-                  <h3 className="text-xl font-semibold mb-3">{service.title}</h3>
-                  <p className="text-gray-600">{service.description}</p>
+            ].map((member, index) => (
+              <Card key={index} className="shadow-lg">
+                <CardContent className="p-4">
+                  <img
+                    src={member.image || "/placeholder.svg"}
+                    alt={member.name}
+                    className="rounded-full w-24 h-24 mx-auto mb-4"
+                  />
+                  <h3 className="text-xl font-semibold text-center">{member.name}</h3>
+                  <p className="text-gray-600 text-center">{member.title}</p>
                 </CardContent>
               </Card>
             ))}
@@ -268,172 +167,98 @@ export default function MarketingPage() {
         </div>
       </section>
 
-      {/* How It Works Section */}
+      {/* What Users Say Section */}
       <section className="py-20 bg-gray-50">
         <div className="container mx-auto px-4">
-          <h2 className="text-4xl font-bold text-center mb-16">How It Works</h2>
-
-          {/* Step Circles */}
-          <div className="flex justify-center mb-12">
-            <div className="relative flex items-center">
-              {/* Connecting Line */}
-              <div className="absolute top-1/2 left-0 right-0 h-0.5 bg-gray-300 -translate-y-1/2 z-0"></div>
-
-              {/* Step Circles */}
-              <div className="relative z-10 flex space-x-8 md:space-x-16">
-                {steps.map((step) => (
-                  <button
-                    key={step.id}
-                    onClick={() => setActiveStep(step.id)}
-                    className={`w-16 h-16 md:w-20 md:h-20 rounded-full border-4 font-bold text-lg md:text-xl transition-all duration-300 ${
-                      activeStep === step.id
-                        ? "bg-primary text-white border-primary scale-110"
-                        : "bg-white text-gray-600 border-gray-300 hover:border-primary hover:scale-105"
-                    }`}
-                  >
-                    {step.id}
-                  </button>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* Step Content */}
-          <div className="grid md:grid-cols-2 gap-12 items-center max-w-6xl mx-auto">
-            <div className="order-2 md:order-1">
-              <img
-                src={steps.find((s) => s.id === activeStep)?.image || "/placeholder.svg"}
-                alt={steps.find((s) => s.id === activeStep)?.title}
-                className="rounded-lg shadow-lg w-full h-auto"
-              />
-            </div>
-            <div className="order-1 md:order-2">
-              <h3 className="text-3xl font-bold mb-6">{steps.find((s) => s.id === activeStep)?.title}</h3>
-              <p className="text-lg text-gray-600 leading-relaxed">
-                {steps.find((s) => s.id === activeStep)?.description}
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* What Students Say Section */}
-      <section className="py-20 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4 text-gray-900">What Students Say About Us</h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Discover how ZHAcademie has transformed the academic journeys of students worldwide
-            </p>
-          </div>
-
-          {/* Testimonials Grid */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
-            {testimonials.map((testimonial, index) => (
-              <div
-                key={index}
-                className="group relative"
-                style={{
-                  animation: `slideInUp 0.8s ease-out ${index * 0.15}s both`,
-                }}
-              >
-                {/* Card */}
-                <div className="relative bg-white rounded-2xl p-8 h-full transform transition-all duration-500 hover:scale-105 hover:-translate-y-2 hover:shadow-2xl">
-                  {/* Subtle Decorative Line */}
-                  <div className="absolute top-0 left-8 right-8 h-0.5 bg-gradient-to-r from-transparent via-gray-200 to-transparent"></div>
-
-                  {/* Quote Icon */}
-                  <div className="absolute top-6 left-6 text-3xl text-gray-300 font-serif">"</div>
-
-                  {/* Content */}
-                  <div className="relative z-10 pt-4">
-                    {/* Stars */}
-                    <div className="flex justify-center mb-6">
-                      {[...Array(5)].map((_, i) => (
-                        <Star
-                          key={i}
-                          className="w-4 h-4 fill-gray-400 text-gray-400 mx-0.5 transform transition-all duration-300 group-hover:fill-yellow-400 group-hover:text-yellow-400"
-                          style={{ transitionDelay: `${i * 0.1}s` }}
-                        />
-                      ))}
-                    </div>
-
-                    {/* Quote */}
-                    <p className="text-gray-700 text-center mb-8 leading-relaxed font-medium">{testimonial.quote}</p>
-
-                    {/* Student Info */}
-                    <div className="flex items-center justify-center space-x-4">
-                      {/* Avatar */}
-                      <div className="relative">
-                        <div className="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center text-white font-semibold text-sm shadow-lg transform transition-transform duration-300 group-hover:scale-110">
-                          {testimonial.initials}
-                        </div>
-                      </div>
-
-                      {/* Name and Details */}
-                      <div className="text-center">
-                        <p className="font-semibold text-gray-900">{testimonial.name}</p>
-                        <p className="text-sm text-gray-500">{testimonial.university}</p>
-                        <p className="text-xs text-gray-400">{testimonial.country}</p>
-                      </div>
-                    </div>
+          <h2 className="text-section-heading font-bold text-center mb-12">What Our Students Say</h2>
+          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            {[
+              {
+                name: "Maria Rodriguez",
+                country: "Spain",
+                university: "Harvard University",
+                quote:
+                  "ZHAcademie made my dream of studying at Harvard a reality. Their guidance through the visa process was invaluable.",
+                rating: 5,
+              },
+              {
+                name: "Ahmed Hassan",
+                country: "Egypt",
+                university: "MIT",
+                quote:
+                  "The team's expertise in university applications helped me get into MIT. I couldn't have done it without them.",
+                rating: 5,
+              },
+              {
+                name: "Priya Sharma",
+                country: "India",
+                university: "Stanford University",
+                quote: "Professional, reliable, and results-driven. ZHAcademie exceeded all my expectations.",
+                rating: 5,
+              },
+            ].map((testimonial, index) => (
+              <Card key={index} className="bg-white border-none shadow-lg">
+                <CardContent className="pt-6">
+                  <div className="flex mb-4">
+                    {[...Array(testimonial.rating)].map((_, i) => (
+                      <svg key={i} className="h-5 w-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                      </svg>
+                    ))}
                   </div>
-
-                  {/* Subtle Hover Border */}
-                  <div className="absolute inset-0 rounded-2xl border border-gray-200 group-hover:border-gray-300 transition-colors duration-300"></div>
-                </div>
-              </div>
+                  <p className="text-gray-600 mb-4 italic">"{testimonial.quote}"</p>
+                  <div>
+                    <p className="font-semibold">{testimonial.name}</p>
+                    <p className="text-sm text-gray-500">
+                      {testimonial.country} → {testimonial.university}
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
             ))}
           </div>
         </div>
       </section>
 
       {/* FAQ Section */}
-      <section className="py-20 bg-white">
+      <section className="py-20">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4 text-gray-900">Frequently Asked Questions</h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Get answers to the most common questions about studying abroad with ZHAcademie
-            </p>
-          </div>
-
-          <div className="max-w-4xl mx-auto">
-            {faqs.map((faq, index) => (
-              <div
-                key={index}
-                className="mb-4 border border-gray-200 rounded-lg overflow-hidden transition-all duration-300 hover:shadow-md"
-              >
-                <button
-                  onClick={() => toggleFaq(index)}
-                  className="w-full px-6 py-5 text-left bg-white hover:bg-gray-50 transition-colors duration-200 flex justify-between items-center"
-                >
-                  <h3 className="text-lg font-semibold text-gray-900 pr-4">{faq.question}</h3>
-                  <ChevronDown
-                    className={`w-5 h-5 text-gray-500 transition-transform duration-300 flex-shrink-0 ${
-                      openFaq === index ? "rotate-180" : ""
-                    }`}
-                  />
-                </button>
-                <div
-                  className={`overflow-hidden transition-all duration-300 ${
-                    openFaq === index ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
-                  }`}
-                >
-                  <div className="px-6 pb-5 pt-2">
-                    <p className="text-gray-600 leading-relaxed">{faq.answer}</p>
-                  </div>
-                </div>
-              </div>
+          <h2 className="text-section-heading font-bold text-center mb-12">Frequently Asked Questions</h2>
+          <div className="max-w-3xl mx-auto space-y-6">
+            {[
+              {
+                question: "How long does the visa application process take?",
+                answer:
+                  "The visa application process typically takes 4-8 weeks, depending on the country and type of visa. We provide timeline estimates for each specific case.",
+              },
+              {
+                question: "Do you guarantee university admission?",
+                answer:
+                  "While we cannot guarantee admission, our expert guidance significantly improves your chances. We have a 95% success rate for university applications.",
+              },
+              {
+                question: "What documents do I need to provide?",
+                answer:
+                  "Required documents vary by destination and program, but typically include academic transcripts, passport, financial statements, and language proficiency scores.",
+              },
+              {
+                question: "Can I change my university selection after starting the process?",
+                answer:
+                  "Yes, you can modify your university choices during the initial consultation phase. Additional fees may apply for significant changes.",
+              },
+              {
+                question: "Do you provide support after I arrive in the destination country?",
+                answer:
+                  "Yes, our Ultimate package includes post-arrival support including accommodation assistance and airport pickup services.",
+              },
+            ].map((faq, index) => (
+              <Card key={index} className="border-l-4 border-l-primary">
+                <CardContent className="pt-6">
+                  <h3 className="font-semibold mb-2">{faq.question}</h3>
+                  <p className="text-gray-600">{faq.answer}</p>
+                </CardContent>
+              </Card>
             ))}
-          </div>
-
-          {/* Contact CTA */}
-          <div className="text-center mt-12">
-            <p className="text-gray-600 mb-6">Still have questions? We're here to help!</p>
-            <Link href="/marketing/contact">
-              <Button className="bg-primary hover:bg-primary/90 text-white px-8 py-3">Contact Our Experts</Button>
-            </Link>
           </div>
         </div>
       </section>
@@ -441,18 +266,30 @@ export default function MarketingPage() {
       {/* Final CTA Section */}
       <section className="py-20 bg-primary text-white">
         <div className="container mx-auto px-4 text-center">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">Ready to Start Your Academic Journey?</h2>
-          <p className="text-xl mb-8 max-w-3xl mx-auto opacity-90">
-            Join thousands of successful students who have transformed their futures with ZHAcademie. Your dream
-            university is just one click away.
+          <h2 className="text-3xl md:text-4xl font-bold mb-6">Ready to Start Your Journey?</h2>
+          <p className="text-xl mb-8 max-w-2xl mx-auto">
+            Join thousands of successful students who have achieved their international education dreams with
+            ZHAcademie.
           </p>
-          <Link href="/marketing/contact">
-            <Button size="lg" className="bg-white text-primary hover:bg-gray-100 px-8 py-4 text-lg font-semibold">
-              Book Your Appointment Now
-            </Button>
-          </Link>
+          <div className="flex justify-center gap-4">
+            <Link href="/register">
+              <Button size="lg" className="bg-white text-primary hover:bg-gray-100">
+                Apply Now
+              </Button>
+            </Link>
+            <Link href="/marketing/contact">
+              <Button variant="outline" size="lg" className="border-white text-white hover:bg-white/10">
+                Contact Us
+              </Button>
+            </Link>
+          </div>
         </div>
       </section>
-    </div>
+
+      {/* Footer */}
+      <footer className="py-8 bg-gray-200 text-center">
+        <p className="text-gray-600">© 2023 ZHAcademie. All rights reserved.</p>
+      </footer>
+    </main>
   )
 }
