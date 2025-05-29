@@ -217,19 +217,10 @@ export default function LoginPage() {
       <div className="hidden lg:block lg:w-1/2 relative">
         <img
           className="absolute inset-0 h-full w-full object-cover"
-          src="/placeholder.svg?height=1080&width=1920&query=students studying abroad"
+          src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/20250528_2349_Vibrant%20Academic%20Gateway_remix_01jwd2ejnjedp94cpqj0vptr14-YpnkURERQaQiW1An9fe6WqzLTidYF7.png"
           alt="Students studying abroad"
         />
         <div className="absolute inset-0 bg-primary/20 mix-blend-multiply" />
-        <div className="absolute inset-0 flex items-center justify-center p-12">
-          <div className="max-w-lg text-white text-center">
-            <h2 className="text-4xl font-bold mb-4">Start Your Journey Today</h2>
-            <p className="text-lg">
-              Join thousands of students who have successfully achieved their dreams of studying abroad with
-              ZHAcademie's expert guidance.
-            </p>
-          </div>
-        </div>
       </div>
     </div>
   )
