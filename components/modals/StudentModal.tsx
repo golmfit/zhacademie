@@ -8,7 +8,6 @@ import {
   ModalHeader,
   ModalFooter,
   ModalBody,
-  ModalCloseButton,
   Button,
   Text,
   Box,
@@ -32,7 +31,6 @@ const StudentModal: React.FC<StudentModalProps> = ({ isOpen, onClose, student })
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>Student Details</ModalHeader>
-        <ModalCloseButton />
         <ModalBody>
           {student ? (
             <Box>
