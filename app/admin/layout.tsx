@@ -170,7 +170,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
         className={cn(
           "bg-primary text-white fixed inset-y-0 left-0 z-50 transform transition-all duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-auto",
           isSidebarOpen ? "translate-x-0" : "-translate-x-full",
-          isSidebarCollapsed ? "w-16" : "w-64 lg:w-72",
+          isSidebarCollapsed ? "w-16" : "w-72",
         )}
       >
         <div className="flex flex-col h-full">
@@ -249,28 +249,25 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
       {/* Main content */}
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Topbar */}
-        <header className="bg-white border-b border-gray-200 h-16 flex items-center justify-between px-3 sm:px-4 lg:px-6">
-          <div className="flex items-center">
-            <button className="lg:hidden text-gray-600 mr-2" onClick={toggleSidebar}>
-              <Menu className="h-6 w-6" />
-            </button>
-            <h1 className="text-lg font-semibold lg:hidden truncate">Admin Panel</h1>
-          </div>
+        <header className="bg-white border-b border-gray-200 h-16 flex items-center justify-between px-4 lg:px-6">
+          <button className="lg:hidden text-gray-600" onClick={toggleSidebar}>
+            <Menu className="h-6 w-6" />
+          </button>
 
-          <div className="flex items-center space-x-2 sm:space-x-4">
-            <Button variant="ghost" size="sm" className="relative p-2">
+          <div className="flex items-center space-x-4">
+            <Button variant="ghost" size="sm" className="relative">
               <Bell className="h-5 w-5" />
               <span className="absolute top-0 right-0 h-2 w-2 rounded-full bg-red-500"></span>
             </Button>
 
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="sm" className="flex items-center p-2">
-                  <User className="h-5 w-5 sm:mr-2" />
-                  <span className="hidden sm:inline">{userData?.fullName || "Admin"}</span>
+                <Button variant="ghost" size="sm" className="flex items-center">
+                  <User className="h-5 w-5 mr-2" />
+                  <span>{userData?.fullName || "Admin"}</span>
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-48">
+              <DropdownMenuContent align="end">
                 <DropdownMenuLabel>Admin Account</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={() => handleNavigation("/admin/settings", {} as React.MouseEvent)}>
@@ -287,13 +284,8 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
           </div>
         </header>
 
-        {/* Mobile overlay */}
-        {isSidebarOpen && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden" onClick={toggleSidebar} />
-        )}
-
         {/* Page content */}
-        <main className="flex-1 overflow-auto px-2 sm:px-4 lg:px-0">{children}</main>
+        <main className="flex-1 overflow-auto">{children}</main>
       </div>
     </div>
   )

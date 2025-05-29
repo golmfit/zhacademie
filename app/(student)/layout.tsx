@@ -235,7 +235,7 @@ export default function StudentLayout({ children }: StudentLayoutProps) {
         className={cn(
           "bg-primary text-white fixed inset-y-0 left-0 z-50 transform transition-all duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-auto",
           isSidebarOpen ? "translate-x-0" : "-translate-x-full",
-          isSidebarCollapsed ? "w-16" : "w-64 lg:w-72", // Wider on desktop, standard on mobile
+          isSidebarCollapsed ? "w-16" : "w-64",
         )}
       >
         <div className="flex flex-col h-full">
@@ -295,41 +295,19 @@ export default function StudentLayout({ children }: StudentLayoutProps) {
         </div>
       </aside>
 
-      {/* Mobile overlay */}
-      {isSidebarOpen && <div className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden" onClick={toggleSidebar} />}
-
       {/* Main content */}
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Topbar */}
-        <header className="bg-white border-b border-gray-200 h-16 flex items-center justify-between px-3 sm:px-4 lg:px-6">
-          <div className="flex items-center">
-            <button className="lg:hidden text-gray-600 mr-2" onClick={toggleSidebar}>
-              <Menu className="h-6 w-6" />
-            </button>
-            <h1 className="text-lg font-semibold lg:hidden truncate">
-              {pathname === "/dashboard"
-                ? "Dashboard"
-                : pathname === "/applications"
-                  ? "Applications"
-                  : pathname === "/visa-progress"
-                    ? "Visa Progress"
-                    : pathname === "/documents"
-                      ? "Documents"
-                      : pathname === "/courses"
-                        ? "Courses"
-                        : pathname === "/notifications"
-                          ? "Notifications"
-                          : pathname === "/settings"
-                            ? "Settings"
-                            : "ZHAcademie"}
-            </h1>
-          </div>
+        <header className="bg-white border-b border-gray-200 h-16 flex items-center justify-between px-4 lg:px-6">
+          <button className="lg:hidden text-gray-600" onClick={toggleSidebar}>
+            <Menu className="h-6 w-6" />
+          </button>
 
-          <div className="flex items-center space-x-2 sm:space-x-4">
-            <Button variant="ghost" size="sm" className="relative p-2" onClick={handleBellClick}>
+          <div className="flex items-center space-x-4">
+            <Button variant="ghost" size="sm" className="relative" onClick={handleBellClick}>
               <Bell className="h-5 w-5" />
               {unreadCount > 0 && (
-                <span className="absolute -top-1 -right-1 h-4 w-4 sm:h-5 sm:w-5 rounded-full bg-red-500 flex items-center justify-center text-white text-xs">
+                <span className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-red-500 flex items-center justify-center text-white text-xs">
                   {unreadCount > 9 ? "9+" : unreadCount}
                 </span>
               )}
@@ -337,20 +315,14 @@ export default function StudentLayout({ children }: StudentLayoutProps) {
 
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="sm" className="flex items-center p-2">
-                  <User className="h-5 w-5 sm:mr-2" />
-                  <span className="hidden sm:inline">{userData?.fullName || "Student"}</span>
+                <Button variant="ghost" size="sm" className="flex items-center">
+                  <User className="h-5 w-5 mr-2" />
+                  <span>{userData?.fullName || "Student"}</span>
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-48">
+              <DropdownMenuContent align="end">
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem asChild>
-                  <Link href="/profile" className="flex items-center">
-                    <User className="h-4 w-4 mr-2" />
-                    <span>Profile</span>
-                  </Link>
-                </DropdownMenuItem>
                 <DropdownMenuItem asChild>
                   <Link href="/settings" className="flex items-center">
                     <Settings className="h-4 w-4 mr-2" />
@@ -368,7 +340,7 @@ export default function StudentLayout({ children }: StudentLayoutProps) {
         </header>
 
         {/* Page content */}
-        <main className="flex-1 overflow-auto px-2 sm:px-4 lg:px-0">
+        <main className="flex-1 overflow-auto">
           <Suspense fallback={<PageSkeleton />}>{children}</Suspense>
         </main>
       </div>

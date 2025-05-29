@@ -99,37 +99,33 @@ export default function AdminDashboard() {
   }
 
   return (
-    <div className="p-3 sm:p-4 lg:p-6">
-      <div className="flex flex-col space-y-4 sm:space-y-6">
-        <h1 className="text-2xl sm:text-3xl font-bold">Admin Dashboard</h1>
+    <div className="p-6">
+      <div className="flex flex-col space-y-6">
+        <h1 className="text-3xl font-bold">Admin Dashboard</h1>
 
-        <div className="grid gap-4 sm:gap-6 grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
           <Card>
-            <CardHeader className="flex flex-row items-center justify-between pb-2 px-3 sm:px-6 pt-3 sm:pt-6">
-              <CardTitle className="text-xs sm:text-sm font-medium">Total Students</CardTitle>
+            <CardHeader className="flex flex-row items-center justify-between pb-2">
+              <CardTitle className="text-sm font-medium">Total Students</CardTitle>
               <Users className="h-4 w-4 text-gray-500" />
             </CardHeader>
-            <CardContent className="px-3 sm:px-6 pb-3 sm:pb-6">
-              <div className="text-lg sm:text-2xl font-bold">
-                {isLoading ? (
-                  <div className="h-6 sm:h-8 w-12 sm:w-16 bg-gray-200 rounded animate-pulse"></div>
-                ) : (
-                  stats.totalStudents
-                )}
+            <CardContent>
+              <div className="text-2xl font-bold">
+                {isLoading ? <div className="h-8 w-16 bg-gray-200 rounded animate-pulse"></div> : stats.totalStudents}
               </div>
               <p className="text-xs text-gray-500">Enrolled students</p>
             </CardContent>
           </Card>
 
           <Card>
-            <CardHeader className="flex flex-row items-center justify-between pb-2 px-3 sm:px-6 pt-3 sm:pt-6">
-              <CardTitle className="text-xs sm:text-sm font-medium">Pending Approvals</CardTitle>
+            <CardHeader className="flex flex-row items-center justify-between pb-2">
+              <CardTitle className="text-sm font-medium">Pending Approvals</CardTitle>
               <Users className="h-4 w-4 text-gray-500" />
             </CardHeader>
-            <CardContent className="px-3 sm:px-6 pb-3 sm:pb-6">
-              <div className="text-lg sm:text-2xl font-bold">
+            <CardContent>
+              <div className="text-2xl font-bold">
                 {isLoading ? (
-                  <div className="h-6 sm:h-8 w-12 sm:w-16 bg-gray-200 rounded animate-pulse"></div>
+                  <div className="h-8 w-16 bg-gray-200 rounded animate-pulse"></div>
                 ) : (
                   stats.pendingApprovals
                 )}
@@ -139,31 +135,27 @@ export default function AdminDashboard() {
           </Card>
 
           <Card>
-            <CardHeader className="flex flex-row items-center justify-between pb-2 px-3 sm:px-6 pt-3 sm:pt-6">
-              <CardTitle className="text-xs sm:text-sm font-medium">Documents</CardTitle>
+            <CardHeader className="flex flex-row items-center justify-between pb-2">
+              <CardTitle className="text-sm font-medium">Documents</CardTitle>
               <FileText className="h-4 w-4 text-gray-500" />
             </CardHeader>
-            <CardContent className="px-3 sm:px-6 pb-3 sm:pb-6">
-              <div className="text-lg sm:text-2xl font-bold">
-                {isLoading ? (
-                  <div className="h-6 sm:h-8 w-12 sm:w-16 bg-gray-200 rounded animate-pulse"></div>
-                ) : (
-                  stats.totalDocuments
-                )}
+            <CardContent>
+              <div className="text-2xl font-bold">
+                {isLoading ? <div className="h-8 w-16 bg-gray-200 rounded animate-pulse"></div> : stats.totalDocuments}
               </div>
               <p className="text-xs text-gray-500">Total uploaded documents</p>
             </CardContent>
           </Card>
 
           <Card>
-            <CardHeader className="flex flex-row items-center justify-between pb-2 px-3 sm:px-6 pt-3 sm:pt-6">
-              <CardTitle className="text-xs sm:text-sm font-medium">Applications</CardTitle>
+            <CardHeader className="flex flex-row items-center justify-between pb-2">
+              <CardTitle className="text-sm font-medium">Applications</CardTitle>
               <GraduationCap className="h-4 w-4 text-gray-500" />
             </CardHeader>
-            <CardContent className="px-3 sm:px-6 pb-3 sm:pb-6">
-              <div className="text-lg sm:text-2xl font-bold">
+            <CardContent>
+              <div className="text-2xl font-bold">
                 {isLoading ? (
-                  <div className="h-6 sm:h-8 w-12 sm:w-16 bg-gray-200 rounded animate-pulse"></div>
+                  <div className="h-8 w-16 bg-gray-200 rounded animate-pulse"></div>
                 ) : (
                   stats.totalApplications
                 )}
@@ -174,64 +166,46 @@ export default function AdminDashboard() {
         </div>
 
         <Card>
-          <CardHeader className="px-3 sm:px-6">
-            <CardTitle className="text-base sm:text-lg">Pending Approvals</CardTitle>
-            <CardDescription className="text-sm">Students awaiting account approval</CardDescription>
+          <CardHeader>
+            <CardTitle>Pending Approvals</CardTitle>
+            <CardDescription>Students awaiting account approval</CardDescription>
           </CardHeader>
-          <CardContent className="px-3 sm:px-6">
+          <CardContent>
             {isLoading ? (
               <div className="space-y-2">
                 {[...Array(3)].map((_, i) => (
-                  <div key={i} className="h-12 sm:h-16 bg-gray-100 rounded animate-pulse"></div>
+                  <div key={i} className="h-16 bg-gray-100 rounded animate-pulse"></div>
                 ))}
               </div>
             ) : pendingStudents.length > 0 ? (
               <div className="space-y-4">
-                {/* Mobile-friendly table */}
-                <div className="block sm:hidden space-y-3">
-                  {pendingStudents.map((student) => (
-                    <div key={student.id} className="bg-gray-50 p-3 rounded-lg">
-                      <div className="font-medium text-sm">{student.name || "N/A"}</div>
-                      <div className="text-xs text-gray-600 mt-1">{student.email || "N/A"}</div>
-                      <div className="flex justify-between items-center mt-2">
-                        <span className="text-xs text-gray-500">{student.country || "N/A"}</span>
-                        <span className="text-xs text-gray-500">{formatDate(student.createdAt)}</span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-
-                {/* Desktop table */}
-                <div className="hidden sm:block">
-                  <Table>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead>Name</TableHead>
-                        <TableHead>Email</TableHead>
-                        <TableHead>Country</TableHead>
-                        <TableHead>Registered</TableHead>
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Name</TableHead>
+                      <TableHead>Email</TableHead>
+                      <TableHead>Country</TableHead>
+                      <TableHead>Registered</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {pendingStudents.map((student) => (
+                      <TableRow key={student.id}>
+                        <TableCell className="font-medium">{student.name || "N/A"}</TableCell>
+                        <TableCell>{student.email || "N/A"}</TableCell>
+                        <TableCell>{student.country || "N/A"}</TableCell>
+                        <TableCell>{formatDate(student.createdAt)}</TableCell>
                       </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {pendingStudents.map((student) => (
-                        <TableRow key={student.id}>
-                          <TableCell className="font-medium">{student.name || "N/A"}</TableCell>
-                          <TableCell>{student.email || "N/A"}</TableCell>
-                          <TableCell>{student.country || "N/A"}</TableCell>
-                          <TableCell>{formatDate(student.createdAt)}</TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </div>
-
+                    ))}
+                  </TableBody>
+                </Table>
                 <div className="flex justify-end">
                   <a
-                    href="/admin/students"
+                    href="/students"
                     className="text-sm text-primary hover:underline"
                     onClick={(e) => {
                       e.preventDefault()
-                      window.location.href = "/admin/students"
+                      window.location.href = "/students"
                     }}
                   >
                     Review and approve students →
@@ -239,7 +213,7 @@ export default function AdminDashboard() {
                 </div>
               </div>
             ) : (
-              <div className="text-center py-6 text-gray-500 text-sm">No pending approvals</div>
+              <div className="text-center py-6 text-gray-500">No pending approvals</div>
             )}
           </CardContent>
         </Card>
