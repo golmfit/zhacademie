@@ -152,36 +152,45 @@ export default function AboutPage() {
           <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
             {[
               {
-                name: "Dr. Sarah Johnson",
+                name: "Hamza Ait Ayach",
+                role: "Study Abroad Advisor",
+                image:
+                  "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp-Image-2024-08-29-at-8.38.37-AM-N4c3o6FURAFSxOOUOxPuM4GeR5ymMK.jpeg",
+                bio: "Expert in international education with extensive experience in alternance programs and student guidance.",
+                link: "/marketing/team/hamza-ait-ayach",
+              },
+              {
+                name: "Zakaria Kantou",
                 role: "Founder & CEO",
-                image: "/ceo-headshot-education.png",
-                bio: "15+ years in international education. PhD in Educational Leadership from Oxford University.",
+                image:
+                  "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/me1.jpg-nEKV4a9I9TTBR2lObpmwRu65HSXIUU.jpeg",
+                bio: "Visionary leader with background in Finance and Data Science, dedicated to student success.",
+                link: "/marketing/team/zakaria-kantou",
               },
               {
-                name: "Michael Chen",
-                role: "Head of Visa Services",
-                image: "/visa-specialist-headshot.png",
-                bio: "Former visa officer with 12 years of experience in immigration policies and procedures.",
-              },
-              {
-                name: "Dr. Priya Patel",
-                role: "Academic Director",
-                image: "/academic-director-headshot.png",
-                bio: "Former university admissions officer with expertise in global higher education systems.",
+                name: "Imane ElKhoudri",
+                role: "Academic and Career Advisor",
+                image:
+                  "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp-Image-2024-08-29-at-8.37.39-AM-1-rZhvEGD9lnnZrS9Un5Zr4XYaXkPsEU.jpeg",
+                bio: "Master's in Management with extensive experience in academic and career counseling.",
+                link: "/marketing/team/imane-elkhoudri",
               },
             ].map((member, index) => (
-              <Card key={index} className="border-none shadow-lg">
-                <CardContent className="pt-6">
-                  <img
-                    src={member.image || "/placeholder.svg"}
-                    alt={member.name}
-                    className="w-full h-64 object-cover rounded-lg mb-4"
-                  />
-                  <h3 className="text-xl font-bold mb-1">{member.name}</h3>
-                  <p className="text-primary font-medium mb-3">{member.role}</p>
-                  <p className="text-gray-600 text-sm">{member.bio}</p>
-                </CardContent>
-              </Card>
+              <Link key={index} href={member.link} className="block group">
+                <Card className="border-none shadow-lg hover:shadow-xl transition-all duration-300 group-hover:scale-105">
+                  <CardContent className="pt-6">
+                    <img
+                      src={member.image || "/placeholder.svg"}
+                      alt={member.name}
+                      className="w-full h-64 object-cover rounded-lg mb-4"
+                    />
+                    <h3 className="text-xl font-bold mb-1 group-hover:text-primary transition-colors">{member.name}</h3>
+                    <p className="text-primary font-medium mb-3">{member.role}</p>
+                    <p className="text-gray-600 text-sm mb-4">{member.bio}</p>
+                    <div className="text-primary text-sm font-medium group-hover:underline">View Full Bio →</div>
+                  </CardContent>
+                </Card>
+              </Link>
             ))}
           </div>
         </div>
@@ -201,9 +210,9 @@ export default function AboutPage() {
                 Get Started Today
               </Button>
             </Link>
-            <Link href="/marketing/contact">
+            <Link href="/book-consultation">
               <Button variant="outline" size="lg" className="border-white text-white hover:bg-white/10">
-                Contact Us
+                Book Consultation
               </Button>
             </Link>
           </div>
