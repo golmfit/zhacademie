@@ -346,7 +346,7 @@ export function StudentModal({ isOpen, onClose, studentId }: StudentModalProps) 
   const renderOverviewTab = () => (
     <TabsContent value="overview" className="mt-0">
       {loadingStudent ? (
-        <div className="grid md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
           <Card>
             <CardContent className="pt-6">
               <Skeleton className="h-6 w-[200px] mb-4" />
@@ -381,37 +381,37 @@ export function StudentModal({ isOpen, onClose, studentId }: StudentModalProps) 
           </Card>
         </div>
       ) : (
-        <div className="grid md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
           <Card>
-            <CardContent className="pt-6">
-              <h3 className="text-lg font-semibold mb-4">Personal Information</h3>
-              <div className="space-y-4">
+            <CardContent className="pt-4 sm:pt-6 px-4 sm:px-6">
+              <h3 className="text-base sm:text-lg font-semibold mb-4">Personal Information</h3>
+              <div className="space-y-3 sm:space-y-4">
                 <div className="flex items-start">
-                  <User className="h-5 w-5 text-gray-500 mt-0.5 mr-3" />
-                  <div>
-                    <p className="text-sm font-medium">Full Name</p>
-                    <p className="text-sm text-gray-600">{student?.fullName}</p>
+                  <User className="h-4 w-4 sm:h-5 sm:w-5 text-gray-500 mt-0.5 mr-3 flex-shrink-0" />
+                  <div className="min-w-0 flex-1">
+                    <p className="text-xs sm:text-sm font-medium">Full Name</p>
+                    <p className="text-xs sm:text-sm text-gray-600 truncate">{student?.fullName}</p>
                   </div>
                 </div>
                 <div className="flex items-start">
-                  <Mail className="h-5 w-5 text-gray-500 mt-0.5 mr-3" />
-                  <div>
-                    <p className="text-sm font-medium">Email</p>
-                    <p className="text-sm text-gray-600">{student?.email}</p>
+                  <Mail className="h-4 w-4 sm:h-5 sm:w-5 text-gray-500 mt-0.5 mr-3 flex-shrink-0" />
+                  <div className="min-w-0 flex-1">
+                    <p className="text-xs sm:text-sm font-medium">Email</p>
+                    <p className="text-xs sm:text-sm text-gray-600 truncate">{student?.email}</p>
                   </div>
                 </div>
                 <div className="flex items-start">
-                  <Calendar className="h-5 w-5 text-gray-500 mt-0.5 mr-3" />
-                  <div>
-                    <p className="text-sm font-medium">Date of Birth</p>
-                    <p className="text-sm text-gray-600">{student?.dob}</p>
+                  <Calendar className="h-4 w-4 sm:h-5 sm:w-5 text-gray-500 mt-0.5 mr-3 flex-shrink-0" />
+                  <div className="min-w-0 flex-1">
+                    <p className="text-xs sm:text-sm font-medium">Date of Birth</p>
+                    <p className="text-xs sm:text-sm text-gray-600 truncate">{student?.dob}</p>
                   </div>
                 </div>
                 <div className="flex items-start">
-                  <MapPin className="h-5 w-5 text-gray-500 mt-0.5 mr-3" />
-                  <div>
-                    <p className="text-sm font-medium">Country</p>
-                    <p className="text-sm text-gray-600">{student?.country}</p>
+                  <MapPin className="h-4 w-4 sm:h-5 sm:w-5 text-gray-500 mt-0.5 mr-3 flex-shrink-0" />
+                  <div className="min-w-0 flex-1">
+                    <p className="text-xs sm:text-sm font-medium">Country</p>
+                    <p className="text-xs sm:text-sm text-gray-600 truncate">{student?.country}</p>
                   </div>
                 </div>
               </div>
@@ -419,27 +419,29 @@ export function StudentModal({ isOpen, onClose, studentId }: StudentModalProps) 
           </Card>
 
           <Card>
-            <CardContent className="pt-6">
-              <h3 className="text-lg font-semibold mb-4">Application Status</h3>
-              <div className="space-y-4">
+            <CardContent className="pt-4 sm:pt-6 px-4 sm:px-6">
+              <h3 className="text-base sm:text-lg font-semibold mb-4">Application Status</h3>
+              <div className="space-y-3 sm:space-y-4">
                 <div className="flex items-start">
-                  <User className="h-5 w-5 text-gray-500 mt-0.5 mr-3" />
-                  <div>
-                    <p className="text-sm font-medium">Assigned Advisor</p>
-                    <p className="text-sm text-gray-600">{student?.advisorName || "Not assigned"}</p>
+                  <User className="h-4 w-4 sm:h-5 sm:w-5 text-gray-500 mt-0.5 mr-3 flex-shrink-0" />
+                  <div className="min-w-0 flex-1">
+                    <p className="text-xs sm:text-sm font-medium">Assigned Advisor</p>
+                    <p className="text-xs sm:text-sm text-gray-600 truncate">
+                      {student?.advisorName || "Not assigned"}
+                    </p>
                   </div>
                 </div>
                 <div className="flex items-start">
-                  <FileText className="h-5 w-5 text-gray-500 mt-0.5 mr-3" />
-                  <div>
-                    <p className="text-sm font-medium">Payment Reference</p>
-                    <p className="text-sm text-gray-600">{student?.paymentReference}</p>
+                  <FileText className="h-4 w-4 sm:h-5 sm:w-5 text-gray-500 mt-0.5 mr-3 flex-shrink-0" />
+                  <div className="min-w-0 flex-1">
+                    <p className="text-xs sm:text-sm font-medium">Payment Reference</p>
+                    <p className="text-xs sm:text-sm text-gray-600 truncate">{student?.paymentReference}</p>
                   </div>
                 </div>
                 <div className="flex items-start">
-                  <GraduationCap className="h-5 w-5 text-gray-500 mt-0.5 mr-3" />
+                  <GraduationCap className="h-4 w-4 sm:h-5 sm:w-5 text-gray-500 mt-0.5 mr-3 flex-shrink-0" />
                   <div>
-                    <p className="text-sm font-medium">Application Status</p>
+                    <p className="text-xs sm:text-sm font-medium">Application Status</p>
                     <div className="flex items-center gap-2">
                       <StatusBadge status={student?.appStatus || "Not Started"} className="mt-1" />
                       <Button variant="outline" size="sm" onClick={handleVerifyAppStatus} className="mt-1 text-xs">
@@ -449,10 +451,10 @@ export function StudentModal({ isOpen, onClose, studentId }: StudentModalProps) 
                   </div>
                 </div>
                 <div className="flex items-start">
-                  <Clock className="h-5 w-5 text-gray-500 mt-0.5 mr-3" />
-                  <div>
-                    <p className="text-sm font-medium">Last Activity</p>
-                    <p className="text-sm text-gray-600">{formatDateTime(student?.lastActivity)}</p>
+                  <Clock className="h-4 w-4 sm:h-5 sm:w-5 text-gray-500 mt-0.5 mr-3 flex-shrink-0" />
+                  <div className="min-w-0 flex-1">
+                    <p className="text-xs sm:text-sm font-medium">Last Activity</p>
+                    <p className="text-xs sm:text-sm text-gray-600 truncate">{formatDateTime(student?.lastActivity)}</p>
                   </div>
                 </div>
               </div>
@@ -466,9 +468,9 @@ export function StudentModal({ isOpen, onClose, studentId }: StudentModalProps) 
   const renderApplicationsTab = () => (
     <TabsContent value="applications" className="mt-0">
       <Card>
-        <CardContent className="pt-6">
-          <div className="flex justify-between items-center mb-4">
-            <h3 className="text-lg font-semibold">University Applications</h3>
+        <CardContent className="pt-4 sm:pt-6 px-4 sm:px-6">
+          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-4 gap-2">
+            <h3 className="text-base sm:text-lg font-semibold">University Applications</h3>
             <Button
               size="sm"
               onClick={() => {
@@ -481,110 +483,129 @@ export function StudentModal({ isOpen, onClose, studentId }: StudentModalProps) 
                   status: "In Progress",
                 })
               }}
+              className="w-full sm:w-auto"
             >
               <Plus className="h-4 w-4 mr-1" />
-              University
+              Add University
             </Button>
           </div>
 
           {showAppForm && (
-            <div className="bg-gray-50 p-4 rounded-lg mb-6">
-              <h4 className="font-medium mb-3">{editingAppId ? "Edit Application" : "Add New Application"}</h4>
-              <div className="grid gap-4 mb-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="bg-gray-50 p-3 sm:p-4 rounded-lg mb-4 sm:mb-6">
+              <h4 className="font-medium mb-3 text-sm sm:text-base">
+                {editingAppId ? "Edit Application" : "Add New Application"}
+              </h4>
+              <div className="grid gap-3 sm:gap-4 mb-4">
+                <div className="grid grid-cols-1 gap-3 sm:gap-4">
                   <div>
-                    <Label htmlFor="university">University</Label>
+                    <Label htmlFor="university" className="text-sm">
+                      University
+                    </Label>
                     <Input
                       id="university"
                       value={appFormData.university}
                       onChange={(e) => setAppFormData({ ...appFormData, university: e.target.value })}
+                      className="text-sm"
                     />
                   </div>
                   <div>
-                    <Label htmlFor="program">Program/Major</Label>
+                    <Label htmlFor="program" className="text-sm">
+                      Program/Major
+                    </Label>
                     <Input
                       id="program"
                       value={appFormData.program}
                       onChange={(e) => setAppFormData({ ...appFormData, program: e.target.value })}
+                      className="text-sm"
                     />
                   </div>
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <Label htmlFor="deadline">Deadline</Label>
-                    <Input
-                      id="deadline"
-                      type="date"
-                      value={appFormData.deadline}
-                      onChange={(e) => setAppFormData({ ...appFormData, deadline: e.target.value })}
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="status">Status</Label>
-                    <Select
-                      value={appFormData.status}
-                      onValueChange={(value) => setAppFormData({ ...appFormData, status: value })}
-                    >
-                      <SelectTrigger id="status">
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="In Progress">In Progress</SelectItem>
-                        <SelectItem value="Completed">Completed</SelectItem>
-                        <SelectItem value="Not Started">Not Started</SelectItem>
-                      </SelectContent>
-                    </Select>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                    <div>
+                      <Label htmlFor="deadline" className="text-sm">
+                        Deadline
+                      </Label>
+                      <Input
+                        id="deadline"
+                        type="date"
+                        value={appFormData.deadline}
+                        onChange={(e) => setAppFormData({ ...appFormData, deadline: e.target.value })}
+                        className="text-sm"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="status" className="text-sm">
+                        Status
+                      </Label>
+                      <Select
+                        value={appFormData.status}
+                        onValueChange={(value) => setAppFormData({ ...appFormData, status: value })}
+                      >
+                        <SelectTrigger id="status" className="text-sm">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="In Progress">In Progress</SelectItem>
+                          <SelectItem value="Completed">Completed</SelectItem>
+                          <SelectItem value="Not Started">Not Started</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
                   </div>
                 </div>
               </div>
-              <div className="flex justify-end space-x-2">
-                <Button variant="outline" onClick={() => setShowAppForm(false)}>
+              <div className="flex flex-col sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-2">
+                <Button variant="outline" onClick={() => setShowAppForm(false)} className="w-full sm:w-auto">
                   Cancel
                 </Button>
-                <Button onClick={handleSaveApplication}>{editingAppId ? "Update" : "Add"}</Button>
+                <Button onClick={handleSaveApplication} className="w-full sm:w-auto">
+                  {editingAppId ? "Update" : "Add"}
+                </Button>
               </div>
             </div>
           )}
 
           {loadingApplications ? (
-            <div className="space-y-6">
+            <div className="space-y-4 sm:space-y-6">
               {[1, 2, 3].map((i) => (
                 <div key={i} className="border-b pb-4 last:border-0 last:pb-0">
-                  <div className="flex justify-between items-start mb-2">
-                    <Skeleton className="h-5 w-[200px]" />
-                    <Skeleton className="h-5 w-[100px]" />
-                  </div>
-                  <Skeleton className="h-4 w-[300px] mb-2" />
-                  <Skeleton className="h-4 w-[150px]" />
+                  <Skeleton className="h-4 sm:h-5 w-[200px] mb-2" />
+                  <Skeleton className="h-3 sm:h-4 w-[300px] mb-2" />
+                  <Skeleton className="h-3 sm:h-4 w-[150px]" />
                 </div>
               ))}
             </div>
           ) : applications?.length === 0 ? (
-            <p className="text-gray-500 text-center py-8">No applications found</p>
+            <p className="text-gray-500 text-center py-8 text-sm">No applications found</p>
           ) : (
-            <div className="space-y-6">
+            <div className="space-y-4 sm:space-y-6">
               {applications?.map((app) => (
                 <div key={app.id} className="border-b pb-4 last:border-0 last:pb-0">
-                  <div className="flex justify-between items-start mb-2">
-                    <h4 className="font-medium">{app.university}</h4>
+                  <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-2 gap-2">
+                    <h4 className="font-medium text-sm sm:text-base">{app.university}</h4>
                     <div className="flex items-center space-x-2">
                       <StatusBadge status={app.status} />
-                      <Button variant="ghost" size="icon" onClick={() => handleEditApplication(app)} title="Edit">
-                        <Pencil className="h-4 w-4" />
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => handleEditApplication(app)}
+                        title="Edit"
+                        className="h-8 w-8"
+                      >
+                        <Pencil className="h-3 w-3 sm:h-4 sm:w-4" />
                       </Button>
                       <Button
                         variant="ghost"
                         size="icon"
                         onClick={() => handleDeleteApplication(app.id)}
                         title="Delete"
-                        className="text-red-600"
+                        className="text-red-600 h-8 w-8"
                       >
-                        <Trash className="h-4 w-4" />
+                        <Trash className="h-3 w-3 sm:h-4 sm:w-4" />
                       </Button>
                     </div>
                   </div>
-                  <p className="text-sm text-gray-600 mb-2">{app.program}</p>
-                  <p className="text-sm">
+                  <p className="text-xs sm:text-sm text-gray-600 mb-2">{app.program}</p>
+                  <p className="text-xs sm:text-sm">
                     <span className="text-gray-500">Deadline:</span> {formatDate(app.deadline)}
                   </p>
                 </div>
@@ -785,22 +806,40 @@ export function StudentModal({ isOpen, onClose, studentId }: StudentModalProps) 
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-[840px] max-h-[90vh] overflow-hidden flex flex-col">
-        <DialogHeader>
-          <DialogTitle>
+      <DialogContent className="max-w-[95vw] sm:max-w-[840px] max-h-[90vh] overflow-hidden flex flex-col mx-2 sm:mx-auto">
+        <DialogHeader className="px-4 sm:px-6">
+          <DialogTitle className="text-lg sm:text-xl">
             Student Profile: {loadingStudent ? <Skeleton className="h-4 w-[200px] inline-block" /> : student?.fullName}
           </DialogTitle>
         </DialogHeader>
 
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="flex-1 overflow-hidden flex flex-col">
-          <TabsList className="mb-4">
-            <TabsTrigger value="overview">Overview</TabsTrigger>
-            <TabsTrigger value="applications">Applications</TabsTrigger>
-            <TabsTrigger value="documents">Documents</TabsTrigger>
-            <TabsTrigger value="appProgress">App Progress</TabsTrigger>
-            <TabsTrigger value="visaProgress">Visa Progress</TabsTrigger>
-            <TabsTrigger value="notes">Notes</TabsTrigger>
-            <TabsTrigger value="activity">Activity</TabsTrigger>
+        <Tabs
+          value={activeTab}
+          onValueChange={setActiveTab}
+          className="flex-1 overflow-hidden flex flex-col px-4 sm:px-6"
+        >
+          <TabsList className="mb-4 grid grid-cols-4 sm:grid-cols-7 w-full">
+            <TabsTrigger value="overview" className="text-xs sm:text-sm">
+              Overview
+            </TabsTrigger>
+            <TabsTrigger value="applications" className="text-xs sm:text-sm">
+              Apps
+            </TabsTrigger>
+            <TabsTrigger value="documents" className="text-xs sm:text-sm">
+              Docs
+            </TabsTrigger>
+            <TabsTrigger value="appProgress" className="text-xs sm:text-sm hidden sm:inline-flex">
+              App Progress
+            </TabsTrigger>
+            <TabsTrigger value="visaProgress" className="text-xs sm:text-sm hidden sm:inline-flex">
+              Visa Progress
+            </TabsTrigger>
+            <TabsTrigger value="notes" className="text-xs sm:text-sm">
+              Notes
+            </TabsTrigger>
+            <TabsTrigger value="activity" className="text-xs sm:text-sm hidden sm:inline-flex">
+              Activity
+            </TabsTrigger>
           </TabsList>
 
           <div className="flex-1 overflow-y-auto pr-2">{renderTabContent()}</div>

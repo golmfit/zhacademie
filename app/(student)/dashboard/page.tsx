@@ -94,22 +94,22 @@ export default function StudentDashboard() {
   }
 
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold mb-6">Student Dashboard</h1>
+    <div className="p-3 sm:p-4 lg:p-6">
+      <h1 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6">Student Dashboard</h1>
 
-      <div className="grid md:grid-cols-2 gap-6 mb-8">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 mb-6 sm:mb-8">
         {/* Application Progress Card */}
         <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-lg">Application Progress</CardTitle>
+          <CardHeader className="pb-2 px-4 sm:px-6">
+            <CardTitle className="text-base sm:text-lg">Application Progress</CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="px-4 sm:px-6">
             <div className="flex justify-between items-center mb-2">
-              <span className="text-sm text-gray-500">Overall Completion</span>
-              <span className="text-sm font-medium">{appProgressPercentage}%</span>
+              <span className="text-xs sm:text-sm text-gray-500">Overall Completion</span>
+              <span className="text-xs sm:text-sm font-medium">{appProgressPercentage}%</span>
             </div>
-            <Progress value={appProgressPercentage} className="h-2 mb-4" />
-            <p className="text-sm text-gray-600">
+            <Progress value={appProgressPercentage} className="h-2 mb-3 sm:mb-4" />
+            <p className="text-xs sm:text-sm text-gray-600">
               {appProgressPercentage < 50
                 ? "You're just getting started. Keep going!"
                 : appProgressPercentage < 80
@@ -142,14 +142,14 @@ export default function StudentDashboard() {
       </div>
 
       {/* Visa Steps */}
-      <Card className="mb-8">
-        <CardHeader>
-          <CardTitle>Visa Application Progress</CardTitle>
+      <Card className="mb-6 sm:mb-8">
+        <CardHeader className="px-4 sm:px-6">
+          <CardTitle className="text-base sm:text-lg">Visa Application Progress</CardTitle>
         </CardHeader>
-        <CardContent>
+        <CardContent className="px-4 sm:px-6">
           {isLoading ? (
             <div className="flex justify-center py-4">
-              <p className="text-gray-500">Loading progress...</p>
+              <p className="text-gray-500 text-sm">Loading progress...</p>
             </div>
           ) : (
             <ProgressStepper steps={formattedVisaSteps} />
@@ -175,73 +175,63 @@ export default function StudentDashboard() {
 
       {/* Recent Notifications */}
       <Card>
-        <CardHeader className="flex flex-row items-center justify-between pb-2">
-          <CardTitle className="text-lg">Recent Notifications</CardTitle>
+        <CardHeader className="flex flex-row items-center justify-between pb-2 px-4 sm:px-6">
+          <CardTitle className="text-base sm:text-lg">Recent Notifications</CardTitle>
           <Link href="/notifications">
-            <Button variant="ghost" size="sm" className="text-primary">
-              View All <ArrowRight className="h-4 w-4 ml-1" />
+            <Button variant="ghost" size="sm" className="text-primary text-xs sm:text-sm">
+              <span className="hidden sm:inline">View All</span>
+              <span className="sm:hidden">All</span>
+              <ArrowRight className="h-3 w-3 sm:h-4 sm:w-4 ml-1" />
             </Button>
           </Link>
         </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
-            {loadingNotifications ? (
-              // Loading skeleton
-              Array(5)
-                .fill(0)
-                .map((_, i) => (
-                  <div key={i} className="flex items-start pb-4 border-b border-gray-100 last:border-0 last:pb-0">
-                    <div className="w-2 h-2 rounded-full mt-2 mr-3 bg-gray-300"></div>
-                    <div className="flex-1">
-                      <div className="h-4 w-3/4 bg-gray-200 rounded mb-2"></div>
-                      <div className="h-3 w-1/2 bg-gray-200 rounded"></div>
-                    </div>
-                  </div>
-                ))
-            ) : sortedNotifications?.length === 0 ? (
-              <div className="text-center py-4 text-gray-500">No notifications yet</div>
-            ) : (
-              sortedNotifications?.slice(0, 5).map((notification) => (
+        <CardContent className="px-4 sm:px-6">
+          <div className="space-y-3 sm:space-y-4">
+            {/* Notification items with improved mobile layout */}
+            {sortedNotifications?.slice(0, 5).map((notification) => (
+              <div
+                key={notification.id}
+                className={`flex items-start pb-3 sm:pb-4 border-b border-gray-100 last:border-0 last:pb-0 ${
+                  !notification.read ? "bg-blue-50/30 -mx-4 sm:-mx-6 px-4 sm:px-6 py-2" : ""
+                }`}
+              >
                 <div
-                  key={notification.id}
-                  className={`flex items-start pb-4 border-b border-gray-100 last:border-0 last:pb-0 ${
-                    !notification.read ? "bg-blue-50/30 -mx-6 px-6" : ""
+                  className={`w-2 h-2 rounded-full mt-2 mr-3 flex-shrink-0 ${
+                    notification.priority === "High"
+                      ? "bg-red-500"
+                      : notification.priority === "Medium"
+                        ? "bg-amber-500"
+                        : "bg-blue-500"
                   }`}
-                >
-                  <div
-                    className={`w-2 h-2 rounded-full mt-2 mr-3 ${
-                      notification.priority === "High"
-                        ? "bg-red-500"
-                        : notification.priority === "Medium"
-                          ? "bg-amber-500"
-                          : "bg-blue-500"
-                    }`}
-                  />
-                  <div className="flex-1">
-                    <div className="flex justify-between items-start">
-                      <p className="font-medium text-sm">{notification.title || notification.message}</p>
-                      <StatusBadge
-                        status={
-                          notification.type === "Document"
-                            ? "Approved"
-                            : notification.type === "Visa"
-                              ? "In Progress"
-                              : "Completed"
-                        }
-                        className="ml-2"
-                      />
-                    </div>
-                    {notification.title && <p className="text-sm text-gray-600 mt-1">{notification.message}</p>}
-                    <div className="flex justify-between items-center mt-1">
-                      <span className={`text-xs ${getPriorityColor(notification.priority)}`}>
-                        {notification.priority} Priority
-                      </span>
-                      <span className="text-xs text-gray-500">{formatDate(notification.createdAt)}</span>
-                    </div>
+                />
+                <div className="flex-1 min-w-0">
+                  <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-1 sm:gap-2">
+                    <p className="font-medium text-sm leading-tight pr-2">
+                      {notification.title || notification.message}
+                    </p>
+                    <StatusBadge
+                      status={
+                        notification.type === "Document"
+                          ? "Approved"
+                          : notification.type === "Visa"
+                            ? "In Progress"
+                            : "Completed"
+                      }
+                      className="self-start flex-shrink-0"
+                    />
+                  </div>
+                  {notification.title && (
+                    <p className="text-sm text-gray-600 mt-1 line-clamp-2">{notification.message}</p>
+                  )}
+                  <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mt-2 gap-1">
+                    <span className={`text-xs ${getPriorityColor(notification.priority)}`}>
+                      {notification.priority} Priority
+                    </span>
+                    <span className="text-xs text-gray-500">{formatDate(notification.createdAt)}</span>
                   </div>
                 </div>
-              ))
-            )}
+              </div>
+            ))}
           </div>
         </CardContent>
       </Card>

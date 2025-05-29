@@ -27,13 +27,13 @@ export function ProgressStepper({ steps, className }: ProgressStepperProps) {
   return (
     <div className={cn("w-full", className)}>
       {/* Progress percentage indicator */}
-      <div className="mb-6 flex items-center justify-between">
-        <span className="text-sm font-medium text-gray-500">Progress</span>
-        <span className="text-sm font-medium text-gray-900">{completionPercentage}% Complete</span>
+      <div className="mb-4 sm:mb-6 flex items-center justify-between">
+        <span className="text-xs sm:text-sm font-medium text-gray-500">Progress</span>
+        <span className="text-xs sm:text-sm font-medium text-gray-900">{completionPercentage}% Complete</span>
       </div>
 
       {/* Progress bar */}
-      <div className="h-2 w-full rounded-full bg-gray-100 mb-8">
+      <div className="h-2 w-full rounded-full bg-gray-100 mb-6 sm:mb-8">
         <div
           className="h-2 rounded-full bg-green-500 transition-all duration-500 ease-in-out"
           style={{ width: `${completionPercentage}%` }}
@@ -43,14 +43,14 @@ export function ProgressStepper({ steps, className }: ProgressStepperProps) {
       {/* Steps display */}
       <div className="relative">
         {/* Mobile view (vertical layout) */}
-        <div className="sm:hidden space-y-8">
+        <div className="sm:hidden space-y-6">
           {steps.map((step, index) => (
             <div key={step.id} className="relative">
               <div className="flex items-start">
-                <div className="flex-shrink-0 mr-4">
+                <div className="flex-shrink-0 mr-3">
                   <div
                     className={cn(
-                      "flex h-10 w-10 items-center justify-center rounded-full border-2",
+                      "flex h-8 w-8 items-center justify-center rounded-full border-2",
                       step.status === "Completed"
                         ? "border-green-500 bg-green-50"
                         : step.status === "In Progress"
@@ -59,19 +59,19 @@ export function ProgressStepper({ steps, className }: ProgressStepperProps) {
                     )}
                   >
                     {step.status === "Completed" ? (
-                      <CheckCircle className="h-5 w-5 text-green-500" />
+                      <CheckCircle className="h-4 w-4 text-green-500" />
                     ) : step.status === "In Progress" ? (
-                      <Clock className="h-5 w-5 text-blue-500" />
+                      <Clock className="h-4 w-4 text-blue-500" />
                     ) : (
-                      <Circle className="h-5 w-5 text-gray-300" />
+                      <Circle className="h-4 w-4 text-gray-300" />
                     )}
                   </div>
-                  {index < steps.length - 1 && <div className="absolute left-5 top-10 h-full w-0.5 bg-gray-200" />}
+                  {index < steps.length - 1 && <div className="absolute left-4 top-8 h-6 w-0.5 bg-gray-200" />}
                 </div>
-                <div className="flex flex-col">
+                <div className="flex flex-col flex-1 min-w-0">
                   <span
                     className={cn(
-                      "text-sm font-medium",
+                      "text-sm font-medium leading-tight",
                       step.status === "Completed"
                         ? "text-green-600"
                         : step.status === "In Progress"
@@ -101,12 +101,12 @@ export function ProgressStepper({ steps, className }: ProgressStepperProps) {
 
         {/* Desktop view (horizontal layout) */}
         <div className="hidden sm:block">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between overflow-x-auto pb-4">
             {steps.map((step, index) => (
-              <div key={step.id} className="relative flex flex-col items-center">
+              <div key={step.id} className="relative flex flex-col items-center min-w-0 flex-1">
                 <div
                   className={cn(
-                    "flex h-12 w-12 items-center justify-center rounded-full border-2 z-10 transition-all duration-300",
+                    "flex h-10 w-10 lg:h-12 lg:w-12 items-center justify-center rounded-full border-2 z-10 transition-all duration-300",
                     step.status === "Completed"
                       ? "border-green-500 bg-green-50"
                       : step.status === "In Progress"
@@ -115,19 +115,19 @@ export function ProgressStepper({ steps, className }: ProgressStepperProps) {
                   )}
                 >
                   {step.status === "Completed" ? (
-                    <CheckCircle className="h-6 w-6 text-green-500" />
+                    <CheckCircle className="h-5 w-5 lg:h-6 lg:w-6 text-green-500" />
                   ) : step.status === "In Progress" ? (
-                    <Clock className="h-6 w-6 text-blue-500" />
+                    <Clock className="h-5 w-5 lg:h-6 lg:w-6 text-blue-500" />
                   ) : (
-                    <Circle className="h-6 w-6 text-gray-300" />
+                    <Circle className="h-5 w-5 lg:h-6 lg:w-6 text-gray-300" />
                   )}
                 </div>
 
                 {/* Step name and status */}
-                <div className="mt-3 flex flex-col items-center text-center">
+                <div className="mt-2 lg:mt-3 flex flex-col items-center text-center px-1">
                   <span
                     className={cn(
-                      "text-sm font-medium",
+                      "text-xs lg:text-sm font-medium text-center leading-tight",
                       step.status === "Completed"
                         ? "text-green-600"
                         : step.status === "In Progress"
@@ -153,16 +153,19 @@ export function ProgressStepper({ steps, className }: ProgressStepperProps) {
 
                 {/* Connector line */}
                 {index < steps.length - 1 && (
-                  <div className="absolute left-full top-6 -ml-2 -translate-y-1/2 transform">
+                  <div className="absolute left-full top-5 lg:top-6 -ml-1 lg:-ml-2 -translate-y-1/2 transform">
                     <div className="flex items-center">
                       <div
                         className={cn(
-                          "h-0.5 w-12 transition-colors duration-300",
+                          "h-0.5 w-8 lg:w-12 transition-colors duration-300",
                           step.status === "Completed" ? "bg-green-500" : "bg-gray-200",
                         )}
                       />
                       <ArrowRight
-                        className={cn("h-4 w-4", step.status === "Completed" ? "text-green-500" : "text-gray-200")}
+                        className={cn(
+                          "h-3 w-3 lg:h-4 lg:w-4",
+                          step.status === "Completed" ? "text-green-500" : "text-gray-200",
+                        )}
                       />
                     </div>
                   </div>
