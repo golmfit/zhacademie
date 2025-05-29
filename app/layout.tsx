@@ -1,4 +1,5 @@
 import type React from "react"
+
 import "./globals.css"
 import { Inter } from "next/font/google"
 import { AuthProvider } from "@/contexts/auth-context"
@@ -23,9 +24,3 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     </html>
   )
 }
-
-// Make sure the layout doesn't add any navigation or footer elements
-// that would conflict with the marketing layout
-
-// The layout should be minimal, just providing the basic HTML structure
-// and any global styles or providers
