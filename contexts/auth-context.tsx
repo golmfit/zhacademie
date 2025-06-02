@@ -57,7 +57,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
             if (adminDoc.exists()) {
               console.log("Setting user data as admin")
-              setUserData({ ...adminDoc.data(), role: "admin" })
+              const adminData = adminDoc.data()
+              setUserData({ ...adminData, role: "admin", adminRole: adminData.adminRole || "limited" })
             } else {
               // Check if user is in registration queue
               const queueDocRef = doc(db, "registrationQueue", user.uid)

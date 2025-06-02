@@ -16,6 +16,7 @@ import { AlertCircle, CheckCircle, User, Lock, SettingsIcon } from "lucide-react
 
 export default function AdminSettingsPage() {
   const { user, userData } = useAuth()
+  const isAdminGeneral = userData?.adminRole === "general"
   const [isLoading, setIsLoading] = useState(false)
   const [message, setMessage] = useState(null)
 
@@ -134,10 +135,12 @@ export default function AdminSettingsPage() {
             <Lock className="h-4 w-4 mr-2" />
             Password
           </TabsTrigger>
-          <TabsTrigger value="system">
-            <SettingsIcon className="h-4 w-4 mr-2" />
-            System
-          </TabsTrigger>
+          {isAdminGeneral && (
+            <TabsTrigger value="system">
+              <SettingsIcon className="h-4 w-4 mr-2" />
+              System
+            </TabsTrigger>
+          )}
         </TabsList>
 
         <TabsContent value="profile">
@@ -231,49 +234,51 @@ export default function AdminSettingsPage() {
           </Card>
         </TabsContent>
 
-        <TabsContent value="system">
-          <Card>
-            <CardHeader>
-              <CardTitle>System Settings</CardTitle>
-              <CardDescription>Configure system-wide settings</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <Label htmlFor="autoApproveDocuments">Auto-Approve Documents</Label>
-                  <p className="text-sm text-gray-500">Automatically approve uploaded documents</p>
+        {isAdminGeneral && (
+          <TabsContent value="system">
+            <Card>
+              <CardHeader>
+                <CardTitle>System Settings</CardTitle>
+                <CardDescription>Configure system-wide settings</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <Label htmlFor="autoApproveDocuments">Auto-Approve Documents</Label>
+                    <p className="text-sm text-gray-500">Automatically approve uploaded documents</p>
+                  </div>
+                  <Switch
+                    id="autoApproveDocuments"
+                    checked={systemSettings.autoApproveDocuments}
+                    onCheckedChange={(checked) => handleSystemSettingUpdate("autoApproveDocuments", checked)}
+                  />
                 </div>
-                <Switch
-                  id="autoApproveDocuments"
-                  checked={systemSettings.autoApproveDocuments}
-                  onCheckedChange={(checked) => handleSystemSettingUpdate("autoApproveDocuments", checked)}
-                />
-              </div>
-              <div className="flex items-center justify-between">
-                <div>
-                  <Label htmlFor="emailNotifications">Email Notifications</Label>
-                  <p className="text-sm text-gray-500">Send email notifications to students</p>
+                <div className="flex items-center justify-between">
+                  <div>
+                    <Label htmlFor="emailNotifications">Email Notifications</Label>
+                    <p className="text-sm text-gray-500">Send email notifications to students</p>
+                  </div>
+                  <Switch
+                    id="emailNotifications"
+                    checked={systemSettings.emailNotifications}
+                    onCheckedChange={(checked) => handleSystemSettingUpdate("emailNotifications", checked)}
+                  />
                 </div>
-                <Switch
-                  id="emailNotifications"
-                  checked={systemSettings.emailNotifications}
-                  onCheckedChange={(checked) => handleSystemSettingUpdate("emailNotifications", checked)}
-                />
-              </div>
-              <div className="flex items-center justify-between">
-                <div>
-                  <Label htmlFor="studentRegistrationOpen">Student Registration</Label>
-                  <p className="text-sm text-gray-500">Allow new student registrations</p>
+                <div className="flex items-center justify-between">
+                  <div>
+                    <Label htmlFor="studentRegistrationOpen">Student Registration</Label>
+                    <p className="text-sm text-gray-500">Allow new student registrations</p>
+                  </div>
+                  <Switch
+                    id="studentRegistrationOpen"
+                    checked={systemSettings.studentRegistrationOpen}
+                    onCheckedChange={(checked) => handleSystemSettingUpdate("studentRegistrationOpen", checked)}
+                  />
                 </div>
-                <Switch
-                  id="studentRegistrationOpen"
-                  checked={systemSettings.studentRegistrationOpen}
-                  onCheckedChange={(checked) => handleSystemSettingUpdate("studentRegistrationOpen", checked)}
-                />
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
+              </CardContent>
+            </Card>
+          </TabsContent>
+        )}
       </Tabs>
     </div>
   )

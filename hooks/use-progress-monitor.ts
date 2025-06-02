@@ -1,100 +1,126 @@
 "use client"
 
 import { useEffect, useRef } from "react"
-import { collection, onSnapshot, doc, getDoc } from "firebase/firestore"
+import { collection, onSnapshot } from "firebase/firestore"
 import { db } from "@/lib/firebase"
-import { updateStudentAppStatus, checkAllStagesCompleted } from "@/lib/progress-utils"
+import {
+  updateStudentAppStatus, // Removed checkAllStagesCompleted and direct doc reads as updateStudentAppStatus handles it
+} from "@/lib/progress-utils"
+import { useAuth } from "@/contexts/auth-context" // Use your existing AuthContext
 
-/**
- * Hook to monitor progress changes and update app status automatically
- */
 export function useProgressMonitor(studentId: string | null) {
-  // Use a ref to track the last update time to prevent excessive updates
+  const { userData, isLoading: isAuthLoading } = useAuth() // Get user data and auth loading state
   const lastUpdateRef = useRef<number>(0)
 
   useEffect(() => {
-    if (!studentId) return
+    // Wait for auth to load and ensure we have a studentId and userData
+    if (isAuthLoading || !studentId || !userData) {
+      if (isAuthLoading) console.log("DEBUG (useProgressMonitor): Auth is loading, skipping setup.")
+      if (!studentId) console.log("DEBUG (useProgressMonitor): No studentId, skipping setup.")
+      if (!userData && !isAuthLoading)
+        console.log("DEBUG (useProgressMonitor): No userData (and auth not loading), skipping setup.")
+      return
+    }
 
-    console.log(`DEBUG: Setting up progress monitor for student ${studentId}`)
+    // Determine the admin role from userData
+    // userData.role could be 'student', 'admin', or 'pending'
+    // userData.adminRole would exist if userData.role is 'admin'
+    const effectiveAdminRole = userData.role === "admin" ? userData.adminRole : null
 
-    // Set up listeners for both progress collections
+    console.log(
+      `DEBUG (useProgressMonitor): Setting up for student ${studentId}. Current user role: ${userData.role}, adminRole: ${effectiveAdminRole || "N/A"}`,
+    )
+
     const appProgressRef = collection(db, `students/${studentId}/appProgress`)
     const visaProgressRef = collection(db, `students/${studentId}/visaProgress`)
 
     let updateTimeout: NodeJS.Timeout | null = null
 
-    // Function to update status with debounce
     const debouncedUpdate = async () => {
-      // Prevent updates that are too close together (within 1 second)
       const now = Date.now()
       if (now - lastUpdateRef.current < 1000) {
-        console.log("DEBUG: Skipping update due to debounce")
+        console.log("DEBUG (useProgressMonitor): Skipping update due to debounce.")
         return
       }
 
       if (updateTimeout) clearTimeout(updateTimeout)
 
       updateTimeout = setTimeout(async () => {
-        console.log("DEBUG: Running debounced update")
+        console.log("DEBUG (useProgressMonitor): Running debounced update for student:", studentId)
+
+        // **** KEY MODIFICATION: Check role before attempting to update student app status ****
+        if (effectiveAdminRole !== "general") {
+          console.warn(
+            `INFO (useProgressMonitor): Current user is not a 'general' admin (role: ${userData.role}, adminRole: ${effectiveAdminRole || "N/A"}). ` +
+              `Skipping client-side call to updateStudentAppStatus for student ${studentId} to prevent permission error. ` +
+              `The main appStatus on /students/${studentId} will not be updated by this client-side action. ` +
+              `For automatic updates triggered by any role, consider implementing Firebase Cloud Functions.`,
+          )
+          lastUpdateRef.current = Date.now() // Still update debounce timer
+          return // Exit without calling updateStudentAppStatus
+        }
+        // **** END KEY MODIFICATION ****
 
         try {
-          // First, check if all stages are completed
-          const allCompleted = await checkAllStagesCompleted(studentId)
-          console.log(`DEBUG: All stages completed check: ${allCompleted}`)
-
-          // Get current status
-          const studentRef = doc(db, "students", studentId)
-          const studentSnap = await getDoc(studentRef)
-          const currentStatus = studentSnap.data()?.appStatus
-          console.log(`DEBUG: Current status: ${currentStatus}`)
-
-          // Update the app status
+          console.log(
+            `DEBUG (useProgressMonitor): User is 'general' admin. Proceeding with updateStudentAppStatus for ${studentId}.`,
+          )
+          // The updateStudentAppStatus function already contains its own try-catch for other errors.
           await updateStudentAppStatus(studentId)
-
-          // Update the last update time
+          console.log(`DEBUG (useProgressMonitor): updateStudentAppStatus call completed for ${studentId}.`)
           lastUpdateRef.current = Date.now()
         } catch (error) {
-          console.error("Error in debounced update:", error)
+          // This catch block in useProgressMonitor will now primarily catch errors if updateStudentAppStatus (called by a general admin)
+          // itself throws an unexpected error, NOT the permission error for non-general admins.
+          console.error(
+            `ERROR (useProgressMonitor) during debounced update for student ${studentId} (caller role: general admin):`,
+            error,
+          )
         }
-      }, 500) // Wait 500ms after last change before updating
+      }, 500) // 500ms debounce
     }
 
-    // Subscribe to app progress changes
-    const unsubscribeApp = onSnapshot(
-      appProgressRef,
-      (snapshot) => {
-        console.log(`DEBUG: App progress changed, docs: ${snapshot.docs.length}`)
-        // Log each document's status
-        snapshot.docs.forEach((doc) => {
-          console.log(`DEBUG: App stage ${doc.id} status: ${doc.data().status || "Not Started"}`)
-        })
-        debouncedUpdate()
-      },
-      (error) => console.error("Error monitoring app progress:", error),
-    )
+    const createSnapshotListener = (collectionRef: any, type: string) => {
+      return onSnapshot(
+        collectionRef,
+        (snapshot) => {
+          console.log(
+            `DEBUG (useProgressMonitor): ${type} progress changed for student ${studentId}, ${snapshot.docs.length} docs. Triggering debounced update.`,
+          )
+          // Detailed logging of changed docs can be verbose, enable if needed:
+          // snapshot.docChanges().forEach((change) => {
+          //   console.log(`DEBUG (useProgressMonitor): ${type} change: ${change.type} docId: ${change.doc.id}`);
+          // });
+          debouncedUpdate()
+        },
+        (error) => {
+          console.error(`Error monitoring ${type} progress for student ${studentId}:`, error)
+        },
+      )
+    }
 
-    // Subscribe to visa progress changes
-    const unsubscribeVisa = onSnapshot(
-      visaProgressRef,
-      (snapshot) => {
-        console.log(`DEBUG: Visa progress changed, docs: ${snapshot.docs.length}`)
-        // Log each document's status
-        snapshot.docs.forEach((doc) => {
-          console.log(`DEBUG: Visa stage ${doc.id} status: ${doc.data().status || "Not Started"}`)
-        })
-        debouncedUpdate()
-      },
-      (error) => console.error("Error monitoring visa progress:", error),
-    )
+    const unsubscribeApp = createSnapshotListener(appProgressRef, "App")
+    const unsubscribeVisa = createSnapshotListener(visaProgressRef, "Visa")
 
-    // Initial update
-    debouncedUpdate()
+    // Initial update attempt, only if user is general admin
+    // This ensures that when the component mounts, if the user is a general admin,
+    // it tries to sync the status.
+    if (effectiveAdminRole === "general") {
+      console.log(
+        `DEBUG (useProgressMonitor): Initial debounced update triggered for general admin for student ${studentId}.`,
+      )
+      debouncedUpdate()
+    } else {
+      console.log(
+        `DEBUG (useProgressMonitor): Initial debounced update skipped for non-general admin for student ${studentId}.`,
+      )
+    }
 
-    // Cleanup
     return () => {
+      console.log(`DEBUG (useProgressMonitor): Cleaning up listeners for student ${studentId}`)
       unsubscribeApp()
       unsubscribeVisa()
       if (updateTimeout) clearTimeout(updateTimeout)
     }
-  }, [studentId])
+  }, [studentId, userData, isAuthLoading]) // Add userData and isAuthLoading to dependency array
 }

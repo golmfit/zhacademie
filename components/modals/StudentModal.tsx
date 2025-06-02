@@ -218,7 +218,14 @@ export function StudentModal({ isOpen, onClose, studentId }: StudentModalProps) 
   }
 
   const handleSaveApplication = async () => {
-    if (!studentId) return
+    console.log("handleSaveApplication: studentId:", studentId)
+    console.log("handleSaveApplication: editingAppId:", editingAppId)
+    console.log("handleSaveApplication: appFormData:", appFormData)
+    if (!studentId) {
+      console.error("handleSaveApplication: studentId is missing!")
+      // Optionally, show an error to the user via toast or state update
+      return
+    }
 
     try {
       const { university, program, deadline, status } = appFormData
@@ -279,8 +286,18 @@ export function StudentModal({ isOpen, onClose, studentId }: StudentModalProps) 
       })
       setShowAppForm(false)
       setEditingAppId(null)
-    } catch (error) {
+    } catch (error: any) {
+      // Add : any or : unknown then type check
       console.error("Error saving application:", error)
+      if (error.code === "permission-denied") {
+        console.error(
+          "Firestore permission denied. Check security rules and ensure the current user is authenticated and recognized as an admin by the rules for path: /students/" +
+            studentId +
+            "/applications",
+        )
+      }
+      // Optionally, set an error state here to display a message to the user
+      // e.g., setErrorState("Failed to save application. Please check permissions or try again.");
     }
   }
 

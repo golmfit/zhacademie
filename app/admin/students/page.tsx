@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useMemo } from "react"
 import { useCollection } from "@/hooks/use-firestore"
+import { useAuth } from "@/contexts/auth-context"
 import {
   doc,
   setDoc,
@@ -37,6 +38,9 @@ export default function AdminStudentsPage() {
   const [notifyStudent, setNotifyStudent] = useState<{ id: string; email: string } | null>(null)
   const [notifyMessage, setNotifyMessage] = useState("")
   const [advisorFilter, setAdvisorFilter] = useState<string | null>(null)
+
+  const { userData } = useAuth()
+  const isAdminGeneral = userData?.adminRole === "general"
 
   // Fetch active students
   const {
@@ -295,7 +299,7 @@ export default function AdminStudentsPage() {
                   <Button variant="outline" size="sm" onClick={() => setSelectedStudents([])}>
                     Deselect All
                   </Button>
-                  {selectedStudents.length > 0 && (
+                  {isAdminGeneral && selectedStudents.length > 0 && (
                     <>
                       <div className="h-6 w-px bg-gray-300" />
                       <Button variant="destructive" size="sm" onClick={handleDeactivateStudents}>
@@ -304,19 +308,23 @@ export default function AdminStudentsPage() {
                       <div className="h-6 w-px bg-gray-300" />
                     </>
                   )}
-                  <Select value={bulkAdvisor || ""} onValueChange={setBulkAdvisor}>
-                    <SelectTrigger className="w-[180px]">
-                      <SelectValue placeholder="Bulk Assign Advisor" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="zakariya">Zakariya</SelectItem>
-                      <SelectItem value="second-admin">Second Admin</SelectItem>
-                      <SelectItem value="third-admin">Third Admin</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <Button variant="default" size="sm" onClick={handleBulkAssignAdvisor}>
-                    Apply
-                  </Button>
+                  {isAdminGeneral && (
+                    <>
+                      <Select value={bulkAdvisor || ""} onValueChange={setBulkAdvisor}>
+                        <SelectTrigger className="w-[180px]">
+                          <SelectValue placeholder="Bulk Assign Advisor" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="zakariya">Zakariya</SelectItem>
+                          <SelectItem value="second-admin">Second Admin</SelectItem>
+                          <SelectItem value="third-admin">Third Admin</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <Button variant="default" size="sm" onClick={handleBulkAssignAdvisor}>
+                        Apply
+                      </Button>
+                    </>
+                  )}
                 </div>
 
                 <div className="flex gap-2">
@@ -426,19 +434,25 @@ export default function AdminStudentsPage() {
                             <StatusBadge status={student.appStatus || "Not Started"} />
                           </TableCell>
                           <TableCell>
-                            <Select
-                              value={student.advisorId || ""}
-                              onValueChange={(value) => handleAssignAdvisor(student.id, value)}
-                            >
-                              <SelectTrigger className="w-[120px]">
-                                <SelectValue placeholder="Assign" />
-                              </SelectTrigger>
-                              <SelectContent>
-                                <SelectItem value="zakariya">Zakariya</SelectItem>
-                                <SelectItem value="second-admin">Second Admin</SelectItem>
-                                <SelectItem value="third-admin">Third Admin</SelectItem>
-                              </SelectContent>
-                            </Select>
+                            {isAdminGeneral ? (
+                              <Select
+                                value={student.advisorId || ""}
+                                onValueChange={(value) => handleAssignAdvisor(student.id, value)}
+                              >
+                                <SelectTrigger className="w-[120px]">
+                                  <SelectValue placeholder="Assign" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                  <SelectItem value="zakariya">Zakariya</SelectItem>
+                                  <SelectItem value="second-admin">Second Admin</SelectItem>
+                                  <SelectItem value="third-admin">Third Admin</SelectItem>
+                                </SelectContent>
+                              </Select>
+                            ) : student.advisorId ? (
+                              student.advisorId.charAt(0).toUpperCase() + student.advisorId.slice(1)
+                            ) : (
+                              "N/A"
+                            )}
                           </TableCell>
                           <TableCell className="text-right">
                             <div className="flex justify-end space-x-2">
@@ -513,7 +527,7 @@ export default function AdminStudentsPage() {
                             <Select
                               defaultValue={student.paymentStatus}
                               onValueChange={(value) => handlePaymentStatusChange(student.id, value)}
-                              disabled={isProcessing[student.id]}
+                              disabled={isProcessing[student.id] || !isAdminGeneral}
                             >
                               <SelectTrigger className="w-[130px]">
                                 <SelectValue />
@@ -527,27 +541,31 @@ export default function AdminStudentsPage() {
                           </TableCell>
                           <TableCell>{formatDate(student.createdAt)}</TableCell>
                           <TableCell className="text-right">
-                            <div className="flex justify-end space-x-2">
-                              <Button
-                                variant="outline"
-                                size="sm"
-                                onClick={() => handleApproveStudent(student.id)}
-                                disabled={student.paymentStatus !== "received" || isProcessing[student.id]}
-                              >
-                                <CheckCircle className="h-4 w-4 mr-1" />
-                                Approve
-                              </Button>
-                              <Button
-                                variant="outline"
-                                size="sm"
-                                onClick={() => handleRejectStudent(student.id)}
-                                disabled={isProcessing[student.id]}
-                                className="text-red-600 border-red-200 hover:bg-red-50"
-                              >
-                                <XCircle className="h-4 w-4 mr-1" />
-                                Reject
-                              </Button>
-                            </div>
+                            {isAdminGeneral ? (
+                              <div className="flex justify-end space-x-2">
+                                <Button
+                                  variant="outline"
+                                  size="sm"
+                                  onClick={() => handleApproveStudent(student.id)}
+                                  disabled={student.paymentStatus !== "received" || isProcessing[student.id]}
+                                >
+                                  <CheckCircle className="h-4 w-4 mr-1" />
+                                  Approve
+                                </Button>
+                                <Button
+                                  variant="outline"
+                                  size="sm"
+                                  onClick={() => handleRejectStudent(student.id)}
+                                  disabled={isProcessing[student.id]}
+                                  className="text-red-600 border-red-200 hover:bg-red-50"
+                                >
+                                  <XCircle className="h-4 w-4 mr-1" />
+                                  Reject
+                                </Button>
+                              </div>
+                            ) : (
+                              <span className="text-sm text-gray-500">Actions restricted</span>
+                            )}
                           </TableCell>
                         </TableRow>
                       ))

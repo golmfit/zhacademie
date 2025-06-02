@@ -35,6 +35,7 @@ import { Label } from "@/components/ui/label"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Calendar as CalendarComponent } from "@/components/ui/calendar"
 import { format } from "date-fns"
+import { useAuth } from "@/contexts/auth-context"
 
 const AdminDocumentsPage = () => {
   const [documents, setDocuments] = useState([])
@@ -59,6 +60,9 @@ const AdminDocumentsPage = () => {
     approved: 0,
     rejected: 0,
   })
+
+  const { userData } = useAuth()
+  const isAdminGeneral = userData?.adminRole === "general"
 
   // Fetch all students to get their names
   useEffect(() => {
@@ -395,7 +399,7 @@ const AdminDocumentsPage = () => {
             Download
           </Button>
 
-          {document.status === "Pending" && (
+          {isAdminGeneral && document.status === "Pending" && (
             <>
               <Button
                 variant="outline"
@@ -475,7 +479,7 @@ const AdminDocumentsPage = () => {
                       <Download className="h-4 w-4" />
                     </Button>
 
-                    {document.status === "Pending" && (
+                    {isAdminGeneral && document.status === "Pending" && (
                       <>
                         <Button
                           variant="ghost"
@@ -753,9 +757,11 @@ const AdminDocumentsPage = () => {
             <Button
               variant="destructive"
               onClick={() =>
-                documentToReject && handleStatusChange(documentToReject.id, documentToReject.studentId, "Rejected")
+                isAdminGeneral &&
+                documentToReject &&
+                handleStatusChange(documentToReject.id, documentToReject.studentId, "Rejected")
               }
-              disabled={!rejectionReason.trim()}
+              disabled={!rejectionReason.trim() || !isAdminGeneral}
             >
               Reject Document
             </Button>
