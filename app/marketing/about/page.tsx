@@ -28,9 +28,7 @@ export default function AboutPage() {
                 <Target className="h-12 w-12 text-primary mb-4" />
                 <h3 className="text-2xl font-bold mb-4">Our Mission</h3>
                 <p className="text-gray-600 leading-relaxed">
-                  To democratize access to international education by providing comprehensive, personalized guidance
-                  that transforms students' academic aspirations into reality. We believe every student deserves the
-                  opportunity to pursue their dreams, regardless of their background or circumstances.
+                  At ZH Academie, our mission is to empower students by providing comprehensive support and guidance services as they pursue their educational dreams in the United States. We strive to simplify the complex journey of international study through personalized consultation, expert application assistance, and dedicated visa support. Our goal is to ensure every student has access to the best educational opportunities, fostering a global community of learners and future leaders.
                 </p>
               </CardContent>
             </Card>
@@ -55,10 +53,10 @@ export default function AboutPage() {
           <h2 className="text-3xl font-bold text-center mb-12">Our Impact in Numbers</h2>
           <div className="grid md:grid-cols-4 gap-8 max-w-4xl mx-auto">
             {[
-              { number: "5,000+", label: "Students Helped", icon: Users },
-              { number: "98%", label: "Visa Success Rate", icon: Award },
-              { number: "500+", label: "Partner Universities", icon: Globe },
-              { number: "15+", label: "Years Experience", icon: Target },
+              { number: "300+", label: "Students Helped", icon: Users },
+              { number: "79%", label: "Visa Success Rate", icon: Award },
+              { number: "50+", label: "Partner Universities", icon: Globe },
+              { number: "3+", label: "Years Experience", icon: Target },
             ].map((stat, index) => (
               <div key={index} className="text-center">
                 <stat.icon className="h-12 w-12 text-primary mx-auto mb-4" />
@@ -74,13 +72,10 @@ export default function AboutPage() {
       <section className="py-20">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
-            <h2 className="text-3xl font-bold text-center mb-12">Our Story</h2>
+            <h2 className="text-3xl font-bold text-center mb-12">Our Experience</h2>
             <div className="prose prose-lg mx-auto text-gray-600">
               <p className="mb-6">
-                Founded in 2008, ZHAcademie began as a small consultancy with a big dream: to help students from
-                developing countries access world-class education opportunities abroad. Our founder, Dr. Sarah Johnson,
-                experienced firsthand the challenges of navigating international education systems as an international
-                student herself.
+                At ZH Academie, we bring a wealth of experience and expertise to guide you through your journey of studying abroad. Our team consists of seasoned professionals who have successfully assisted numerous students in achieving their academic goals in the United States. We pride ourselves on our in-depth knowledge of the U.S. education system, the intricate application processes, and visa requirements. From initial consultations to post-arrival support, we leverage our extensive experience to provide personalized, effective, and reliable services, ensuring you have a seamless and successful educational experience abroad.
               </p>
               <p className="mb-6">
                 What started as helping a few students from her local community has grown into a comprehensive platform
@@ -201,7 +196,7 @@ export default function AboutPage() {
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-6">Ready to Start Your Journey?</h2>
           <p className="text-xl mb-8 max-w-2xl mx-auto">
-            Join the thousands of students who have trusted ZHAcademie to guide them toward their international
+            Join the hundreds of students who have trusted ZHAcademie to guide them toward their international
             education goals.
           </p>
           <div className="flex justify-center gap-4">
@@ -211,7 +206,7 @@ export default function AboutPage() {
               </Button>
             </Link>
             <Link href="/book-consultation">
-              <Button variant="outline" size="lg" className="border-white text-white hover:bg-white/10">
+              <Button variant="outline" size="lg" className="bg-white text-primary hover:bg-gray-100">
                 Book Consultation
               </Button>
             </Link>

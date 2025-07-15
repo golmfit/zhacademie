@@ -77,14 +77,18 @@ export default function ZakariaKantouPage() {
 
                 {/* Contact Info */}
                 <div className="flex flex-col sm:flex-row gap-4">
-                  <Button className="bg-primary hover:bg-primary/90">
-                    <Mail className="w-4 h-4 mr-2" />
-                    Contact Zakaria
-                  </Button>
-                  <Button variant="outline">
-                    <Phone className="w-4 h-4 mr-2" />
-                    Schedule Meeting
-                  </Button>
+                  <a href="mailto:info@zhacademie.com" target="_blank" rel="noopener noreferrer" className="inline-block">
+                    <Button className="bg-primary hover:bg-primary/90">
+                      <Mail className="w-4 h-4 mr-2" />
+                      Contact Zakaria
+                    </Button>
+                  </a>
+                  <a href="tel:+13392288533" target="_blank" rel="noopener noreferrer" className="inline-block">
+                    <Button variant="outline">
+                      <Phone className="w-4 h-4 mr-2" />
+                      Schedule Meeting
+                    </Button>
+                  </a>
                 </div>
               </div>
             </div>

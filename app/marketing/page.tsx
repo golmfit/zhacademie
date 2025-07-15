@@ -57,47 +57,26 @@ export default function MarketingPage() {
 
   const testimonials = [
     {
-      name: "Sarah Ahmed",
-      quote: "ZHAcademie made my dream of studying at Oxford a reality! Their personalized guidance was exceptional.",
-      initials: "SA",
-      university: "Oxford University",
-      country: "Egypt → UK",
-    },
-    {
-      name: "Michael Chen",
-      quote: "The visa process was smooth and stress-free with their expert guidance. Highly professional team!",
-      initials: "MC",
-      university: "MIT",
-      country: "China → USA",
-    },
-    {
-      name: "Priya Patel",
-      quote: "Excellent support from application to arrival. They truly care about student success and well-being.",
-      initials: "PP",
-      university: "University of Toronto",
-      country: "India → Canada",
-    },
-    {
-      name: "Ahmed Hassan",
-      quote: "Professional team that goes above and beyond. My scholarship application was successful thanks to them!",
-      initials: "AH",
-      university: "Stanford University",
+      name: "Taoufik",
+      quote: "I am incredibly grateful to Zs Academie for helping me achieve my dream of studying in the USA. Their guidance and support throughout the student visa process were invaluable. From handling the paperwork to offering advice on my academic journey, they made the entire experience smooth and stress-free. I highly recommend Zs academie to anyone looking to study abroad",
+      initials: "TZ",
+      university: "University",
       country: "Morocco → USA",
     },
     {
-      name: "Maria Rodriguez",
-      quote: "They helped me secure admission to my top choice university with a full scholarship. Amazing results!",
-      initials: "MR",
-      university: "Cambridge University",
-      country: "Spain → UK",
+      name: "Ibrahim",
+      quote: "Wakhoya allahuma barik Ikhdma 100% professional tbaraka allah elik 17 aja li kansawal eliha kaniga ljwab dyalha o support tahuwa yeani kulshi mwafar tahaja man9sa allah ikamal",
+      initials: "IB",
+      university: "MIT",
+      country: "Morocco → USA",
     },
     {
-      name: "David Kim",
-      quote: "Outstanding service and support throughout my journey. The best investment I've ever made!",
-      initials: "DK",
-      university: "University of Melbourne",
-      country: "South Korea → Australia",
-    },
+      name: "Zakaria",
+      quote: "Brother Zak i really appreciate the quality of the service everything was perfect, never thought l'd get the visa but with ur trust and support it was easy, best experience ever thanks a lot.",
+      initials: "ZA",
+      university: "University of Toronto",
+      country: "Morocco → Canada",
+    }
   ]
 
   const faqs = [
@@ -222,23 +201,23 @@ export default function MarketingPage() {
             {[
               {
                 icon: <GraduationCap className="h-12 w-12 text-primary" />,
-                title: "University Applications",
-                description: "Expert guidance for top university admissions worldwide",
+                title: "Consultation Services",
+                description: "Our consultation services are designed to provide personalized guidance tailored to each student’s unique academic and career goals",
               },
               {
                 icon: <FileText className="h-12 w-12 text-primary" />,
-                title: "Visa Processing",
-                description: "Complete visa support with 98% success rate",
+                title: "College Application Service",
+                description: "Navigating the college application process can be daunting, but ZS Academie is here to simplify it for you.",
               },
               {
                 icon: <Users className="h-12 w-12 text-primary" />,
-                title: "Academic Counseling",
-                description: "Personalized counseling for program selection",
+                title: "Visa Application Forms",
+                description: "we streamline the visa application process for international students aiming to study in the USA. We assist in securing an",
               },
               {
                 icon: <Globe className="h-12 w-12 text-primary" />,
-                title: "Study Abroad Planning",
-                description: "Comprehensive planning for international education",
+                title: "Interview Mockup",
+                description: "Preparing for your student visa interview is a critical step in your journey to studying in the United States.",
               },
               {
                 icon: <Award className="h-12 w-12 text-primary" />,
@@ -247,8 +226,13 @@ export default function MarketingPage() {
               },
               {
                 icon: <MapPin className="h-12 w-12 text-primary" />,
-                title: "Settlement Support",
-                description: "Accommodation and arrival assistance services",
+                title: "Academic Advice & Future Planning",
+                description: "Studying in the United States offers international students a wealth of opportunities to grow academically and professionally.",
+              },
+              {
+                icon: <MapPin className="h-12 w-12 text-primary" />,
+                title: "Post-Arrival Support",
+                description: "At ZSAcademie, our commitment to your success doesn’t end with obtaining your visa. We understand that transitioning",
               },
             ].map((service, index) => (
               <Card

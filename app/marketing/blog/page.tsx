@@ -3,6 +3,8 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Calendar, User, ArrowRight } from "lucide-react"
+import { useState } from "react";
+
 
 export default function BlogPage() {
   const featuredPost = {
@@ -266,7 +268,7 @@ export default function BlogPage() {
               </Button>
             </Link>
             <Link href="/book-consultation">
-              <Button variant="outline" size="lg" className="border-white text-white hover:bg-white/10">
+              <Button variant="outline" size="lg" className="bg-white text-primary hover:bg-gray-100">
                 Book Consultation
               </Button>
             </Link>

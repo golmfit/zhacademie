@@ -135,7 +135,9 @@ export default function HamzaAitAyachPage() {
                   <p className="text-gray-600 mb-6">
                     Ready to start your study abroad journey? Schedule a consultation with Hamza today.
                   </p>
-                  <Button className="w-full bg-primary hover:bg-primary/90">Book Consultation</Button>
+                  <a href="/book-consultation" target="_blank" rel="noopener noreferrer" className="inline-block">
+                    <Button className="w-full bg-primary hover:bg-primary/90">Book Consultation</Button>
+                  </a>
                 </div>
               </div>
             </div>

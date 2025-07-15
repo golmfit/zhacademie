@@ -125,7 +125,7 @@ export default function ContactPage() {
               {
                 icon: Mail,
                 title: "Email Us",
-                info: ["info@zhacademie.com", "support@zhacademie.com", "admissions@zhacademie.com"],
+                info: ["info@zhacademie.com"],
                 delay: 0.7,
                 animation: "slideInLeft",
               },

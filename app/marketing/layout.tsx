@@ -86,22 +86,22 @@ function MarketingFooter() {
             <ul className="space-y-2 text-sm">
               <li>
                 <Link href="#" className="hover:underline">
-                  University Applications
+                  Consultation Services
                 </Link>
               </li>
               <li>
                 <Link href="#" className="hover:underline">
-                  Visa Processing
+                  College Application Service
                 </Link>
               </li>
               <li>
                 <Link href="#" className="hover:underline">
-                  Document Preparation
+                  Visa Application Forms
                 </Link>
               </li>
               <li>
                 <Link href="#" className="hover:underline">
-                  Student Counseling
+                  Interview Mockup
                 </Link>
               </li>
             </ul>

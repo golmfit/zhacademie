@@ -160,7 +160,9 @@ export default function ImaneElKhoudriPage() {
                   <p className="text-gray-600 mb-6">
                     Ready to plan your academic and career path? Schedule a consultation with Imane today.
                   </p>
-                  <Button className="w-full bg-primary hover:bg-primary/90">Book Consultation</Button>
+                  <a href="/book-consultation" target="_blank" rel="noopener noreferrer" className="inline-block">
+                    <Button className="w-full bg-primary hover:bg-primary/90">Book Consultation</Button>
+                  </a>                  
                 </div>
               </div>
             </div>
