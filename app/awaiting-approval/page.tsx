@@ -107,7 +107,8 @@ export default function AwaitingApprovalPage() {
             <div className="space-y-4">
               <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
                 <p className="text-sm text-blue-700">
-                  We'll notify you via email once your account has been approved. This usually takes 1-2 business days.
+                  ✅ Once payment is verified, our team will review and approve your account within 1–2 business days.
+                  📧 You’ll receive an email notification as soon as your account is activated.
                 </p>
               </div>
               <div className="flex justify-between">

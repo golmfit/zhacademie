@@ -66,7 +66,7 @@ export default function ZakariaKantouPage() {
                     <Youtube className="w-5 h-5" />
                   </a>
                   <a
-                    href="https://www.instagram.com/kantou_zakaria/"
+                    href="https://www.instagram.com/zhacademie/"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="p-3 bg-pink-600 text-white rounded-lg hover:bg-pink-700 transition-colors"
@@ -83,12 +83,12 @@ export default function ZakariaKantouPage() {
                       Contact Zakaria
                     </Button>
                   </a>
-                  <a href="tel:+13392288533" target="_blank" rel="noopener noreferrer" className="inline-block">
+                  {/* <a href="tel:+13392288533" target="_blank" rel="noopener noreferrer" className="inline-block">
                     <Button variant="outline">
                       <Phone className="w-4 h-4 mr-2" />
                       Schedule Meeting
                     </Button>
-                  </a>
+                  </a> */}
                 </div>
               </div>
             </div>
@@ -193,7 +193,7 @@ export default function ZakariaKantouPage() {
                       YouTube Channel
                     </a>
                     <a
-                      href="https://www.instagram.com/kantou_zakaria/"
+                      href="https://www.instagram.com/zhacademie/"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="flex items-center text-pink-600 hover:text-pink-700"

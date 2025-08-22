@@ -201,7 +201,7 @@ export default function StudentLayout({ children }: StudentLayoutProps) {
             {userData?.role === "admin"
               ? " You are logged in as an admin."
               : userData?.role === "pending"
-                ? " Your account is pending approval."
+                ? " Your account is pending approval. To proceed with your account approval, please complete the 50% service fee payment."
                 : " Please log in with a student account."}
           </p>
           <div className="flex justify-center gap-4">

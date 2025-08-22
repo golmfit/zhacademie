@@ -44,7 +44,7 @@ Practice common interview questions and prepare your documents.
 
 ## Contact Information
 For any questions or assistance, please contact:
-- Email: support@zhacademie.com
+- Email: info@zhacademie.com
 - Phone: +1-234-567-8900
 - Office Hours: Monday-Friday, 9 AM - 6 PM EST`,
   lastUpdated: new Date().toISOString(),

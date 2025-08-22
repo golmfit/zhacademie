@@ -53,10 +53,10 @@ export default function ImaneElKhoudriPage() {
                     <Mail className="w-4 h-4 mr-2" />
                     Contact Imane
                   </Button>
-                  <Button variant="outline">
+                  {/* <Button variant="outline">
                     <Phone className="w-4 h-4 mr-2" />
                     Schedule Consultation
-                  </Button>
+                  </Button> */}
                 </div>
               </div>
             </div>

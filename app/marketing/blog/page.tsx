@@ -107,39 +107,7 @@ export default function BlogPage() {
         </div>
       </section>
 
-      {/* Featured Post */}
-      <section className="py-20">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold mb-12 text-center">Featured Article</h2>
-          <Card className="max-w-4xl mx-auto border-none shadow-lg overflow-hidden">
-            <div className="md:flex">
-              <div className="md:w-1/2">
-                <img
-                  src={featuredPost.image || "/placeholder.svg"}
-                  alt={featuredPost.title}
-                  className="w-full h-64 md:h-full object-cover"
-                />
-              </div>
-              <div className="md:w-1/2 p-8">
-                <Badge className="mb-4">{featuredPost.category}</Badge>
-                <h3 className="text-2xl font-bold mb-4">{featuredPost.title}</h3>
-                <p className="text-gray-600 mb-6">{featuredPost.excerpt}</p>
-                <div className="flex items-center text-sm text-gray-500 mb-6">
-                  <User className="h-4 w-4 mr-2" />
-                  <span className="mr-4">{featuredPost.author}</span>
-                  <Calendar className="h-4 w-4 mr-2" />
-                  <span className="mr-4">{featuredPost.date}</span>
-                  <span>{featuredPost.readTime}</span>
-                </div>
-                <Button>
-                  Read Full Article
-                  <ArrowRight className="h-4 w-4 ml-2" />
-                </Button>
-              </div>
-            </div>
-          </Card>
-        </div>
-      </section>
+  
 
       {/* Categories Filter */}
       <section className="py-8 bg-gray-50">

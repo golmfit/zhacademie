@@ -10,7 +10,10 @@ export default function BookConsultationPage() {
     ;(async () => {
       const cal = await getCalApi({ namespace: "quick-consultation" })
       cal("ui", {
-        cssVarsPerTheme: { light: { "cal-brand": "#0A1E42" } },
+        cssVarsPerTheme: {
+          light: { "cal-brand": "#0A1E42" },
+          dark: undefined
+        },
         hideEventTypeDetails: false,
         layout: "month_view",
       })
@@ -18,11 +21,11 @@ export default function BookConsultationPage() {
   }, [])
 
   const bankDetails = {
-    bankName: "International Bank of Morocco",
+    bankName: "Bank of Africa",
     accountName: "ZH Academie Educational Services",
-    accountNumber: "1234567890123456",
-    swiftCode: "IBMOMA2A",
-    iban: "MA64 0011 0000 0012 3456 7890 123",
+    accountNumber: "011 010 0000152100005285 24",
+    swiftCode: "BMCEMAMC",
+    iban: "MA64 0110 1000 0015 2100 0052 8524",
   }
 
   const copyToClipboard = (text: string) => {
@@ -63,10 +66,7 @@ export default function BookConsultationPage() {
                           <Clock className="h-5 w-5 mr-2" />
                           <span className="font-semibold">20 Minutes</span>
                         </div>
-                        <div className="flex items-center text-green-600">
-                          <DollarSign className="h-5 w-5 mr-2" />
-                          <span className="font-semibold">$20 USD</span>
-                        </div>
+
                       </div>
                     </div>
 
@@ -92,7 +92,7 @@ export default function BookConsultationPage() {
                 </Card>
 
                 {/* Payment Instructions */}
-                <Card className="border-none shadow-lg bg-amber-50 mb-8">
+                {/* <Card className="border-none shadow-lg bg-amber-50 mb-8">
                   <CardContent className="pt-6">
                     <div className="flex items-start">
                       <AlertCircle className="h-6 w-6 text-amber-600 mr-3 mt-0.5 flex-shrink-0" />
@@ -110,7 +110,7 @@ export default function BookConsultationPage() {
                       </div>
                     </div>
                   </CardContent>
-                </Card>
+                </Card> */}
 
                 {/* Bank Details */}
                 <Card className="border-none shadow-lg">
@@ -173,10 +173,6 @@ export default function BookConsultationPage() {
                             <span className="text-gray-700">Format:</span>
                             <span className="font-semibold">Video Call</span>
                           </div>
-                          <div className="flex justify-between items-center">
-                            <span className="text-gray-700">Price:</span>
-                            <span className="text-xl font-bold text-primary">$20 USD</span>
-                          </div>
                         </div>
                       </div>
 
@@ -184,10 +180,6 @@ export default function BookConsultationPage() {
                       <div className="bg-green-50 rounded-lg p-4">
                         <h4 className="font-semibold text-green-900 mb-3">Before you book, ensure you have:</h4>
                         <div className="space-y-2">
-                          <div className="flex items-center text-sm text-green-800">
-                            <CheckCircle className="h-4 w-4 mr-2 text-green-600" />
-                            <span>Completed the $20 USD bank transfer</span>
-                          </div>
                           <div className="flex items-center text-sm text-green-800">
                             <CheckCircle className="h-4 w-4 mr-2 text-green-600" />
                             <span>Your payment confirmation number</span>
@@ -219,7 +211,7 @@ export default function BookConsultationPage() {
                 </Card>
 
                 {/* Trust Indicators */}
-                <div className="mt-8 text-center">
+                {/* <div className="mt-8 text-center">
                   <div className="grid grid-cols-3 gap-4 text-center">
                     <div>
                       <div className="text-2xl font-bold text-primary">5,000+</div>
@@ -234,7 +226,7 @@ export default function BookConsultationPage() {
                       <div className="text-xs text-gray-600">Years Experience</div>
                     </div>
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
@@ -261,7 +253,7 @@ export default function BookConsultationPage() {
                 {
                   question: "What if I can't find a suitable time slot?",
                   answer:
-                    "New slots are added weekly. If you can't find a suitable time, contact us at support@zhacademie.com and we'll arrange a custom slot for you.",
+                    "New slots are added weekly. If you can't find a suitable time, contact us at info@zhacademie.com and we'll arrange a custom slot for you.",
                 },
                 {
                   question: "Can I get a refund if I need to cancel?",

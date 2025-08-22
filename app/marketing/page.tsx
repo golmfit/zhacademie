@@ -14,40 +14,33 @@ export default function MarketingPage() {
     {
       id: 1,
       image:
-        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/20250529_0031_Student%20Application%20Submission_simple_compose_01jwd4xepce6hstvzqze5svnes-Vk8KWzyR45IjCpZAkqMEi3ZIjspoZP.png",
-      title: "Submit Your Application",
-      description: "Complete your profile and submit required documents through our secure platform.",
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/20250529_0036_Expert%20University%20Guidance_simple_compose_01jwd56reke358y5wd4b9rt6v8-KzLmsUZ3Jdk8MDMpn7CvzXTSu18ElW.png",
+      title: "Expert Consultation",
+      description: "Our experienced counselors will guide you through the university selection process.",
     },
     {
       id: 2,
       image:
-        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/20250529_0036_Expert%20University%20Guidance_simple_compose_01jwd56reke358y5wd4b9rt6v8-KzLmsUZ3Jdk8MDMpn7CvzXTSu18ElW.png",
-      title: "Get Expert Consultation",
-      description: "Our experienced counselors will guide you through the university selection process.",
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/20250529_0033_Student%20Choosing%20University_simple_compose_01jwd50wwef1rs49srf6wcbgv6-gEdHaq4DnwYVFh1AH4L8Io3FYvINY1.png",
+      title: "College application",
+      description: "We match you with the best universities based on your profile and preferences.",
     },
     {
       id: 3,
       image:
-        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/20250529_0033_Student%20Choosing%20University_simple_compose_01jwd50wwef1rs49srf6wcbgv6-gEdHaq4DnwYVFh1AH4L8Io3FYvINY1.png",
-      title: "University Matching",
-      description: "We match you with the best universities based on your profile and preferences.",
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/20250529_0022_Visa%20Application_simple_compose_01jwd4bcztfaes6gdy91x4zcg3-rYraqNLr56E3dw2dw48upTce4Fqacv.png",
+      title: "Visa Process",
+      description: "Complete visa guidance and support throughout the application process.",
     },
     {
       id: 4,
       image:
-        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/20250529_0022_Visa%20Application_simple_compose_01jwd4bcztfaes6gdy91x4zcg3-rYraqNLr56E3dw2dw48upTce4Fqacv.png",
-      title: "Visa Processing",
-      description: "Complete visa guidance and support throughout the application process.",
-    },
-    {
-      id: 5,
-      image:
         "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/20250529_0029_Student%20Airport%20Farewell_simple_compose_01jwd4ssvdf8mamv2vqedt17w5-GYgP7Hoi62yPGQ64TtBqEGgsxqHNJr.png",
-      title: "Pre-Departure Support",
+      title: "Interview Mockups",
       description: "Get ready for your journey with accommodation and travel assistance.",
     },
     {
-      id: 6,
+      id: 5,
       image:
         "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/20250529_0033_Campus%20Arrival%20Celebration_simple_compose_01jwd4zpnzfg0a6rn2925n2j5z-MIgIFOhb7MYqPIvuJAHIodWSR6b9di.png",
       title: "Arrival & Settlement",
@@ -83,7 +76,7 @@ export default function MarketingPage() {
     {
       question: "How long does the university application process take?",
       answer:
-        "The university application process typically takes 3-6 months, depending on the destination country and program. We recommend starting at least 12 months before your intended start date to ensure adequate time for preparation, applications, and visa processing.",
+        "The university application process typically takes 3-5 weeks business days, depending on the destination country and program. We recommend starting at least 06 months before your intended start date to ensure adequate time for preparation, applications, and visa processing.",
     },
     {
       question: "What are the costs involved in studying abroad?",
@@ -93,7 +86,7 @@ export default function MarketingPage() {
     {
       question: "Do you guarantee university admission?",
       answer:
-        "While we cannot guarantee admission as the final decision rests with universities, our expert guidance significantly improves your chances. We have a 95% success rate for university applications and work closely with you to strengthen your profile.",
+        "Yes we guarantee the university admission.",
     },
     {
       question: "What documents do I need for my application?",
@@ -226,11 +219,6 @@ export default function MarketingPage() {
               },
               {
                 icon: <MapPin className="h-12 w-12 text-primary" />,
-                title: "Academic Advice & Future Planning",
-                description: "Studying in the United States offers international students a wealth of opportunities to grow academically and professionally.",
-              },
-              {
-                icon: <MapPin className="h-12 w-12 text-primary" />,
                 title: "Post-Arrival Support",
                 description: "At ZSAcademie, our commitment to your success doesn’t end with obtaining your visa. We understand that transitioning",
               },
@@ -252,19 +240,27 @@ export default function MarketingPage() {
         </div>
       </section>
 
-      {/* How It Works Section */}
+      
+
+
+
+
+      {/* What Students Say Section */}
       <section className="py-20 bg-gray-50">
         <div className="container mx-auto px-4">
           <h2 className="text-4xl font-bold text-center mb-16">How It Works</h2>
 
-          {/* Step Circles */}
-          <div className="flex justify-center mb-12">
-            <div className="relative flex items-center">
-              {/* Connecting Line */}
-              <div className="absolute top-1/2 left-0 right-0 h-0.5 bg-gray-300 -translate-y-1/2 z-0"></div>
+          {/* Layout: Steps on the left, Content on the right */}
+          <div className="flex justify-center items-start gap-12 max-w-6xl mx-auto">
+
+            {/* Step Circles with Vertical Dashed Line */}
+            <div className="relative flex flex-col items-center">
+              {/* Vertical Dashed Line */}
+              <div className="absolute top-0 bottom-0 w-1.5 border-l-4 border-dashed border-gray-400 z-0"></div>
+
 
               {/* Step Circles */}
-              <div className="relative z-10 flex space-x-8 md:space-x-16">
+              <div className="z-10 flex flex-col items-center space-y-8">
                 {steps.map((step) => (
                   <button
                     key={step.id}
@@ -280,97 +276,28 @@ export default function MarketingPage() {
                 ))}
               </div>
             </div>
-          </div>
 
-          {/* Step Content */}
-          <div className="grid md:grid-cols-2 gap-12 items-center max-w-6xl mx-auto">
-            <div className="order-2 md:order-1">
-              <img
-                src={steps.find((s) => s.id === activeStep)?.image || "/placeholder.svg"}
-                alt={steps.find((s) => s.id === activeStep)?.title}
-                className="rounded-lg shadow-lg w-full h-auto"
-              />
-            </div>
-            <div className="order-1 md:order-2">
-              <h3 className="text-3xl font-bold mb-6">{steps.find((s) => s.id === activeStep)?.title}</h3>
-              <p className="text-lg text-gray-600 leading-relaxed">
-                {steps.find((s) => s.id === activeStep)?.description}
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* What Students Say Section */}
-      <section className="py-20 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4 text-gray-900">What Students Say About Us</h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Discover how ZHAcademie has transformed the academic journeys of students worldwide
-            </p>
-          </div>
-
-          {/* Testimonials Grid */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
-            {testimonials.map((testimonial, index) => (
-              <div
-                key={index}
-                className="group relative"
-                style={{
-                  animation: `slideInUp 0.8s ease-out ${index * 0.15}s both`,
-                }}
-              >
-                {/* Card */}
-                <div className="relative bg-white rounded-2xl p-8 h-full transform transition-all duration-500 hover:scale-105 hover:-translate-y-2 hover:shadow-2xl">
-                  {/* Subtle Decorative Line */}
-                  <div className="absolute top-0 left-8 right-8 h-0.5 bg-gradient-to-r from-transparent via-gray-200 to-transparent"></div>
-
-                  {/* Quote Icon */}
-                  <div className="absolute top-6 left-6 text-3xl text-gray-300 font-serif">"</div>
-
-                  {/* Content */}
-                  <div className="relative z-10 pt-4">
-                    {/* Stars */}
-                    <div className="flex justify-center mb-6">
-                      {[...Array(5)].map((_, i) => (
-                        <Star
-                          key={i}
-                          className="w-4 h-4 fill-gray-400 text-gray-400 mx-0.5 transform transition-all duration-300 group-hover:fill-yellow-400 group-hover:text-yellow-400"
-                          style={{ transitionDelay: `${i * 0.1}s` }}
-                        />
-                      ))}
-                    </div>
-
-                    {/* Quote */}
-                    <p className="text-gray-700 text-center mb-8 leading-relaxed font-medium">{testimonial.quote}</p>
-
-                    {/* Student Info */}
-                    <div className="flex items-center justify-center space-x-4">
-                      {/* Avatar */}
-                      <div className="relative">
-                        <div className="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center text-white font-semibold text-sm shadow-lg transform transition-transform duration-300 group-hover:scale-110">
-                          {testimonial.initials}
-                        </div>
-                      </div>
-
-                      {/* Name and Details */}
-                      <div className="text-center">
-                        <p className="font-semibold text-gray-900">{testimonial.name}</p>
-                        <p className="text-sm text-gray-500">{testimonial.university}</p>
-                        <p className="text-xs text-gray-400">{testimonial.country}</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Subtle Hover Border */}
-                  <div className="absolute inset-0 rounded-2xl border border-gray-200 group-hover:border-gray-300 transition-colors duration-300"></div>
-                </div>
+            {/* Step Content */}
+            <div className="grid md:grid-cols-2 gap-12 items-center flex-1">
+              <div>
+                <img
+                  src={steps.find((s) => s.id === activeStep)?.image || "/placeholder.svg"}
+                  alt={steps.find((s) => s.id === activeStep)?.title}
+                  className="rounded-lg shadow-lg w-full h-auto"
+                />
               </div>
-            ))}
+              <div>
+                <h3 className="text-3xl font-bold mb-6">{steps.find((s) => s.id === activeStep)?.title}</h3>
+                <p className="text-lg text-gray-600 leading-relaxed">
+                  {steps.find((s) => s.id === activeStep)?.description}
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
+
+
 
       {/* FAQ Section */}
       <section className="py-20 bg-white">
@@ -430,7 +357,7 @@ export default function MarketingPage() {
             Join thousands of successful students who have transformed their futures with ZHAcademie. Your dream
             university is just one click away.
           </p>
-          <Link href="/marketing/contact">
+          <Link href="/book-consultation">
             <Button size="lg" className="bg-white text-primary hover:bg-gray-100 px-8 py-4 text-lg font-semibold">
               Book Your Appointment Now
             </Button>

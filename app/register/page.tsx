@@ -18,6 +18,7 @@ import { AlertCircle } from "lucide-react"
 
 // List of countries for the dropdown
 const countries = [
+  "Morocco",
   "United States",
   "United Kingdom",
   "Canada",
@@ -322,31 +323,7 @@ export default function RegisterPage() {
                   )}
                 </div>
 
-                <div>
-                  <Label htmlFor="paymentReference">Payment Reference Number</Label>
-                  <Input
-                    id="paymentReference"
-                    name="paymentReference"
-                    type="text"
-                    required
-                    value={formData.paymentReference}
-                    onChange={handleChange}
-                    placeholder="Enter the reference from your payment receipt"
-                    className={fieldErrors.paymentReference ? "border-red-500 focus:ring-red-500" : ""}
-                    aria-invalid={fieldErrors.paymentReference ? "true" : "false"}
-                    aria-describedby={fieldErrors.paymentReference ? "paymentReference-error" : undefined}
-                  />
-                  {fieldErrors.paymentReference && (
-                    <p id="paymentReference-error" className="mt-1 text-xs text-red-600 flex items-center gap-1">
-                      <AlertCircle className="h-3 w-3" />
-                      {fieldErrors.paymentReference}
-                    </p>
-                  )}
-                  <p className="text-xs text-gray-500 mt-1">
-                    This is the reference number from your payment receipt. We will verify this before approving your
-                    account.
-                  </p>
-                </div>
+                
 
                 <Button type="submit" className="w-full bg-primary" disabled={isLoading}>
                   {isLoading ? "Creating Account..." : "Register"}

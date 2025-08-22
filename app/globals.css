@@ -84,6 +84,15 @@ body {
   }
 }
 
+.line {
+  stroke: black;
+  stroke-width: 3;
+  stroke-dasharray: 6;
+  fill: none;
+  marker-end: url(#arrow);
+}
+
+
 @layer base {
   * {
     @apply border-border;

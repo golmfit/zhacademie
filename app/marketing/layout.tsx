@@ -130,7 +130,7 @@ function MarketingFooter() {
             <h4 className="font-bold mb-4">Connect</h4>
             <div className="flex space-x-4">
               <a
-                href="https://www.facebook.com/kantou.zakaria.7/"
+                href="https://www.facebook.com/people/ZHacademie/61571431059624/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:text-gray-300"
@@ -154,7 +154,7 @@ function MarketingFooter() {
                 </svg>
               </a>
               <a
-                href="https://www.instagram.com/kantou_zakaria/"
+                href="https://www.instagram.com/zhacademie/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:text-gray-300"

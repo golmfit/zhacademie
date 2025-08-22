@@ -53,8 +53,8 @@ export default function AboutPage() {
           <h2 className="text-3xl font-bold text-center mb-12">Our Impact in Numbers</h2>
           <div className="grid md:grid-cols-4 gap-8 max-w-4xl mx-auto">
             {[
-              { number: "300+", label: "Students Helped", icon: Users },
-              { number: "79%", label: "Visa Success Rate", icon: Award },
+              { number: "120+", label: "Students Helped", icon: Users },
+              { number: "72,20%", label: "Visa Success Rate", icon: Award },
               { number: "50+", label: "Partner Universities", icon: Globe },
               { number: "3+", label: "Years Experience", icon: Target },
             ].map((stat, index) => (
