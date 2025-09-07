@@ -38,12 +38,11 @@ export default function ImaneElKhoudriPage() {
               {/* Profile Info */}
               <div>
                 <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">Imane ElKhoudri</h1>
-                <p className="text-xl text-primary font-semibold mb-6">Academic and Career Advisor</p>
+                <p className="text-xl text-primary font-semibold mb-6">Academic Advisor</p>
 
                 <div className="prose prose-lg text-gray-600 mb-8">
                   <p>
-                    Imane ElKhoudri is a highly accomplished Academic and Career Advisor at ZHAcademie, bringing a
-                    robust academic background and extensive professional experience to her role.
+                    Master's in management, extensive experience in academic advising, with a strong focus on guiding students to pursue higher education in the United States.
                   </p>
                 </div>
 

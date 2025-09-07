@@ -53,7 +53,7 @@ export default function RegisterPage() {
     confirmPassword: "",
     dob: "",
     country: "",
-    paymentReference: "",
+    // paymentReference: "",
   })
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({})
 
@@ -108,9 +108,9 @@ export default function RegisterPage() {
       errors.country = "Please select your country"
     }
 
-    if (!formData.paymentReference.trim()) {
-      errors.paymentReference = "Please enter your payment reference number"
-    }
+    // if (!formData.paymentReference.trim()) {
+    //   errors.paymentReference = "Please enter your payment reference number"
+    // }
 
     if (Object.keys(errors).length > 0) {
       setFieldErrors(errors)
@@ -132,7 +132,7 @@ export default function RegisterPage() {
           email: formData.email,
           dob: formData.dob,
           country: formData.country,
-          paymentReference: formData.paymentReference,
+          // paymentReference: formData.paymentReference,
           status: "pending",
           paymentStatus: "unverified",
           createdAt: serverTimestamp(),

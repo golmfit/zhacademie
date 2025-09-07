@@ -14,37 +14,37 @@ export default function MarketingPage() {
     {
       id: 1,
       image:
-        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/20250529_0036_Expert%20University%20Guidance_simple_compose_01jwd56reke358y5wd4b9rt6v8-KzLmsUZ3Jdk8MDMpn7CvzXTSu18ElW.png",
+        "/get_expert.jpeg",
       title: "Expert Consultation",
-      description: "Our experienced counselors will guide you through the university selection process.",
+      description: "Receive personalized guidance from our experienced counselors to help you make informed decisions in your university selection journey. We provide insights, resources, and expert advice to ensure you choose the best academic path aligned with your goals",
     },
     {
       id: 2,
       image:
-        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/20250529_0033_Student%20Choosing%20University_simple_compose_01jwd50wwef1rs49srf6wcbgv6-gEdHaq4DnwYVFh1AH4L8Io3FYvINY1.png",
+        "/collegeapp.jpeg",
       title: "College application",
-      description: "We match you with the best universities based on your profile and preferences.",
+      description: "We simplify the college application journey by matching you with universities that best fit your goals and profile. Our smart approach ensures you apply with confidence to the right institutions.",
     },
     {
       id: 3,
       image:
         "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/20250529_0022_Visa%20Application_simple_compose_01jwd4bcztfaes6gdy91x4zcg3-rYraqNLr56E3dw2dw48upTce4Fqacv.png",
       title: "Visa Process",
-      description: "Complete visa guidance and support throughout the application process.",
+      description: "Navigating the visa process can be complex, but we make it simple. Our experts provide step-by-step guidance, from document preparation to interview readiness, ensuring you meet all requirements with confidence.",
     },
     {
       id: 4,
       image:
-        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/20250529_0029_Student%20Airport%20Farewell_simple_compose_01jwd4ssvdf8mamv2vqedt17w5-GYgP7Hoi62yPGQ64TtBqEGgsxqHNJr.png",
+        "/interviewmockup.jpeg",
       title: "Interview Mockups",
-      description: "Get ready for your journey with accommodation and travel assistance.",
+      description: "We provide step-by-step guidance to help you prepare for your visa interview. From document review to mock interview sessions, our support ensures you meet all requirements and approach the process with confidence.",
     },
     {
       id: 5,
       image:
-        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/20250529_0033_Campus%20Arrival%20Celebration_simple_compose_01jwd4zpnzfg0a6rn2925n2j5z-MIgIFOhb7MYqPIvuJAHIodWSR6b9di.png",
+        "/arrival.jpeg",
       title: "Arrival & Settlement",
-      description: "Ongoing support to help you settle into your new academic environment.",
+      description: "From the moment you land, we provide continuous support to help you adapt smoothly. Our services include airport pickup guidance, accommodation assistance, and orientation programs to ensure a comfortable transition into your new environment.",
     },
   ]
 
@@ -74,44 +74,39 @@ export default function MarketingPage() {
 
   const faqs = [
     {
-      question: "How long does the university application process take?",
+      question: "When should I start the college application process?",
       answer:
-        "The university application process typically takes 3-5 weeks business days, depending on the destination country and program. We recommend starting at least 06 months before your intended start date to ensure adequate time for preparation, applications, and visa processing.",
+        "It’s recommended to begin at least 12–18 months before the intended start date. This ensures enough time for test preparation, document gathering, and meeting deadlines.",
     },
     {
-      question: "What are the costs involved in studying abroad?",
+      question: "Do you only help with U.S. college applications?",
       answer:
-        "Costs vary significantly by country and institution. This includes tuition fees, living expenses, visa fees, and travel costs. We provide detailed cost breakdowns for each destination and help you explore scholarship opportunities to reduce expenses.",
+        "No. We assist with applications worldwide, including the U.S., Canada, Europe, and other study destinations, depending on the student’s goals.",
     },
     {
-      question: "Do you guarantee university admission?",
+      question: "What if I haven’t decided on a program or country yet?",
       answer:
-        "Yes we guarantee the university admission.",
+        "That’s perfectly fine. Our consultation session is designed to help you explore options, understand requirements, and make the right decision for your academic pathway.",
     },
     {
-      question: "What documents do I need for my application?",
+      question: "Can you help me with essay and personal statement writing?",
       answer:
-        "Required documents typically include academic transcripts, standardized test scores (IELTS/TOEFL, SAT/GRE), letters of recommendation, personal statement, passport, and financial documents. Specific requirements vary by country and program.",
+        "Yes. We provide brainstorming guidance, structural feedback, and editing support to ensure your essays and statements reflect your authentic voice while meeting admission standards.",
     },
     {
-      question: "How do you help with visa applications?",
+      question: "What happens if I miss an application deadline?",
       answer:
-        "We provide comprehensive visa support including document preparation, application form completion, interview preparation, and guidance throughout the process. Our visa specialists stay updated with the latest requirements and have extensive experience with various country visa processes.",
+        "We work with you to identify alternative universities or intake periods. With proper planning and our structured timeline, we help minimize the risk of missed deadlines.",
     },
     {
-      question: "Can I work while studying abroad?",
+      question: "Do you guarantee admission to universities?",
       answer:
-        "Work permissions vary by country and visa type. Many countries allow international students to work part-time during studies and full-time during breaks. We provide detailed information about work rights and help you understand the regulations for your destination.",
+        "Yes we guarantee admission.",
     },
     {
-      question: "What support do you provide after I arrive in the destination country?",
+      question: "Who is this service for?",
       answer:
-        "Our Ultimate package includes post-arrival support such as airport pickup, accommodation assistance, university orientation, opening bank accounts, mobile phone setup, and ongoing support during your first semester to help you settle in successfully.",
-    },
-    {
-      question: "How do I choose the right university and program?",
-      answer:
-        "We conduct detailed consultations to understand your academic background, career goals, budget, and preferences. Based on this, we recommend suitable universities and programs, considering factors like rankings, location, cost, and post-graduation opportunities.",
+        "This service is designed for students applying to undergraduate, community college, or graduate programs",
     },
   ]
 
