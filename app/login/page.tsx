@@ -132,8 +132,8 @@ export default function LoginPage() {
       <div className="flex-1 flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
         <div className="w-full max-w-md">
           <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-primary">ZHAcademie</h1>
-            <p className="mt-2 text-gray-600">Your path to international education</p>
+            {/* <h1 className="text-3xl font-bold text-primary">ZHAcademie</h1>
+            <p className="mt-2 text-gray-600">Your path to international education</p> */}
           </div>
 
           <Card className="shadow-lg border-0">
