@@ -1,5 +1,7 @@
 "use client"
 
+import type React from "react"
+
 import { useState } from "react"
 import { useCollection } from "@/hooks/use-firestore"
 import { doc, setDoc, deleteDoc, serverTimestamp } from "firebase/firestore"
@@ -17,8 +19,8 @@ import { Plus, Edit, Trash2, Play, Clock, AlertCircle } from "lucide-react"
 export default function AdminCoursesPage() {
   const { data: courses, loading } = useCollection("courses")
   const [isAddModalOpen, setIsAddModalOpen] = useState(false)
-  const [editingCourse, setEditingCourse] = useState(null)
-  const [error, setError] = useState(null)
+  const [editingCourse, setEditingCourse] = useState<any>(null)
+  const [error, setError] = useState<string | null>(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   const [formData, setFormData] = useState({
@@ -28,7 +30,7 @@ export default function AdminCoursesPage() {
     videoUrl: "",
   })
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError(null)
     setIsSubmitting(true)
@@ -63,14 +65,14 @@ export default function AdminCoursesPage() {
       setFormData({ title: "", description: "", duration: "", videoUrl: "" })
       setIsAddModalOpen(false)
       setEditingCourse(null)
-    } catch (err) {
+    } catch (err: any) {
       setError(err.message || "Failed to save course")
     } finally {
       setIsSubmitting(false)
     }
   }
 
-  const handleEdit = (course) => {
+  const handleEdit = (course: any) => {
     setEditingCourse(course)
     setFormData({
       title: course.title,
@@ -81,7 +83,7 @@ export default function AdminCoursesPage() {
     setIsAddModalOpen(true)
   }
 
-  const handleDelete = async (courseId) => {
+  const handleDelete = async (courseId: string) => {
     if (window.confirm("Are you sure you want to delete this course?")) {
       try {
         await deleteDoc(doc(db, "courses", courseId))
@@ -187,7 +189,7 @@ export default function AdminCoursesPage() {
             </Card>
           ))}
         </div>
-      ) : !courses || courses.length === 0 ? (
+      ) : courses?.length === 0 ? (
         <Card>
           <CardContent className="text-center py-12">
             <Play className="h-12 w-12 text-gray-300 mx-auto mb-4" />
@@ -200,11 +202,11 @@ export default function AdminCoursesPage() {
         </Card>
       ) : (
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {courses.map((course) => (
+          {courses?.map((course) => (
             <Card key={course.id} className="overflow-hidden">
               <div className="relative h-48 bg-gray-100">
                 <img
-                  src={course.thumbnail || "/placeholder.svg?height=200&width=350&query=video course"}
+                  src={course.thumbnail || "/placeholder.svg"}
                   alt={course.title}
                   className="w-full h-full object-cover"
                   onError={(e) => {

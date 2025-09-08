@@ -32,7 +32,7 @@ export default function AboutPage() {
                 image:
                   "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp-Image-2024-08-29-at-8.38.37-AM-N4c3o6FURAFSxOOUOxPuM4GeR5ymMK.jpeg",
                 bio: "Expert in international education with extensive experience in alternance programs and student guidance.",
-                link: "/marketing/team/hamza-ait-ayach",
+                link: "/team/hamza-ait-ayach",
               },
               {
                 name: "Zakaria Kantou",
@@ -40,7 +40,7 @@ export default function AboutPage() {
                 image:
                   "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/me1.jpg-nEKV4a9I9TTBR2lObpmwRu65HSXIUU.jpeg",
                 bio: "Visionary leader with background in Finance and Data Science, dedicated to student success.",
-                link: "/marketing/team/zakaria-kantou",
+                link: "/team/zakaria-kantou",
               },
               {
                 name: "Imane ElKhoudri",
@@ -48,7 +48,7 @@ export default function AboutPage() {
                 image:
                   "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp-Image-2024-08-29-at-8.37.39-AM-1-rZhvEGD9lnnZrS9Un5Zr4XYaXkPsEU.jpeg",
                 bio: "Master's in Management with extensive experience in academic and career counseling.",
-                link: "/marketing/team/imane-elkhoudri",
+                link: "/team/imane-elkhoudri",
               },
             ].map((member, index) => (
               <Link key={index} href={member.link} className="block group">

@@ -1,8 +1,9 @@
 "use client"
 
-import { useState, useEffect, useMemo } from "react"
+import React from "react"
+
+import { useState, useEffect, useMemo, Suspense } from "react"
 import { useCollection } from "@/hooks/use-firestore"
-import { useAuth } from "@/contexts/auth-context"
 import {
   doc,
   setDoc,
@@ -24,8 +25,28 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Skeleton } from "@/components/ui/skeleton"
-import { Eye, CheckCircle, XCircle, AlertCircle } from "lucide-react"
-import { StudentModal } from "@/components/modals/StudentModal"
+import { Checkbox } from "@/components/ui/checkbox"
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog"
+import { Textarea } from "@/components/ui/textarea"
+import { Eye, CheckCircle, XCircle, AlertCircle, UserCheck, Bell, UserX } from "lucide-react"
+import { useVirtualizer } from "@tanstack/react-virtual"
+import dynamic from "next/dynamic"
+
+// Dynamically import the StudentModal component
+const DynamicStudentModal = dynamic(
+  () => import("@/components/modals/StudentModal").then((mod) => ({ default: mod.StudentModal })),
+  {
+    loading: () => (
+      <div className="fixed inset-0 bg-black/50 flex items-center justify-center">
+        <div className="bg-white p-6 rounded-lg">
+          <Skeleton className="h-8 w-64 mb-4" />
+          <Skeleton className="h-64 w-full max-w-[840px]" />
+        </div>
+      </div>
+    ),
+    ssr: false,
+  },
+)
 
 export default function AdminStudentsPage() {
   const [activeTab, setActiveTab] = useState("active")
@@ -34,13 +55,12 @@ export default function AdminStudentsPage() {
   const [error, setError] = useState<string | null>(null)
   const [isProcessing, setIsProcessing] = useState<Record<string, boolean>>({})
   const [selectedStudents, setSelectedStudents] = useState<string[]>([])
-  const [bulkAdvisor, setBulkAdvisor] = useState<string | null>(null)
-  const [notifyStudent, setNotifyStudent] = useState<{ id: string; email: string } | null>(null)
-  const [notifyMessage, setNotifyMessage] = useState("")
   const [advisorFilter, setAdvisorFilter] = useState<string | null>(null)
-
-  const { userData } = useAuth()
-  const isAdminGeneral = userData?.adminRole === "general"
+  const [bulkAdvisor, setBulkAdvisor] = useState<string | null>(null)
+  const [notifyDialogOpen, setNotifyDialogOpen] = useState(false)
+  const [notifyStudent, setNotifyStudent] = useState<any>(null)
+  const [notifyMessage, setNotifyMessage] = useState("")
+  const [searchQuery, setSearchQuery] = useState("")
 
   // Fetch active students
   const {
@@ -52,20 +72,6 @@ export default function AdminStudentsPage() {
   // Fetch pending students
   const { data: pendingStudents, loading: loadingPending, error: pendingError } = useCollection("registrationQueue", [])
 
-  const filteredStudents = useMemo(() => {
-    let filtered = activeStudents || []
-
-    // Filter out inactive students
-    filtered = filtered.filter((student) => student.active !== false)
-
-    // Apply advisor filter
-    if (advisorFilter) {
-      filtered = filtered.filter((student) => student.advisorId === advisorFilter)
-    }
-
-    return filtered
-  }, [activeStudents, advisorFilter])
-
   useEffect(() => {
     if (activeError) {
       setError("Error loading active students: " + activeError.message)
@@ -75,6 +81,41 @@ export default function AdminStudentsPage() {
       setError(null)
     }
   }, [activeError, pendingError])
+
+  // Memoize filtered students to prevent unnecessary re-renders
+  const filteredStudents = useMemo(() => {
+    if (!activeStudents) return []
+
+    let filtered = [...activeStudents]
+
+    // Apply advisor filter
+    if (advisorFilter) {
+      filtered = filtered.filter((student) => student.advisor === advisorFilter)
+    }
+
+    // Apply search filter
+    if (searchQuery) {
+      const query = searchQuery.toLowerCase()
+      filtered = filtered.filter(
+        (student) =>
+          student.fullName?.toLowerCase().includes(query) ||
+          student.email?.toLowerCase().includes(query) ||
+          student.country?.toLowerCase().includes(query),
+      )
+    }
+
+    return filtered
+  }, [activeStudents, advisorFilter, searchQuery])
+
+  // Create virtualizer for active students table
+  const parentRef = React.useRef<HTMLDivElement>(null)
+
+  const rowVirtualizer = useVirtualizer({
+    count: filteredStudents.length,
+    getScrollElement: () => parentRef.current,
+    estimateSize: () => 56, // Approximate height of a table row
+    overscan: 10,
+  })
 
   const handleViewStudent = (studentId: string) => {
     setSelectedStudent(studentId)
@@ -166,12 +207,60 @@ export default function AdminStudentsPage() {
     }).format(date)
   }
 
-  const handleAssignAdvisor = async (studentId: string, advisorId: string) => {
+  const handleSendNotification = async () => {
+    if (!notifyStudent || !notifyMessage.trim()) return
+
+    try {
+      // Create notification in Firestore
+      const notificationRef = doc(collection(db, "notifications"))
+      await setDoc(notificationRef, {
+        userId: notifyStudent.id,
+        message: notifyMessage,
+        type: "Admin",
+        priority: "High",
+        createdAt: serverTimestamp(),
+        read: false,
+      })
+
+      // Open email client
+      window.open(
+        `mailto:${notifyStudent.email}?subject=Important Message from ZHAcademie&body=${encodeURIComponent(notifyMessage)}`,
+        "_blank",
+      )
+
+      setNotifyDialogOpen(false)
+      setNotifyMessage("")
+      setNotifyStudent(null)
+    } catch (err: any) {
+      console.error("Error sending notification:", err)
+      setError(`Failed to send notification: ${err.message}`)
+    }
+  }
+
+  const handleDeactivateStudent = async (studentId: string) => {
+    try {
+      setIsProcessing((prev) => ({ ...prev, [studentId]: true }))
+      const studentRef = doc(db, "students", studentId)
+      const studentDoc = activeStudents.find((s) => s.id === studentId)
+
+      await updateDoc(studentRef, {
+        active: studentDoc?.active === false ? true : false,
+        lastUpdated: serverTimestamp(),
+      })
+    } catch (err: any) {
+      console.error("Error deactivating student:", err)
+      setError(`Failed to deactivate student: ${err.message}`)
+    } finally {
+      setIsProcessing((prev) => ({ ...prev, [studentId]: false }))
+    }
+  }
+
+  const handleAssignAdvisor = async (studentId: string, advisor: string) => {
     try {
       setIsProcessing((prev) => ({ ...prev, [studentId]: true }))
       const studentRef = doc(db, "students", studentId)
       await updateDoc(studentRef, {
-        advisorId,
+        advisor,
         lastUpdated: serverTimestamp(),
       })
     } catch (err: any) {
@@ -191,7 +280,7 @@ export default function AdminStudentsPage() {
       selectedStudents.forEach((studentId) => {
         const studentRef = doc(db, "students", studentId)
         batch.update(studentRef, {
-          advisorId: bulkAdvisor,
+          advisor: bulkAdvisor,
           lastUpdated: serverTimestamp(),
         })
       })
@@ -202,62 +291,6 @@ export default function AdminStudentsPage() {
     } catch (err: any) {
       console.error("Error bulk assigning advisor:", err)
       setError(`Failed to bulk assign advisor: ${err.message}`)
-    }
-  }
-
-  const handleDeactivateStudents = async () => {
-    if (selectedStudents.length === 0) return
-
-    try {
-      const batch = writeBatch(db)
-
-      selectedStudents.forEach((studentId) => {
-        const studentRef = doc(db, "students", studentId)
-        batch.update(studentRef, {
-          active: false,
-          lastUpdated: serverTimestamp(),
-        })
-      })
-
-      await batch.commit()
-      setSelectedStudents([])
-    } catch (err: any) {
-      console.error("Error deactivating students:", err)
-      setError(`Failed to deactivate students: ${err.message}`)
-    }
-  }
-
-  const handleNotifyStudent = (student: { id: string; email: string }) => {
-    setNotifyStudent(student)
-  }
-
-  const handleSendNotification = async () => {
-    if (!notifyStudent || !notifyMessage) return
-
-    try {
-      // Open mailto link
-      window.open(
-        `mailto:${notifyStudent.email}?subject=ZHAcademie Notification&body=${encodeURIComponent(notifyMessage)}`,
-        "_blank",
-      )
-
-      // Create notification in Firestore
-      const notificationRef = doc(collection(db, "notifications"))
-      await setDoc(notificationRef, {
-        userId: notifyStudent.id,
-        message: notifyMessage,
-        type: "Admin",
-        priority: "High",
-        createdAt: serverTimestamp(),
-        read: false,
-      })
-
-      // Reset state
-      setNotifyStudent(null)
-      setNotifyMessage("")
-    } catch (err: any) {
-      console.error("Error creating notification:", err)
-      setError(`Failed to create notification: ${err.message}`)
     }
   }
 
@@ -281,52 +314,28 @@ export default function AdminStudentsPage() {
         <TabsContent value="active">
           <Card>
             <CardHeader>
-              <CardTitle>Active Students</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="mb-4 flex items-center justify-between">
-                <div className="flex items-center space-x-2">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => {
-                      const allStudentIds = filteredStudents.map((student) => student.id)
-                      setSelectedStudents(allStudentIds)
-                    }}
-                  >
-                    Select All
-                  </Button>
-                  <Button variant="outline" size="sm" onClick={() => setSelectedStudents([])}>
-                    Deselect All
-                  </Button>
-                  {isAdminGeneral && selectedStudents.length > 0 && (
-                    <>
-                      <div className="h-6 w-px bg-gray-300" />
-                      <Button variant="destructive" size="sm" onClick={handleDeactivateStudents}>
-                        Deactivate ({selectedStudents.length})
-                      </Button>
-                      <div className="h-6 w-px bg-gray-300" />
-                    </>
-                  )}
-                  {isAdminGeneral && (
-                    <>
-                      <Select value={bulkAdvisor || ""} onValueChange={setBulkAdvisor}>
-                        <SelectTrigger className="w-[180px]">
-                          <SelectValue placeholder="Bulk Assign Advisor" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="zakariya">Zakariya</SelectItem>
-                          <SelectItem value="second-admin">Second Admin</SelectItem>
-                          <SelectItem value="third-admin">Third Admin</SelectItem>
-                        </SelectContent>
-                      </Select>
-                      <Button variant="default" size="sm" onClick={handleBulkAssignAdvisor}>
-                        Apply
-                      </Button>
-                    </>
-                  )}
-                </div>
-
+              <div className="flex justify-between items-center">
+                <CardTitle>Active Students</CardTitle>
+                {selectedStudents.length > 0 && (
+                  <div className="flex items-center gap-2">
+                    <Select value={bulkAdvisor || ""} onValueChange={setBulkAdvisor}>
+                      <SelectTrigger className="w-[150px]">
+                        <SelectValue placeholder="Select Advisor" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="Adv-1">Advisor 1</SelectItem>
+                        <SelectItem value="Adv-2">Advisor 2</SelectItem>
+                        <SelectItem value="Adv-3">Advisor 3</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <Button onClick={handleBulkAssignAdvisor} disabled={!bulkAdvisor} size="sm">
+                      <UserCheck className="h-4 w-4 mr-1" />
+                      Assign Advisor
+                    </Button>
+                  </div>
+                )}
+              </div>
+              <div className="flex flex-col sm:flex-row gap-2 mt-2">
                 <div className="flex gap-2">
                   <Button
                     variant={advisorFilter === null ? "default" : "outline"}
@@ -336,29 +345,39 @@ export default function AdminStudentsPage() {
                     All
                   </Button>
                   <Button
-                    variant={advisorFilter === "zakariya" ? "default" : "outline"}
+                    variant={advisorFilter === "Adv-1" ? "default" : "outline"}
                     size="sm"
-                    onClick={() => setAdvisorFilter("zakariya")}
+                    onClick={() => setAdvisorFilter("Adv-1")}
                   >
-                    Zakariya
+                    Adv-1
                   </Button>
                   <Button
-                    variant={advisorFilter === "second-admin" ? "default" : "outline"}
+                    variant={advisorFilter === "Adv-2" ? "default" : "outline"}
                     size="sm"
-                    onClick={() => setAdvisorFilter("second-admin")}
+                    onClick={() => setAdvisorFilter("Adv-2")}
                   >
-                    Second Admin
+                    Adv-2
                   </Button>
                   <Button
-                    variant={advisorFilter === "third-admin" ? "default" : "outline"}
+                    variant={advisorFilter === "Adv-3" ? "default" : "outline"}
                     size="sm"
-                    onClick={() => setAdvisorFilter("third-admin")}
+                    onClick={() => setAdvisorFilter("Adv-3")}
                   >
-                    Third Admin
+                    Adv-3
                   </Button>
                 </div>
+                <div className="flex-1 sm:ml-auto">
+                  <input
+                    type="text"
+                    placeholder="Search students..."
+                    className="w-full px-3 py-1 border rounded-md"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                  />
+                </div>
               </div>
-
+            </CardHeader>
+            <CardContent>
               {loadingActive ? (
                 <div className="space-y-4">
                   {[1, 2, 3].map((i) => (
@@ -371,109 +390,140 @@ export default function AdminStudentsPage() {
                   ))}
                 </div>
               ) : (
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>
-                        <input
-                          type="checkbox"
-                          className="h-4 w-4"
-                          onChange={(e) => {
-                            if (e.target.checked) {
-                              const allStudentIds = filteredStudents.map((student) => student.id)
-                              setSelectedStudents(allStudentIds)
-                            } else {
-                              setSelectedStudents([])
-                            }
-                          }}
-                          checked={selectedStudents.length === filteredStudents.length && filteredStudents.length > 0}
-                          disabled={filteredStudents.length === 0}
-                        />
-                      </TableHead>
-                      <TableHead>Name</TableHead>
-                      <TableHead>Email</TableHead>
-                      <TableHead>Country</TableHead>
-                      <TableHead>Payment Status</TableHead>
-                      <TableHead>App Status</TableHead>
-                      <TableHead className="sticky top-0 bg-white z-10">Assigned Admin</TableHead>
-                      <TableHead className="text-right">Actions</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {filteredStudents.length === 0 ? (
+                <div className="relative overflow-auto" style={{ height: "600px" }} ref={parentRef}>
+                  <Table>
+                    <TableHeader>
                       <TableRow>
-                        <TableCell colSpan={8} className="text-center py-8 text-gray-500">
-                          No active students found
-                        </TableCell>
+                        <TableHead className="w-[50px] sticky top-0 bg-white z-10">
+                          <Checkbox
+                            checked={filteredStudents.length > 0 && selectedStudents.length === filteredStudents.length}
+                            onCheckedChange={(checked) => {
+                              if (checked) {
+                                setSelectedStudents(filteredStudents.map((s) => s.id))
+                              } else {
+                                setSelectedStudents([])
+                              }
+                            }}
+                          />
+                        </TableHead>
+                        <TableHead className="sticky top-0 bg-white z-10">Name</TableHead>
+                        <TableHead className="sticky top-0 bg-white z-10">Email</TableHead>
+                        <TableHead className="sticky top-0 bg-white z-10">Country</TableHead>
+                        <TableHead className="sticky top-0 bg-white z-10">Advisor</TableHead>
+                        <TableHead className="sticky top-0 bg-white z-10">Payment Status</TableHead>
+                        <TableHead className="sticky top-0 bg-white z-10">App Status</TableHead>
+                        <TableHead className="sticky top-0 bg-white z-10 text-right">Actions</TableHead>
                       </TableRow>
-                    ) : (
-                      filteredStudents.map((student) => (
-                        <TableRow key={student.id}>
-                          <TableCell>
-                            <input
-                              type="checkbox"
-                              className="h-4 w-4"
-                              value={student.id}
-                              checked={selectedStudents.includes(student.id)}
-                              onChange={(e) => {
-                                if (e.target.checked) {
-                                  setSelectedStudents([...selectedStudents, student.id])
-                                } else {
-                                  setSelectedStudents(selectedStudents.filter((id) => id !== student.id))
-                                }
-                              }}
-                            />
-                          </TableCell>
-                          <TableCell className="font-medium">{student.fullName}</TableCell>
-                          <TableCell>{student.email}</TableCell>
-                          <TableCell>{student.country}</TableCell>
-                          <TableCell>
-                            <StatusBadge status="Approved" />
-                          </TableCell>
-                          <TableCell>
-                            <StatusBadge status={student.appStatus || "Not Started"} />
-                          </TableCell>
-                          <TableCell>
-                            {isAdminGeneral ? (
-                              <Select
-                                value={student.advisorId || ""}
-                                onValueChange={(value) => handleAssignAdvisor(student.id, value)}
-                              >
-                                <SelectTrigger className="w-[120px]">
-                                  <SelectValue placeholder="Assign" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                  <SelectItem value="zakariya">Zakariya</SelectItem>
-                                  <SelectItem value="second-admin">Second Admin</SelectItem>
-                                  <SelectItem value="third-admin">Third Admin</SelectItem>
-                                </SelectContent>
-                              </Select>
-                            ) : student.advisorId ? (
-                              student.advisorId.charAt(0).toUpperCase() + student.advisorId.slice(1)
-                            ) : (
-                              "N/A"
-                            )}
-                          </TableCell>
-                          <TableCell className="text-right">
-                            <div className="flex justify-end space-x-2">
-                              <Button variant="ghost" size="sm" onClick={() => handleViewStudent(student.id)}>
-                                <Eye className="h-4 w-4 mr-1" />
-                                View
-                              </Button>
-                              <Button
-                                variant="secondary"
-                                size="sm"
-                                onClick={() => handleNotifyStudent({ id: student.id, email: student.email })}
-                              >
-                                Notify
-                              </Button>
-                            </div>
+                    </TableHeader>
+                    <TableBody>
+                      {filteredStudents.length === 0 ? (
+                        <TableRow>
+                          <TableCell colSpan={8} className="text-center py-8 text-gray-500">
+                            No active students found
                           </TableCell>
                         </TableRow>
-                      ))
-                    )}
-                  </TableBody>
-                </Table>
+                      ) : (
+                        <div
+                          style={{
+                            height: `${rowVirtualizer.getTotalSize()}px`,
+                            width: "100%",
+                            position: "relative",
+                          }}
+                        >
+                          {rowVirtualizer.getVirtualItems().map((virtualRow) => {
+                            const student = filteredStudents[virtualRow.index]
+                            return (
+                              <TableRow
+                                key={student.id}
+                                className={`absolute top-0 left-0 w-full ${student.active === false ? "bg-gray-50" : ""}`}
+                                style={{
+                                  height: virtualRow.size,
+                                  transform: `translateY(${virtualRow.start}px)`,
+                                }}
+                              >
+                                <TableCell>
+                                  <Checkbox
+                                    checked={selectedStudents.includes(student.id)}
+                                    onCheckedChange={(checked) => {
+                                      if (checked) {
+                                        setSelectedStudents((prev) => [...prev, student.id])
+                                      } else {
+                                        setSelectedStudents((prev) => prev.filter((id) => id !== student.id))
+                                      }
+                                    }}
+                                  />
+                                </TableCell>
+                                <TableCell className="font-medium">{student.fullName}</TableCell>
+                                <TableCell>{student.email}</TableCell>
+                                <TableCell>{student.country}</TableCell>
+                                <TableCell>
+                                  <Select
+                                    value={student.advisor || ""}
+                                    onValueChange={(value) => handleAssignAdvisor(student.id, value)}
+                                  >
+                                    <SelectTrigger className="w-[120px]">
+                                      <SelectValue placeholder="Assign" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                      <SelectItem value="Adv-1">Advisor 1</SelectItem>
+                                      <SelectItem value="Adv-2">Advisor 2</SelectItem>
+                                      <SelectItem value="Adv-3">Advisor 3</SelectItem>
+                                    </SelectContent>
+                                  </Select>
+                                </TableCell>
+                                <TableCell>
+                                  <StatusBadge status="Approved" />
+                                </TableCell>
+                                <TableCell>
+                                  <div className="flex items-center gap-2">
+                                    <StatusBadge status={student.appStatus || "Not Started"} />
+                                    {student.active === false && (
+                                      <span className="text-xs bg-gray-200 text-gray-700 px-2 py-0.5 rounded">
+                                        Inactive
+                                      </span>
+                                    )}
+                                  </div>
+                                </TableCell>
+                                <TableCell className="text-right">
+                                  <div className="flex justify-end space-x-1">
+                                    <Button
+                                      variant="ghost"
+                                      size="icon"
+                                      onClick={() => {
+                                        setNotifyStudent(student)
+                                        setNotifyDialogOpen(true)
+                                      }}
+                                      title="Send Notification"
+                                    >
+                                      <Bell className="h-4 w-4" />
+                                    </Button>
+                                    <Button
+                                      variant="ghost"
+                                      size="icon"
+                                      onClick={() => handleDeactivateStudent(student.id)}
+                                      title={student.active === false ? "Activate" : "Deactivate"}
+                                      className={student.active === false ? "text-green-600" : "text-red-600"}
+                                    >
+                                      <UserX className="h-4 w-4" />
+                                    </Button>
+                                    <Button
+                                      variant="ghost"
+                                      size="icon"
+                                      onClick={() => handleViewStudent(student.id)}
+                                      title="View Student"
+                                    >
+                                      <Eye className="h-4 w-4" />
+                                    </Button>
+                                  </div>
+                                </TableCell>
+                              </TableRow>
+                            )
+                          })}
+                        </div>
+                      )}
+                    </TableBody>
+                  </Table>
+                </div>
               )}
             </CardContent>
           </Card>
@@ -527,7 +577,7 @@ export default function AdminStudentsPage() {
                             <Select
                               defaultValue={student.paymentStatus}
                               onValueChange={(value) => handlePaymentStatusChange(student.id, value)}
-                              disabled={isProcessing[student.id] || !isAdminGeneral}
+                              disabled={isProcessing[student.id]}
                             >
                               <SelectTrigger className="w-[130px]">
                                 <SelectValue />
@@ -541,31 +591,27 @@ export default function AdminStudentsPage() {
                           </TableCell>
                           <TableCell>{formatDate(student.createdAt)}</TableCell>
                           <TableCell className="text-right">
-                            {isAdminGeneral ? (
-                              <div className="flex justify-end space-x-2">
-                                <Button
-                                  variant="outline"
-                                  size="sm"
-                                  onClick={() => handleApproveStudent(student.id)}
-                                  disabled={student.paymentStatus !== "received" || isProcessing[student.id]}
-                                >
-                                  <CheckCircle className="h-4 w-4 mr-1" />
-                                  Approve
-                                </Button>
-                                <Button
-                                  variant="outline"
-                                  size="sm"
-                                  onClick={() => handleRejectStudent(student.id)}
-                                  disabled={isProcessing[student.id]}
-                                  className="text-red-600 border-red-200 hover:bg-red-50"
-                                >
-                                  <XCircle className="h-4 w-4 mr-1" />
-                                  Reject
-                                </Button>
-                              </div>
-                            ) : (
-                              <span className="text-sm text-gray-500">Actions restricted</span>
-                            )}
+                            <div className="flex justify-end space-x-2">
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() => handleApproveStudent(student.id)}
+                                disabled={student.paymentStatus !== "received" || isProcessing[student.id]}
+                              >
+                                <CheckCircle className="h-4 w-4 mr-1" />
+                                Approve
+                              </Button>
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() => handleRejectStudent(student.id)}
+                                disabled={isProcessing[student.id]}
+                                className="text-red-600 border-red-200 hover:bg-red-50"
+                              >
+                                <XCircle className="h-4 w-4 mr-1" />
+                                Reject
+                              </Button>
+                            </div>
                           </TableCell>
                         </TableRow>
                       ))
@@ -578,42 +624,41 @@ export default function AdminStudentsPage() {
         </TabsContent>
       </Tabs>
 
-      {selectedStudent && <StudentModal isOpen={isModalOpen} onClose={handleCloseModal} studentId={selectedStudent} />}
+      {/* Notification Dialog */}
+      <Dialog open={notifyDialogOpen} onOpenChange={setNotifyDialogOpen}>
+        <DialogContent className="sm:max-w-[400px]">
+          <DialogHeader>
+            <DialogTitle>Send Notification to {notifyStudent?.fullName}</DialogTitle>
+          </DialogHeader>
+          <Textarea
+            placeholder="Enter your message here..."
+            value={notifyMessage}
+            onChange={(e) => setNotifyMessage(e.target.value)}
+            className="min-h-[100px]"
+          />
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setNotifyDialogOpen(false)}>
+              Cancel
+            </Button>
+            <Button onClick={handleSendNotification}>Send</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
 
-      {notifyStudent && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white p-6 rounded-md w-full max-w-md">
-            <h2 className="text-xl font-semibold mb-4">Notify Student</h2>
-            <p className="mb-2 text-gray-700">
-              Send notification to: <span className="font-medium">{notifyStudent.email}</span>
-            </p>
-            <div className="mt-4">
-              <label htmlFor="notificationMessage" className="block text-sm font-medium text-gray-700 mb-1">
-                Message:
-              </label>
-              <textarea
-                id="notificationMessage"
-                className="w-full min-h-[120px] px-3 py-2 text-base border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                value={notifyMessage}
-                onChange={(e) => setNotifyMessage(e.target.value)}
-                placeholder="Enter your message here..."
-              />
+      {/* Use Suspense and dynamic import for the modal */}
+      {selectedStudent && (
+        <Suspense
+          fallback={
+            <div className="fixed inset-0 bg-black/50 flex items-center justify-center">
+              <div className="bg-white p-6 rounded-lg">
+                <Skeleton className="h-8 w-64 mb-4" />
+                <Skeleton className="h-64 w-full max-w-[840px]" />
+              </div>
             </div>
-            <div className="mt-6 flex justify-end space-x-3">
-              <Button variant="outline" onClick={() => setNotifyStudent(null)}>
-                Cancel
-              </Button>
-              <Button
-                onClick={handleSendNotification}
-                className="bg-navy text-white hover:bg-navy/90"
-                style={{ backgroundColor: "#0a192f" }}
-                disabled={!notifyMessage.trim()}
-              >
-                Send Notification
-              </Button>
-            </div>
-          </div>
-        </div>
+          }
+        >
+          <DynamicStudentModal isOpen={isModalOpen} onClose={handleCloseModal} studentId={selectedStudent} />
+        </Suspense>
       )}
     </div>
   )

@@ -337,7 +337,7 @@ export default function MarketingPage() {
           {/* Contact CTA */}
           <div className="text-center mt-12">
             <p className="text-gray-600 mb-6">Still have questions? We're here to help!</p>
-            <Link href="/marketing/contact">
+            <Link href="/contact">
               <Button className="bg-primary hover:bg-primary/90 text-white px-8 py-3">Contact Our Experts</Button>
             </Link>
           </div>

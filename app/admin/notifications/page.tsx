@@ -1,5 +1,7 @@
 "use client"
 
+import type React from "react"
+
 import { useState } from "react"
 import { useCollection } from "@/hooks/use-firestore"
 import { doc, setDoc, serverTimestamp, collection } from "firebase/firestore"
@@ -20,7 +22,7 @@ export default function AdminNotificationsPage() {
   const { data: notifications, loading } = useCollection("notifications", [orderBy("createdAt", "desc")])
   const { data: students } = useCollection("students")
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
-  const [error, setError] = useState(null)
+  const [error, setError] = useState<string | null>(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   const [formData, setFormData] = useState({
@@ -32,7 +34,7 @@ export default function AdminNotificationsPage() {
     specificStudent: "",
   })
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError(null)
     setIsSubmitting(true)
@@ -43,7 +45,7 @@ export default function AdminNotificationsPage() {
         message: formData.message,
         type: formData.type,
         priority: formData.priority,
-        read: false,
+        read: false, // Explicitly set read status to false for new notifications
         createdAt: serverTimestamp(),
         createdBy: "Admin",
       }
@@ -82,14 +84,14 @@ export default function AdminNotificationsPage() {
         specificStudent: "",
       })
       setIsCreateModalOpen(false)
-    } catch (err) {
+    } catch (err: any) {
       setError(err.message || "Failed to send notification")
     } finally {
       setIsSubmitting(false)
     }
   }
 
-  const formatDate = (timestamp) => {
+  const formatDate = (timestamp: any) => {
     if (!timestamp) return "N/A"
     const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp)
     return new Intl.DateTimeFormat("en-US", {
@@ -101,7 +103,7 @@ export default function AdminNotificationsPage() {
     }).format(date)
   }
 
-  const getPriorityColor = (priority) => {
+  const getPriorityColor = (priority: string) => {
     switch (priority) {
       case "High":
         return "text-red-600 bg-red-100"
@@ -256,14 +258,14 @@ export default function AdminNotificationsPage() {
                 </div>
               ))}
             </div>
-          ) : !notifications || notifications.length === 0 ? (
+          ) : notifications?.length === 0 ? (
             <div className="text-center py-12">
               <Bell className="h-12 w-12 text-gray-300 mx-auto mb-4" />
               <p className="text-gray-500">No notifications sent yet</p>
             </div>
           ) : (
             <div className="space-y-4">
-              {notifications.map((notification) => (
+              {notifications?.map((notification) => (
                 <div key={notification.id} className="flex items-start space-x-4 p-4 border rounded-lg">
                   <div className={`p-2 rounded-full ${getPriorityColor(notification.priority)}`}>
                     <Bell className="h-5 w-5" />
@@ -280,6 +282,13 @@ export default function AdminNotificationsPage() {
                         <span className={`px-2 py-0.5 rounded-full text-xs ${getPriorityColor(notification.priority)}`}>
                           {notification.priority} Priority
                         </span>
+                        {notification.read !== undefined && (
+                          <span
+                            className={`px-2 py-0.5 rounded-full text-xs ${notification.read ? "bg-gray-100 text-gray-600" : "bg-blue-100 text-blue-600"}`}
+                          >
+                            {notification.read ? "Read" : "Unread"}
+                          </span>
+                        )}
                       </div>
                       <span className="text-xs text-gray-500 flex items-center">
                         <Clock className="h-3 w-3 mr-1" />

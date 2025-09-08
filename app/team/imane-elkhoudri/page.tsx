@@ -9,7 +9,7 @@ export default function ImaneElKhoudriPage() {
       <div className="bg-white border-b">
         <div className="container mx-auto px-4 py-4">
           <Link
-            href="/marketing/about"
+            href="/about"
             className="inline-flex items-center text-primary hover:text-primary/80 transition-colors"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />

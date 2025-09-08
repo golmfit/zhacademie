@@ -9,31 +9,73 @@ import { Input } from "@/components/ui/input"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Search, GraduationCap, Eye } from "lucide-react"
 
+// Mock applications data
+const mockApplications = [
+  {
+    id: "app1",
+    studentId: "stud1",
+    studentName: "John Smith",
+    university: "Harvard University",
+    program: "Master of Computer Science",
+    deadline: "2023-12-15T00:00:00Z",
+    status: "In Progress",
+    submittedDate: null,
+  },
+  {
+    id: "app2",
+    studentId: "stud1",
+    studentName: "John Smith",
+    university: "Stanford University",
+    program: "Master of Business Administration",
+    deadline: "2023-11-30T00:00:00Z",
+    status: "Completed",
+    submittedDate: "2023-10-25T14:30:00Z",
+  },
+  {
+    id: "app3",
+    studentId: "stud2",
+    studentName: "Maria Garcia",
+    university: "MIT",
+    program: "Master of Engineering",
+    deadline: "2024-01-05T00:00:00Z",
+    status: "Not Started",
+    submittedDate: null,
+  },
+  {
+    id: "app4",
+    studentId: "stud3",
+    studentName: "Wei Chen",
+    university: "University of California, Berkeley",
+    program: "PhD in Computer Science",
+    deadline: "2023-12-01T00:00:00Z",
+    status: "In Progress",
+    submittedDate: null,
+  },
+]
+
 export default function AdminApplicationsPage() {
   const [searchQuery, setSearchQuery] = useState("")
-  const [filteredApplications, setFilteredApplications] = useState([])
+  const [filteredApplications, setFilteredApplications] = useState(mockApplications)
 
   // In a real app, this would use collectionGroup to query all student applications
   const { data: applications, loading } = useCollection("applications")
 
-  useEffect(() => {
-    if (!applications) {
-      setFilteredApplications([])
-      return
-    }
+  // Use mock data if no applications in Firestore
+  const displayApplications = applications?.length > 0 ? applications : mockApplications
 
-    const filtered = applications.filter(
+  useEffect(() => {
+    const filtered = displayApplications.filter(
       (app) =>
-        app.studentName?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        app.university?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        app.program?.toLowerCase().includes(searchQuery.toLowerCase()),
+        app.studentName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        app.university.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        app.program.toLowerCase().includes(searchQuery.toLowerCase()),
     )
     setFilteredApplications(filtered)
-  }, [searchQuery, applications])
+  }, [searchQuery, displayApplications])
 
-  const formatDate = (dateString) => {
+  const formatDate = (dateString: string | null) => {
     if (!dateString) return "N/A"
-    const date = dateString.toDate ? dateString.toDate() : new Date(dateString)
+    const date = new Date(dateString)
     return new Intl.DateTimeFormat("en-US", {
       year: "numeric",
       month: "long",
@@ -41,9 +83,8 @@ export default function AdminApplicationsPage() {
     }).format(date)
   }
 
-  const getDaysRemaining = (deadlineString) => {
-    if (!deadlineString) return 0
-    const deadline = deadlineString.toDate ? deadlineString.toDate() : new Date(deadlineString)
+  const getDaysRemaining = (deadlineString: string) => {
+    const deadline = new Date(deadlineString)
     const today = new Date()
     const diffTime = deadline.getTime() - today.getTime()
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
@@ -126,7 +167,7 @@ export default function AdminApplicationsPage() {
                           </div>
                         </div>
                         <div className="flex items-center space-x-3">
-                          <StatusBadge status={app.status} />
+                          <StatusBadge status={app.status as any} />
                           <Button variant="outline" size="sm">
                             <Eye className="h-4 w-4 mr-1" />
                             View

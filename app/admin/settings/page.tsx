@@ -1,5 +1,7 @@
 "use client"
 
+import type React from "react"
+
 import { useState } from "react"
 import { useAuth } from "@/contexts/auth-context"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
@@ -16,9 +18,8 @@ import { AlertCircle, CheckCircle, User, Lock, SettingsIcon } from "lucide-react
 
 export default function AdminSettingsPage() {
   const { user, userData } = useAuth()
-  const isAdminGeneral = userData?.adminRole === "general"
   const [isLoading, setIsLoading] = useState(false)
-  const [message, setMessage] = useState(null)
+  const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null)
 
   // Profile form state
   const [profileData, setProfileData] = useState({
@@ -41,7 +42,7 @@ export default function AdminSettingsPage() {
     studentRegistrationOpen: userData?.studentRegistrationOpen ?? true,
   })
 
-  const handleProfileUpdate = async (e) => {
+  const handleProfileUpdate = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
     setMessage(null)
@@ -63,14 +64,14 @@ export default function AdminSettingsPage() {
       }
 
       setMessage({ type: "success", text: "Profile updated successfully!" })
-    } catch (error) {
+    } catch (error: any) {
       setMessage({ type: "error", text: error.message || "Failed to update profile" })
     } finally {
       setIsLoading(false)
     }
   }
 
-  const handlePasswordUpdate = async (e) => {
+  const handlePasswordUpdate = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
     setMessage(null)
@@ -93,14 +94,14 @@ export default function AdminSettingsPage() {
         setMessage({ type: "success", text: "Password updated successfully!" })
         setPasswordData({ currentPassword: "", newPassword: "", confirmPassword: "" })
       }
-    } catch (error) {
+    } catch (error: any) {
       setMessage({ type: "error", text: error.message || "Failed to update password" })
     } finally {
       setIsLoading(false)
     }
   }
 
-  const handleSystemSettingUpdate = async (key, value) => {
+  const handleSystemSettingUpdate = async (key: string, value: boolean) => {
     const updatedSettings = { ...systemSettings, [key]: value }
     setSystemSettings(updatedSettings)
 
@@ -135,12 +136,10 @@ export default function AdminSettingsPage() {
             <Lock className="h-4 w-4 mr-2" />
             Password
           </TabsTrigger>
-          {isAdminGeneral && (
-            <TabsTrigger value="system">
-              <SettingsIcon className="h-4 w-4 mr-2" />
-              System
-            </TabsTrigger>
-          )}
+          <TabsTrigger value="system">
+            <SettingsIcon className="h-4 w-4 mr-2" />
+            System
+          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="profile">
@@ -234,51 +233,49 @@ export default function AdminSettingsPage() {
           </Card>
         </TabsContent>
 
-        {isAdminGeneral && (
-          <TabsContent value="system">
-            <Card>
-              <CardHeader>
-                <CardTitle>System Settings</CardTitle>
-                <CardDescription>Configure system-wide settings</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-6">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <Label htmlFor="autoApproveDocuments">Auto-Approve Documents</Label>
-                    <p className="text-sm text-gray-500">Automatically approve uploaded documents</p>
-                  </div>
-                  <Switch
-                    id="autoApproveDocuments"
-                    checked={systemSettings.autoApproveDocuments}
-                    onCheckedChange={(checked) => handleSystemSettingUpdate("autoApproveDocuments", checked)}
-                  />
+        <TabsContent value="system">
+          <Card>
+            <CardHeader>
+              <CardTitle>System Settings</CardTitle>
+              <CardDescription>Configure system-wide settings</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <Label htmlFor="autoApproveDocuments">Auto-Approve Documents</Label>
+                  <p className="text-sm text-gray-500">Automatically approve uploaded documents</p>
                 </div>
-                <div className="flex items-center justify-between">
-                  <div>
-                    <Label htmlFor="emailNotifications">Email Notifications</Label>
-                    <p className="text-sm text-gray-500">Send email notifications to students</p>
-                  </div>
-                  <Switch
-                    id="emailNotifications"
-                    checked={systemSettings.emailNotifications}
-                    onCheckedChange={(checked) => handleSystemSettingUpdate("emailNotifications", checked)}
-                  />
+                <Switch
+                  id="autoApproveDocuments"
+                  checked={systemSettings.autoApproveDocuments}
+                  onCheckedChange={(checked) => handleSystemSettingUpdate("autoApproveDocuments", checked)}
+                />
+              </div>
+              <div className="flex items-center justify-between">
+                <div>
+                  <Label htmlFor="emailNotifications">Email Notifications</Label>
+                  <p className="text-sm text-gray-500">Send email notifications to students</p>
                 </div>
-                <div className="flex items-center justify-between">
-                  <div>
-                    <Label htmlFor="studentRegistrationOpen">Student Registration</Label>
-                    <p className="text-sm text-gray-500">Allow new student registrations</p>
-                  </div>
-                  <Switch
-                    id="studentRegistrationOpen"
-                    checked={systemSettings.studentRegistrationOpen}
-                    onCheckedChange={(checked) => handleSystemSettingUpdate("studentRegistrationOpen", checked)}
-                  />
+                <Switch
+                  id="emailNotifications"
+                  checked={systemSettings.emailNotifications}
+                  onCheckedChange={(checked) => handleSystemSettingUpdate("emailNotifications", checked)}
+                />
+              </div>
+              <div className="flex items-center justify-between">
+                <div>
+                  <Label htmlFor="studentRegistrationOpen">Student Registration</Label>
+                  <p className="text-sm text-gray-500">Allow new student registrations</p>
                 </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-        )}
+                <Switch
+                  id="studentRegistrationOpen"
+                  checked={systemSettings.studentRegistrationOpen}
+                  onCheckedChange={(checked) => handleSystemSettingUpdate("studentRegistrationOpen", checked)}
+                />
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
       </Tabs>
     </div>
   )

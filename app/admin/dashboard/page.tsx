@@ -2,11 +2,10 @@
 
 import { useEffect, useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { collection, collectionGroup, onSnapshot } from "firebase/firestore"
 import { db } from "@/lib/firebase"
 import { Users, FileText, GraduationCap } from "lucide-react"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { format } from "date-fns"
 
 export default function AdminDashboard() {
   const [stats, setStats] = useState({
@@ -15,7 +14,6 @@ export default function AdminDashboard() {
     totalDocuments: 0,
     totalApplications: 0,
   })
-  const [pendingStudents, setPendingStudents] = useState<any[]>([])
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
@@ -36,18 +34,11 @@ export default function AdminDashboard() {
     )
     unsubscribers.push(studentsUnsubscribe)
 
-    // 2. Pending Approvals counter and list
+    // 2. Pending Approvals counter
     const pendingUnsubscribe = onSnapshot(
       collection(db, "registrationQueue"),
       (snapshot) => {
         setStats((prev) => ({ ...prev, pendingApprovals: snapshot.size }))
-
-        // Get the list of pending students
-        const students = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }))
-        setPendingStudents(students)
       },
       (error) => {
         console.error("Error listening to registrationQueue collection:", error)
@@ -87,16 +78,6 @@ export default function AdminDashboard() {
       unsubscribers.forEach((unsubscribe) => unsubscribe())
     }
   }, [])
-
-  const formatDate = (timestamp: any) => {
-    if (!timestamp) return "N/A"
-    try {
-      const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp)
-      return format(date, "MMM d, yyyy 'at' h:mm a")
-    } catch (error) {
-      return "N/A"
-    }
-  }
 
   return (
     <div className="p-6">
@@ -165,58 +146,69 @@ export default function AdminDashboard() {
           </Card>
         </div>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Pending Approvals</CardTitle>
-            <CardDescription>Students awaiting account approval</CardDescription>
-          </CardHeader>
-          <CardContent>
-            {isLoading ? (
-              <div className="space-y-2">
-                {[...Array(3)].map((_, i) => (
-                  <div key={i} className="h-16 bg-gray-100 rounded animate-pulse"></div>
-                ))}
-              </div>
-            ) : pendingStudents.length > 0 ? (
-              <div className="space-y-4">
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Name</TableHead>
-                      <TableHead>Email</TableHead>
-                      <TableHead>Country</TableHead>
-                      <TableHead>Registered</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {pendingStudents.map((student) => (
-                      <TableRow key={student.id}>
-                        <TableCell className="font-medium">{student.name || "N/A"}</TableCell>
-                        <TableCell>{student.email || "N/A"}</TableCell>
-                        <TableCell>{student.country || "N/A"}</TableCell>
-                        <TableCell>{formatDate(student.createdAt)}</TableCell>
-                      </TableRow>
+        <Tabs defaultValue="recent">
+          <TabsList>
+            <TabsTrigger value="recent">Recent Activity</TabsTrigger>
+            <TabsTrigger value="pending">Pending Approvals</TabsTrigger>
+          </TabsList>
+          <TabsContent value="recent" className="space-y-4">
+            <Card>
+              <CardHeader>
+                <CardTitle>Recent Activity</CardTitle>
+                <CardDescription>The latest actions across the platform</CardDescription>
+              </CardHeader>
+              <CardContent>
+                {isLoading ? (
+                  <div className="space-y-2">
+                    {[...Array(5)].map((_, i) => (
+                      <div key={i} className="h-12 bg-gray-100 rounded animate-pulse"></div>
                     ))}
-                  </TableBody>
-                </Table>
-                <div className="flex justify-end">
-                  <a
-                    href="/students"
-                    className="text-sm text-primary hover:underline"
-                    onClick={(e) => {
-                      e.preventDefault()
-                      window.location.href = "/students"
-                    }}
-                  >
-                    Review and approve students →
-                  </a>
-                </div>
-              </div>
-            ) : (
-              <div className="text-center py-6 text-gray-500">No pending approvals</div>
-            )}
-          </CardContent>
-        </Card>
+                  </div>
+                ) : (
+                  <div className="text-center py-6 text-gray-500">No recent activity to display</div>
+                )}
+              </CardContent>
+            </Card>
+          </TabsContent>
+          <TabsContent value="pending" className="space-y-4">
+            <Card>
+              <CardHeader>
+                <CardTitle>Pending Approvals</CardTitle>
+                <CardDescription>Students awaiting account approval</CardDescription>
+              </CardHeader>
+              <CardContent>
+                {isLoading ? (
+                  <div className="space-y-2">
+                    {[...Array(3)].map((_, i) => (
+                      <div key={i} className="h-16 bg-gray-100 rounded animate-pulse"></div>
+                    ))}
+                  </div>
+                ) : stats.pendingApprovals > 0 ? (
+                  <div className="space-y-2">
+                    <p className="text-sm">
+                      You have {stats.pendingApprovals} student registration{stats.pendingApprovals !== 1 && "s"}{" "}
+                      awaiting your approval.
+                    </p>
+                    <div className="flex justify-end">
+                      <a
+                        href="/students"
+                        className="text-sm text-primary hover:underline"
+                        onClick={(e) => {
+                          e.preventDefault()
+                          window.location.href = "/students"
+                        }}
+                      >
+                        Review pending students →
+                      </a>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="text-center py-6 text-gray-500">No pending approvals</div>
+                )}
+              </CardContent>
+            </Card>
+          </TabsContent>
+        </Tabs>
       </div>
     </div>
   )
