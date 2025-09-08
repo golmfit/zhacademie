@@ -1,4 +1,4 @@
-// app/components/MarketingNavbar.tsx
+// app/components/MarketingNavbarFooter.tsx
 "use client";
 
 import Link from "next/link";
