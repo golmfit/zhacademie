@@ -18,7 +18,7 @@ export default function AwaitingApprovalPage() {
       if (!user) {
         router.push("/login")
       } else if (userData?.role === "student") {
-        router.push("/dashboard")
+        router.push("/student/dashboard")
       } else if (userData?.role === "admin") {
         router.push("/admin/dashboard")
       }

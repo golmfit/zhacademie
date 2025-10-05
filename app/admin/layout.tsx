@@ -40,42 +40,42 @@ interface AdminLayoutProps {
 const sidebarLinks = [
   {
     name: "Dashboard",
-    href: "/dashboard",
+    href: "/admin/dashboard",
     icon: <LayoutDashboard className="h-5 w-5" />,
   },
   {
     name: "Students",
-    href: "/students",
+    href: "/admin/students",
     icon: <Users className="h-5 w-5" />,
   },
   {
     name: "Documents",
-    href: "/documents",
+    href: "/admin/documents",
     icon: <FileText className="h-5 w-5" />,
   },
   {
     name: "Applications",
-    href: "/applications",
+    href: "/admin/applications",
     icon: <GraduationCap className="h-5 w-5" />,
   },
   {
     name: "Courses",
-    href: "/courses",
+    href: "/admin/courses",
     icon: <BookOpen className="h-5 w-5" />,
   },
   {
     name: "Notifications",
-    href: "/notifications",
+    href: "/admin/notifications",
     icon: <Bell className="h-5 w-5" />,
   },
   {
     name: "Analytics",
-    href: "/analytics",
+    href: "/admin/analytics",
     icon: <BarChart2 className="h-5 w-5" />,
   },
   {
     name: "Settings",
-    href: "/settings",
+    href: "/admin/settings",
     icon: <Settings className="h-5 w-5" />,
   },
 ]
@@ -154,7 +154,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
         >
           <div className="flex flex-col h-full">
             <div className="flex items-center justify-between h-16 px-4 border-b border-gray-700">
-              <Link href="/dashboard" className={cn("text-xl font-bold", isSidebarCollapsed && "sr-only")}>
+              <Link href="/admin/dashboard" className={cn("text-xl font-bold", isSidebarCollapsed && "sr-only")}>
                 ZHAcademie Admin
               </Link>
               {isSidebarCollapsed && <span className="text-xl font-bold">ZH</span>}

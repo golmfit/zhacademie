@@ -57,9 +57,9 @@ export function ProtectedRoute({ children, allowedRoles }: ProtectedRouteProps) 
 
         // Redirect based on role
         if (userData.role === "admin") {
-          router.push("/dashboard")
+          router.push("/admin/dashboard")
         } else if (userData.role === "student") {
-          router.push("/dashboard")
+          router.push("/student/dashboard")
         } else {
           router.push("/login")
         }

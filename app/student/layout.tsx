@@ -43,52 +43,52 @@ interface StudentLayoutProps {
 const sidebarLinks = [
   {
     name: "Dashboard",
-    href: "/dashboard",
+    href: "/student/dashboard",
     icon: <LayoutDashboard className="h-5 w-5" />,
   },
   {
     name: "Applications",
-    href: "/applications",
+    href: "/student/applications",
     icon: <GraduationCap className="h-5 w-5" />,
   },
   {
     name: "Visa Progress",
-    href: "/visa-progress",
+    href: "/student/visa-progress",
     icon: <FileText className="h-5 w-5" />,
   },
   {
     name: "Documents",
-    href: "/documents",
+    href: "/student/documents",
     icon: <FileText className="h-5 w-5" />,
   },
   {
     name: "Appointments",
-    href: "/appointments",
+    href: "/student/appointments",
     icon: <Calendar className="h-5 w-5" />,
   },
   {
     name: "Interview Preparation",
-    href: "/interview-preparation",
+    href: "/student/interview-preparation",
     icon: <Video className="h-5 w-5" />,
   },
   {
     name: "Courses",
-    href: "/courses",
+    href: "/student/courses",
     icon: <BookOpen className="h-5 w-5" />,
   },
   {
     name: "General Info",
-    href: "/general-info",
+    href: "/student/general-info",
     icon: <Info className="h-5 w-5" />,
   },
   {
     name: "Notifications",
-    href: "/notifications",
+    href: "/student/notifications",
     icon: <Bell className="h-5 w-5" />,
   },
   {
     name: "Settings",
-    href: "/settings",
+    href: "/student/settings",
     icon: <Settings className="h-5 w-5" />,
   },
 ]
@@ -209,7 +209,7 @@ export default function StudentLayout({ children }: StudentLayoutProps) {
               <Button as="a">Go to Login</Button>
             </Link>
             {userData?.role === "admin" && (
-              <Link href="/dashboard" passHref>
+              <Link href="/admin/dashboard" passHref>
                 <Button variant="outline" as="a">
                   Admin Dashboard
                 </Button>

@@ -77,7 +77,7 @@ export default function LoginPage() {
 
         if (studentDoc.exists()) {
           // Redirect to student dashboard
-          window.location.href = "/dashboard"
+          window.location.href = "/student/dashboard"
           return
         }
 
@@ -87,7 +87,7 @@ export default function LoginPage() {
 
         if (queueDoc.exists()) {
           // Redirect to awaiting approval page
-          window.location.href = "/awaiting-approval"
+          window.location.href = "/student/awaiting-approval"
           return
         }
 
@@ -96,7 +96,7 @@ export default function LoginPage() {
         if (formData.email.includes("admin")) {
           window.location.href = "/admin/dashboard"
         } else {
-          window.location.href = "/dashboard"
+          window.location.href = "/admin/dashboard"
         }
       } catch (error) {
         console.error("Error checking user role:", error)
@@ -105,7 +105,7 @@ export default function LoginPage() {
         if (formData.email.includes("admin")) {
           window.location.href = "/admin/dashboard"
         } else {
-          window.location.href = "/dashboard"
+          window.location.href = "/admin/dashboard"
         }
       }
     } catch (err: any) {
