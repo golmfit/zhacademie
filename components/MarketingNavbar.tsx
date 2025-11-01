@@ -49,13 +49,15 @@ function MarketingNavbar() {
             <Link href="/home" className="nav-link">Home</Link>
             <Link href="/about" className="nav-link">About</Link>
             <Link href="/blog" className="nav-link">Blog</Link>
+            <Link href="/book-consultation" className="nav-link">Book Consultation</Link>
             <Link href="/contact" className="nav-link">Contact</Link>
+            
           </div>
 
           {/* Auth buttons (desktop only) */}
           <div className="hidden md:flex items-center space-x-4">
-            <Link href="/login"><Button variant="ghost">Login</Button></Link>
-            <Link href="/register"><Button>Get Started</Button></Link>
+            {/* <Link href="/login"><Button variant="ghost">Login</Button></Link>
+            <Link href="/register"><Button>Get Started</Button></Link> */}
           </div>
         </div>
       </div>

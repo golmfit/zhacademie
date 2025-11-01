@@ -64,7 +64,7 @@ export default function BookConsultationPage() {
                       <div className="flex items-center justify-center gap-6 text-lg">
                         <div className="flex items-center text-primary">
                           <Clock className="h-5 w-5 mr-2" />
-                          <span className="font-semibold">20 Minutes</span>
+                          <span className="font-semibold">60 Minutes</span>
                         </div>
 
                       </div>
@@ -167,7 +167,7 @@ export default function BookConsultationPage() {
                         <div className="space-y-3">
                           <div className="flex justify-between items-center">
                             <span className="text-gray-700">Duration:</span>
-                            <span className="font-semibold">20 minutes</span>
+                            <span className="font-semibold">60 minutes</span>
                           </div>
                           <div className="flex justify-between items-center">
                             <span className="text-gray-700">Format:</span>
@@ -192,6 +192,14 @@ export default function BookConsultationPage() {
                       </div>
 
                       {/* Book Now Button */}
+                      {/* <button
+                        data-cal-namespace="quick-consultation"
+                        data-cal-link="zhacademi/quick-consultation"
+                        data-cal-config='{"layout":"month_view"}'
+                        className="w-full bg-primary hover:bg-primary/90 text-white py-4 px-6 rounded-lg text-lg font-semibold transition-colors"
+                      >
+                        I'm Ready - Book Now
+                      </button> */}
                       <button
                         data-cal-namespace="quick-consultation"
                         data-cal-link="zhacademi/quick-consultation"
