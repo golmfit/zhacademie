@@ -69,8 +69,8 @@ function MarketingNavbar() {
           <Link href="/about" className="block">About</Link>
           <Link href="/blog" className="block">Blog</Link>
           <Link href="/contact" className="block">Contact</Link>
-          <Link href="/login"><Button variant="ghost" className="w-full mt-2">Login</Button></Link>
-          <Link href="/register"><Button className="w-full mt-2">Get Started</Button></Link>
+          {/* <Link href="/login"><Button variant="ghost" className="w-full mt-2">Login</Button></Link>
+          <Link href="/register"><Button className="w-full mt-2">Get Started</Button></Link> */}
         </div>
       )}
     </nav>
