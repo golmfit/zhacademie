@@ -4,6 +4,8 @@ import { useEffect } from "react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Clock, DollarSign, Calendar, CheckCircle, AlertCircle, Copy, Building2 } from "lucide-react"
 import { getCalApi } from "@calcom/embed-react"
+import Link from 'next/link';
+import React from 'react';
 
 export default function BookConsultationPage() {
   useEffect(() => {
@@ -200,14 +202,13 @@ export default function BookConsultationPage() {
                       >
                         I'm Ready - Book Now
                       </button> */}
-                      <button
-                        data-cal-namespace="quick-consultation"
-                        data-cal-link="zhacademi/quick-consultation"
-                        data-cal-config='{"layout":"month_view"}'
-                        className="w-full bg-primary hover:bg-primary/90 text-white py-4 px-6 rounded-lg text-lg font-semibold transition-colors"
+                     <Link
+                        href="/staff-book" // 👈 Links to the new staff selection page
+                        className="w-full bg-primary hover:bg-primary/90 text-white py-4 px-6 rounded-lg text-lg font-semibold transition-colors text-center inline-block"
+                        role="button" // Accessibility role
                       >
                         I'm Ready - Book Now
-                      </button>
+                      </Link>       
 
                       <div className="text-center">
                         <p className="text-xs text-gray-500">
